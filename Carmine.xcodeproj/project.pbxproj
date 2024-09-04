@@ -1,0 +1,453 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		420012F02C50B9BF007ACC67 /* CMMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420012EF2C50B9BD007ACC67 /* CMMenuItem.swift */; };
+		420012F22C50B9C5007ACC67 /* CMPlacemark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420012F12C50B9C3007ACC67 /* CMPlacemark.swift */; };
+		420012FD2C535F8C007ACC67 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420012FC2C535F88007ACC67 /* AboutView.swift */; };
+		420012FF2C5367A7007ACC67 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420012FE2C5367A5007ACC67 /* UserInfo.swift */; };
+		420013012C536B95007ACC67 /* AboutWindowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420013002C536B93007ACC67 /* AboutWindowDelegate.swift */; };
+		420013032C54B0AF007ACC67 /* CMMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420013022C54B0AC007ACC67 /* CMMarkerAnnotationView.swift */; };
+		420013082C54B1FC007ACC67 /* CMTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420013072C54B1FB007ACC67 /* CMTime.swift */; };
+		4200130A2C54B2B6007ACC67 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420013092C54B2B5007ACC67 /* Extensions.swift */; };
+		4200130C2C54B47E007ACC67 /* CMPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4200130B2C54B479007ACC67 /* CMPointAnnotation.swift */; };
+		4200132C2C54E846007ACC67 /* AutomaticRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4200132B2C54E841007ACC67 /* AutomaticRefresh.swift */; };
+		420013322C56BA07007ACC67 /* Unoptimize.m in Sources */ = {isa = PBXBuildFile; fileRef = 420013312C56BA07007ACC67 /* Unoptimize.m */; };
+		422124BF2C5026D80062695A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422124BE2C5026D80062695A /* AppDelegate.swift */; };
+		422124C12C5026DA0062695A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 422124C02C5026DA0062695A /* Assets.xcassets */; };
+		422124CE2C5026FA0062695A /* ChicagoTransitInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422124CC2C5026FA0062695A /* ChicagoTransitInterface.swift */; };
+		422124CF2C5026FA0062695A /* InterfaceResultProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422124CD2C5026FA0062695A /* InterfaceResultProcessing.swift */; };
+		422124DA2C502D920062695A /* CarmineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422124D92C502D900062695A /* CarmineApp.swift */; };
+		424B28F32C509E81002E3E9B /* CMMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424B28F22C509E79002E3E9B /* CMMapView.swift */; };
+		4273D1E42C8663D5003BBCC6 /* CMRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273D1E32C8663D4003BBCC6 /* CMRoute.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		420012EF2C50B9BD007ACC67 /* CMMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMMenuItem.swift; sourceTree = "<group>"; };
+		420012F12C50B9C3007ACC67 /* CMPlacemark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMPlacemark.swift; sourceTree = "<group>"; };
+		420012FC2C535F88007ACC67 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		420012FE2C5367A5007ACC67 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		420013002C536B93007ACC67 /* AboutWindowDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutWindowDelegate.swift; sourceTree = "<group>"; };
+		420013022C54B0AC007ACC67 /* CMMarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMMarkerAnnotationView.swift; sourceTree = "<group>"; };
+		420013072C54B1FB007ACC67 /* CMTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMTime.swift; sourceTree = "<group>"; };
+		420013092C54B2B5007ACC67 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		4200130B2C54B479007ACC67 /* CMPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMPointAnnotation.swift; sourceTree = "<group>"; };
+		4200132B2C54E841007ACC67 /* AutomaticRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomaticRefresh.swift; sourceTree = "<group>"; };
+		420013302C56B9F8007ACC67 /* Unoptimize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Unoptimize.h; sourceTree = "<group>"; };
+		420013312C56BA07007ACC67 /* Unoptimize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Unoptimize.m; sourceTree = "<group>"; };
+		422124BB2C5026D80062695A /* Carmine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carmine.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		422124BE2C5026D80062695A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		422124C02C5026DA0062695A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		422124C52C5026DA0062695A /* Carmine.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Carmine.entitlements; sourceTree = "<group>"; };
+		422124CC2C5026FA0062695A /* ChicagoTransitInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChicagoTransitInterface.swift; sourceTree = "<group>"; };
+		422124CD2C5026FA0062695A /* InterfaceResultProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceResultProcessing.swift; sourceTree = "<group>"; };
+		422124D92C502D900062695A /* CarmineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarmineApp.swift; sourceTree = "<group>"; };
+		422124DB2C502E6D0062695A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		424B28F22C509E79002E3E9B /* CMMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMMapView.swift; sourceTree = "<group>"; };
+		4273D1E32C8663D4003BBCC6 /* CMRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMRoute.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		422124B82C5026D80062695A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		420012EE2C50B9B5007ACC67 /* Subclasses */ = {
+			isa = PBXGroup;
+			children = (
+				424B28F22C509E79002E3E9B /* CMMapView.swift */,
+				420013022C54B0AC007ACC67 /* CMMarkerAnnotationView.swift */,
+				420012EF2C50B9BD007ACC67 /* CMMenuItem.swift */,
+				420012F12C50B9C3007ACC67 /* CMPlacemark.swift */,
+				4200130B2C54B479007ACC67 /* CMPointAnnotation.swift */,
+			);
+			path = Subclasses;
+			sourceTree = "<group>";
+		};
+		420013042C54B1EC007ACC67 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4273D1E32C8663D4003BBCC6 /* CMRoute.swift */,
+				420013072C54B1FB007ACC67 /* CMTime.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		4200132F2C56B9E8007ACC67 /* Unoptimize */ = {
+			isa = PBXGroup;
+			children = (
+				420013302C56B9F8007ACC67 /* Unoptimize.h */,
+				420013312C56BA07007ACC67 /* Unoptimize.m */,
+			);
+			path = Unoptimize;
+			sourceTree = "<group>";
+		};
+		422124B22C5026D80062695A = {
+			isa = PBXGroup;
+			children = (
+				422124BD2C5026D80062695A /* Carmine */,
+				422124BC2C5026D80062695A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		422124BC2C5026D80062695A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				422124BB2C5026D80062695A /* Carmine.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		422124BD2C5026D80062695A /* Carmine */ = {
+			isa = PBXGroup;
+			children = (
+				4200132F2C56B9E8007ACC67 /* Unoptimize */,
+				420013042C54B1EC007ACC67 /* Classes */,
+				420012FE2C5367A5007ACC67 /* UserInfo.swift */,
+				420013002C536B93007ACC67 /* AboutWindowDelegate.swift */,
+				420012EE2C50B9B5007ACC67 /* Subclasses */,
+				422124CB2C5026F20062695A /* API */,
+				422124DB2C502E6D0062695A /* Info.plist */,
+				422124D92C502D900062695A /* CarmineApp.swift */,
+				422124BE2C5026D80062695A /* AppDelegate.swift */,
+				4200132B2C54E841007ACC67 /* AutomaticRefresh.swift */,
+				420012FC2C535F88007ACC67 /* AboutView.swift */,
+				420013092C54B2B5007ACC67 /* Extensions.swift */,
+				422124C02C5026DA0062695A /* Assets.xcassets */,
+				422124C52C5026DA0062695A /* Carmine.entitlements */,
+			);
+			path = Carmine;
+			sourceTree = "<group>";
+		};
+		422124CB2C5026F20062695A /* API */ = {
+			isa = PBXGroup;
+			children = (
+				422124CC2C5026FA0062695A /* ChicagoTransitInterface.swift */,
+				422124CD2C5026FA0062695A /* InterfaceResultProcessing.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		422124BA2C5026D80062695A /* Carmine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 422124C82C5026DA0062695A /* Build configuration list for PBXNativeTarget "Carmine" */;
+			buildPhases = (
+				422124B72C5026D80062695A /* Sources */,
+				422124B82C5026D80062695A /* Frameworks */,
+				422124B92C5026D80062695A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Carmine;
+			productName = Cerulean;
+			productReference = 422124BB2C5026D80062695A /* Carmine.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		422124B32C5026D80062695A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					422124BA2C5026D80062695A = {
+						CreatedOnToolsVersion = 16.0;
+						LastSwiftMigration = 1600;
+					};
+				};
+			};
+			buildConfigurationList = 422124B62C5026D80062695A /* Build configuration list for PBXProject "Carmine" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 422124B22C5026D80062695A;
+			productRefGroup = 422124BC2C5026D80062695A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				422124BA2C5026D80062695A /* Carmine */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		422124B92C5026D80062695A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				422124C12C5026DA0062695A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		422124B72C5026D80062695A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				422124BF2C5026D80062695A /* AppDelegate.swift in Sources */,
+				420012F22C50B9C5007ACC67 /* CMPlacemark.swift in Sources */,
+				420013322C56BA07007ACC67 /* Unoptimize.m in Sources */,
+				4200132C2C54E846007ACC67 /* AutomaticRefresh.swift in Sources */,
+				420013012C536B95007ACC67 /* AboutWindowDelegate.swift in Sources */,
+				424B28F32C509E81002E3E9B /* CMMapView.swift in Sources */,
+				420013032C54B0AF007ACC67 /* CMMarkerAnnotationView.swift in Sources */,
+				422124CE2C5026FA0062695A /* ChicagoTransitInterface.swift in Sources */,
+				422124DA2C502D920062695A /* CarmineApp.swift in Sources */,
+				420013082C54B1FC007ACC67 /* CMTime.swift in Sources */,
+				4273D1E42C8663D5003BBCC6 /* CMRoute.swift in Sources */,
+				4200130A2C54B2B6007ACC67 /* Extensions.swift in Sources */,
+				420012F02C50B9BF007ACC67 /* CMMenuItem.swift in Sources */,
+				4200130C2C54B47E007ACC67 /* CMPointAnnotation.swift in Sources */,
+				422124CF2C5026FA0062695A /* InterfaceResultProcessing.swift in Sources */,
+				420012FF2C5367A7007ACC67 /* UserInfo.swift in Sources */,
+				420012FD2C535F8C007ACC67 /* AboutView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		422124C62C5026DA0062695A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		422124C72C5026DA0062695A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		422124C92C5026DA0062695A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Carmine/Carmine.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 143;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Carmine/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Carmine;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_LSBackgroundOnly = NO;
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© WhitetailAni 2024";
+				INFOPLIST_KEY_NSPrincipalClass = Carmine.CarmineApp;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.whitetailani.Carmine;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_ENABLE_EMIT_CONST_VALUES = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = Carmine/Unoptimize/Unoptimize.h;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		422124CA2C5026DA0062695A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Carmine/Carmine.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 143;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Carmine/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Carmine;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_LSBackgroundOnly = NO;
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© WhitetailAni 2024";
+				INFOPLIST_KEY_NSPrincipalClass = Carmine.CarmineApp;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.whitetailani.Carmine;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_ENABLE_EMIT_CONST_VALUES = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = Carmine/Unoptimize/Unoptimize.h;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		422124B62C5026D80062695A /* Build configuration list for PBXProject "Carmine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				422124C62C5026DA0062695A /* Debug */,
+				422124C72C5026DA0062695A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		422124C82C5026DA0062695A /* Build configuration list for PBXNativeTarget "Carmine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				422124C92C5026DA0062695A /* Debug */,
+				422124CA2C5026DA0062695A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 422124B32C5026D80062695A /* Project object */;
+}
