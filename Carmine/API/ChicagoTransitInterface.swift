@@ -1077,7 +1077,7 @@ class ChicagoTransitInterface: NSObject {
         return date >= memorialDayWeekend && date <= laborDay
     }
     
-    ///Gets information about a given CTA stop ID
+    ///Gets information about a given CTA bus stop ID
     func getStopCoordinatesForID(route: CMRoute, direction: String, id: String) -> [String: Any] {
         let baseURL = "http://www.ctabustracker.com/bustime/api/v2/getstops"
         var returnedData: [String: Any] = [:]
@@ -1097,6 +1097,7 @@ class ChicagoTransitInterface: NSObject {
         return returnedData
     }
     
+    ///Gets the location of a CTA bus from its ID
     func getLocationForVehicleId(id: String) -> CLLocationCoordinate2D {
         let baseURL = "http://www.ctabustracker.com/bustime/api/v2/getvehicles"
         var returnedData: [String: Any] = [:]
@@ -1119,7 +1120,7 @@ class ChicagoTransitInterface: NSObject {
         return CLLocationCoordinate2D(latitude: -4, longitude: -4)
     }
     
-    ///Gets a list of every run on a given CTA line
+    ///Gets a list of every vehicle on a given CTA bus route
     func getVehiclesForRoute(route: CMRoute) -> [String: Any] {
         let baseURL = "http://www.ctabustracker.com/bustime/api/v2/getvehicles"
         var returnedData: [String: Any] = [:]
@@ -1138,7 +1139,7 @@ class ChicagoTransitInterface: NSObject {
         return returnedData
     }
     
-    ///Gets a list of every run on a given CTA line
+    ///Gets a list of every stop prediction for a given vehicle ID
     func getPredictionsForVehicle(route: CMRoute, vehicleId: String) -> [String: Any] {
         let baseURL = "http://www.ctabustracker.com/bustime/api/v2/getpredictions"
         var returnedData: [String: Any] = [:]
