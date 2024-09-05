@@ -11,7 +11,7 @@ import CoreLocation
 ///The class used to interface with the CTA's Train Tracker API. A new instance should be created on every request to allow for multiple concurrent requests.
 class ChicagoTransitInterface: NSObject {
     let semaphore = DispatchSemaphore(value: 0)
-    private let busTrackerAPIKey = "NknhMpnUYfzxrjk3pWw2pTZ3A"
+    private let busTrackerAPIKey = ""
     
     ///Checks if service has ended for the day for a given CTA line
     class func hasServiceEnded(route: CMRoute) -> Bool {
