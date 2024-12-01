@@ -1,0 +1,25 @@
+{
+  "" : {
+    "const-values" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/PaceTracker.build/Objects-normal/x86_64/PaceTracker-master.swiftconstvalues",
+    "dependencies" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/PaceTracker.build/Objects-normal/x86_64/PaceTracker-master.d",
+    "diagnostics" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/PaceTracker.build/Objects-normal/x86_64/PaceTracker-master.dia",
+    "emit-module-dependencies" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/PaceTracker.build/Objects-normal/x86_64/PaceTracker-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/PaceTracker.build/Objects-normal/x86_64/PaceTracker-master-emit-module.dia",
+    "swift-dependencies" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/PaceTracker.build/Objects-normal/x86_64/PaceTracker-master.swiftdeps"
+  },
+  "/Users/whitetailani/Carmine/PaceTracker/Classes/PTRoute.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/PaceTracker.build/Objects-normal/x86_64/PTRoute.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/PaceTracker.build/Objects-normal/x86_64/PTRoute.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/PaceTracker.build/Objects-normal/x86_64/PTRoute.o"
+  },
+  "/Users/whitetailani/Carmine/PaceTracker/Classes/PTTime.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/PaceTracker.build/Objects-normal/x86_64/PTTime.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/PaceTracker.build/Objects-normal/x86_64/PTTime.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/PaceTracker.build/Objects-normal/x86_64/PTTime.o"
+  },
+  "/Users/whitetailani/Carmine/PaceTracker/PaceTracker.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/PaceTracker.build/Objects-normal/x86_64/PaceTracker.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/PaceTracker.build/Objects-normal/x86_64/PaceTracker.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/PaceTracker.build/Objects-normal/x86_64/PaceTracker.o"
+  }
+}

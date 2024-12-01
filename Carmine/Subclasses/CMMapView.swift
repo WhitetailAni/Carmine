@@ -100,7 +100,7 @@ class CMMapView: MKMapView {
         
         let stopAnnotation = CMPointAnnotation()
         stopAnnotation.coordinate = stop.coordinate
-        stopAnnotation.title = "\(stop.route?.textualRepresentation() ?? "Unknown") stop \(stop.stopName ?? "Unknown")"
+        stopAnnotation.title = stop.stopName ?? "Unknown"
         stopAnnotation.mark = stop
         stopAnnotation.isBusAnnotation = false
         

@@ -1,0 +1,8 @@
+version: "Apple Swift version 6.0.2 (swiftlang-6.0.2.1.2 clang-1600.0.26.4)"
+options: "6b5a385a02826bfe2085f098b6e6ae9b33736956ff08d72d70ae434a113598ca"
+build_start_time: [1732949132, 598942000]
+build_end_time: [1732949134, 468056000]
+inputs:
+  "/Users/whitetailani/Carmine/PaceTracker/Classes/PTRoute.swift": [1732949117, 457315516]
+  "/Users/whitetailani/Carmine/PaceTracker/Classes/PTTime.swift": [1732945113, 13509656]
+  "/Users/whitetailani/Carmine/PaceTracker/PaceTracker.swift": [1732949117, 476489702]

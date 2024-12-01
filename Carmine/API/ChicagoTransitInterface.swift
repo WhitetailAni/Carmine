@@ -87,13 +87,15 @@ class ChicagoTransitInterface: NSObject {
                 return CMTime.isItCurrentlyBetween(start: CMTime(hour: 20, minute: 53), end: CMTime(hour: 4, minute: 43)) || CMTime.isItCurrentlyBetween(start: CMTime(hour: 12, minute: 08), end: CMTime(hour: 13, minute: 24))
             }
         case ._10:
-            switch weekday {
-            case 1:
-                return CMTime.isItCurrentlyBetween(start: CMTime(hour: 18, minute: 51), end: CMTime(hour: 8, minute: 50))
-            case 7:
-                return CMTime.isItCurrentlyBetween(start: CMTime(hour: 18, minute: 52), end: CMTime(hour: 8, minute: 50))
-            default:
-                return CMTime.isItCurrentlyBetween(start: CMTime(hour: 18, minute: 53), end: CMTime(hour: 8, minute: 50))
+            if dorvalCarter() {
+                switch weekday {
+                case 1:
+                    return CMTime.isItCurrentlyBetween(start: CMTime(hour: 18, minute: 51), end: CMTime(hour: 8, minute: 50))
+                case 7:
+                    return CMTime.isItCurrentlyBetween(start: CMTime(hour: 18, minute: 52), end: CMTime(hour: 8, minute: 50))
+                default:
+                    return CMTime.isItCurrentlyBetween(start: CMTime(hour: 18, minute: 53), end: CMTime(hour: 8, minute: 50))
+                }
             }
         case ._11:
             switch weekday {
@@ -1048,36 +1050,29 @@ class ChicagoTransitInterface: NSObject {
     }
     
     class private func dorvalCarter() -> Bool {
-        let date = Date()
         let calendar = Calendar.current
-        let year = calendar.component(.year, from: date)
         
-        var memorialDayComponents = DateComponents()
-        memorialDayComponents.year = year
-        memorialDayComponents.month = 5
-        memorialDayComponents.weekdayOrdinal = -1
-        memorialDayComponents.weekday = 2
-        guard let memorialDay = calendar.date(from: memorialDayComponents) else {
+        var memorialDateComponents = calendar.dateComponents([.year], from: Date())
+        memorialDateComponents.month = 5
+        memorialDateComponents.day = 31
+        
+        guard let memorialDay = calendar.date(from: memorialDateComponents),
+              let memorialDayWeekend = calendar.date(byAdding: .day, value: -2, to: memorialDay) else {
             return false
         }
         
-        guard let memorialDayWeekend = calendar.date(byAdding: .day, value: -2, to: memorialDay) else {
+        var laborDateComponents = calendar.dateComponents([.year], from: Date())
+        laborDateComponents.month = 9
+        laborDateComponents.day = 1
+        
+        guard let laborDay = calendar.date(from: laborDateComponents) else {
             return false
         }
         
-        var laborDayComponents = DateComponents()
-        laborDayComponents.year = year
-        laborDayComponents.month = 9
-        laborDayComponents.weekdayOrdinal = 1
-        laborDayComponents.weekday = 2
-        guard let laborDay = calendar.date(from: laborDayComponents) else {
-            return false
-        }
-        
-        return date >= memorialDayWeekend && date <= laborDay
+        return Date() >= memorialDayWeekend && Date() <= laborDay
     }
     
-    ///Gets information about a given CTA stop ID
+    ///Gets information about a given CTA bus stop ID
     func getStopCoordinatesForID(route: CMRoute, direction: String, id: String) -> [String: Any] {
         let baseURL = "http://www.ctabustracker.com/bustime/api/v2/getstops"
         var returnedData: [String: Any] = [:]
@@ -1097,6 +1092,7 @@ class ChicagoTransitInterface: NSObject {
         return returnedData
     }
     
+    ///Gets the location of a CTA bus from its ID
     func getLocationForVehicleId(id: String) -> CLLocationCoordinate2D {
         let baseURL = "http://www.ctabustracker.com/bustime/api/v2/getvehicles"
         var returnedData: [String: Any] = [:]
@@ -1119,7 +1115,7 @@ class ChicagoTransitInterface: NSObject {
         return CLLocationCoordinate2D(latitude: -4, longitude: -4)
     }
     
-    ///Gets a list of every run on a given CTA line
+    ///Gets a list of every vehicle on a given CTA bus route
     func getVehiclesForRoute(route: CMRoute) -> [String: Any] {
         let baseURL = "http://www.ctabustracker.com/bustime/api/v2/getvehicles"
         var returnedData: [String: Any] = [:]
@@ -1138,7 +1134,7 @@ class ChicagoTransitInterface: NSObject {
         return returnedData
     }
     
-    ///Gets a list of every run on a given CTA line
+    ///Gets a list of every stop prediction for a given vehicle ID
     func getPredictionsForVehicle(route: CMRoute, vehicleId: String) -> [String: Any] {
         let baseURL = "http://www.ctabustracker.com/bustime/api/v2/getpredictions"
         var returnedData: [String: Any] = [:]

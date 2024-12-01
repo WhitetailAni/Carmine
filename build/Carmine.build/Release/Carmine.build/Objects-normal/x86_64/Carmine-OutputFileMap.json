@@ -1,0 +1,95 @@
+{
+  "" : {
+    "const-values" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/Carmine-master.swiftconstvalues",
+    "dependencies" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/Carmine-master.d",
+    "diagnostics" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/Carmine-master.dia",
+    "emit-module-dependencies" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/Carmine-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/Carmine-master-emit-module.dia",
+    "swift-dependencies" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/Carmine-master.swiftdeps"
+  },
+  "/Users/whitetailani/Carmine/Carmine/API/ChicagoTransitInterface.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/ChicagoTransitInterface.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/ChicagoTransitInterface.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/ChicagoTransitInterface.o"
+  },
+  "/Users/whitetailani/Carmine/Carmine/API/InterfaceResultProcessing.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/InterfaceResultProcessing.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/InterfaceResultProcessing.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/InterfaceResultProcessing.o"
+  },
+  "/Users/whitetailani/Carmine/Carmine/AboutView.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/AboutView.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/AboutView.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/AboutView.o"
+  },
+  "/Users/whitetailani/Carmine/Carmine/AboutWindowDelegate.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/AboutWindowDelegate.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/AboutWindowDelegate.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/AboutWindowDelegate.o"
+  },
+  "/Users/whitetailani/Carmine/Carmine/AppDelegate.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/AppDelegate.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/AppDelegate.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/AppDelegate.o"
+  },
+  "/Users/whitetailani/Carmine/Carmine/AutomaticRefresh.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/AutomaticRefresh.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/AutomaticRefresh.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/AutomaticRefresh.o"
+  },
+  "/Users/whitetailani/Carmine/Carmine/CarmineApp.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CarmineApp.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CarmineApp.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CarmineApp.o"
+  },
+  "/Users/whitetailani/Carmine/Carmine/Classes/CMRoute.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMRoute.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMRoute.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMRoute.o"
+  },
+  "/Users/whitetailani/Carmine/Carmine/Classes/CMTime.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMTime.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMTime.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMTime.o"
+  },
+  "/Users/whitetailani/Carmine/Carmine/Extensions.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/Extensions.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/Extensions.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/Extensions.o"
+  },
+  "/Users/whitetailani/Carmine/Carmine/Subclasses/CMMapView.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMMapView.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMMapView.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMMapView.o"
+  },
+  "/Users/whitetailani/Carmine/Carmine/Subclasses/CMMarkerAnnotationView.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMMarkerAnnotationView.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMMarkerAnnotationView.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMMarkerAnnotationView.o"
+  },
+  "/Users/whitetailani/Carmine/Carmine/Subclasses/CMMenuItem.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMMenuItem.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMMenuItem.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMMenuItem.o"
+  },
+  "/Users/whitetailani/Carmine/Carmine/Subclasses/CMPlacemark.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMPlacemark.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMPlacemark.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMPlacemark.o"
+  },
+  "/Users/whitetailani/Carmine/Carmine/Subclasses/CMPointAnnotation.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMPointAnnotation.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMPointAnnotation.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/CMPointAnnotation.o"
+  },
+  "/Users/whitetailani/Carmine/Carmine/UserInfo.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/UserInfo.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/UserInfo.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/UserInfo.o"
+  },
+  "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "index-unit-output-path" : "/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/x86_64/GeneratedAssetSymbols.o"
+  }
+}

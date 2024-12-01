@@ -11,11 +11,14 @@ import Foundation
 import CoreLocation
 import MapKit
 import SwiftUI
+import PaceTracker
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem!
     var menu: NSMenu!
+    var ctaMenu: NSMenu!
+    var paceMenu: NSMenu!
     var autoRefresh: AutomaticRefresh!
     
     var mapWindows: [NSWindow] = []
@@ -40,33 +43,287 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         menu = NSMenu()
+        ctaMenu = NSMenu()
+        paceMenu = NSMenu()
         refreshInfo()
         
-        autoRefresh = AutomaticRefresh(interval: Bundle.main.infoDictionary?["CMRefreshInterval"] as? Double ?? 720.0) {
-            self.refreshInfo()
+        let ctaTitleString = prependImageToString(imageName: "cta", title: "CTA")
+        let paceTitleString = prependImageToString(imageName: "pace", title: "Pace")
+        
+        let ctaItem = CMMenuItem(title: "", action: #selector(openLink(_:)))
+        ctaItem.attributedTitle = ctaTitleString
+        ctaItem.linkToOpen = URL(string: "https://ctabustracker.com/home")
+        ctaItem.submenu = ctaMenu
+        
+        let paceItem = CMMenuItem(title: "", action: #selector(openLink(_:)))
+        paceItem.attributedTitle = paceTitleString
+        paceItem.linkToOpen = URL(string: "https://tmweb.pacebus.com/TMWebWatch/")
+        paceItem.submenu = paceMenu
+        
+        menu.addItem(ctaItem)
+        menu.addItem(paceItem)
+        
+        menu.addItem(NSMenuItem.separator())
+        
+        let aboutItem = NSMenuItem(title: "About", action: #selector(openAboutWindow), keyEquivalent: "a")
+        aboutItem.keyEquivalentModifierMask = [.command]
+        menu.addItem(aboutItem)
+        
+        let refreshItem = NSMenuItem(title: "Refresh", action: #selector(refreshInfo), keyEquivalent: "r")
+        refreshItem.keyEquivalentModifierMask = [.command]
+        menu.addItem(refreshItem)
+        
+        let quitItem = NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q")
+        quitItem.keyEquivalentModifierMask = [.command]
+        menu.addItem(quitItem)
+        
+        /*autoRefresh = AutomaticRefresh(interval: Bundle.main.infoDictionary?["CMRefreshInterval"] as? Double ?? 720.0) {
+            //self.refreshInfo()
         }
-        autoRefresh.start()
+        autoRefresh.start()*/
+        
+        
+        //PaceAPI().getPolyLineForRouteID(routeID: "293")
+        //print(routes)
+        
+        print(PaceAPI().getRoutes())
+        
+        /*print(PaceAPI().getRouteDirections(routeID: 293))
+        
+        let stops = PaceAPI().getStopsForRouteAndDirectionID(routeID: 293, directionID: 2)
+        let stpps = PaceAPI().getStopsForRouteAndDirectionID(routeID: 293, directionID: 3)
+        let starts = PaceAPI().getStopsAndLocationsForRouteID(routeID: 293)
+        
+        print("stop")
+        print(stops)
+        
+        print("stpp")
+        print(stpps)
+        print(" ")
+        print("start")
+        print(starts)*/
+        
+        //PaceTracker().getRouteDirections(routeID: "27")
+        //print(PaceAPI().getRouteDirections(routeID: 293))
+        /*PaceAPI().getRouteDirections(routeID: "111")
+         PaceAPI().getVehicleLocationsForRouteID(routeID: "27")
+         PaceAPI().getVehicleLocationsForRouteID(routeID: "293")
+         PaceAPI().getVehicleLocationsForRouteID(routeID: "111")*/
         
         statusItem.menu = menu
-    }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        for window in mapWindows {
-            window.close()
-        }
-        for aboutWindow in aboutWindows {
-            aboutWindow.close()
-        }
     }
 
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
         return false
     }
     
-    
+    func prependImageToString(imageName: String, title: String) -> NSMutableAttributedString {
+        let height = NSFont.menuFont(ofSize: 0).boundingRectForFont.height - 5
+        let baseImage = NSImage(named: imageName)!
+        
+        let aspectRatio = baseImage.size.width / baseImage.size.height
+        let newSize = NSSize(width: height * aspectRatio, height: height)
+            
+        let image = NSImage(size: newSize)
+        image.lockFocus()
+        baseImage.draw(in: NSRect(origin: .zero, size: newSize))
+        image.unlockFocus()
+        
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image = image
+        
+        let resultingString = NSAttributedString(attachment: imageAttachment)
+        
+        let attributedTitle = NSMutableAttributedString(string: "")
+        attributedTitle.append(resultingString)
+        attributedTitle.append(NSAttributedString(string: " "))
+        attributedTitle.append(NSAttributedString(string: title))
+        
+        return attributedTitle
+    }
     
     @MainActor @objc func refreshInfo() {
-        menu.removeAllItems()
+        //refreshCTAInfo()
+        refreshPaceInfo()
+    }
+    
+    @MainActor @objc func refreshPaceInfo() {
+        paceMenu.removeAllItems()
+        for route in /*PaceAPI().getRoutes()*/ PTRoute.testValues() {
+            let outOfService = PaceAPI.hasServiceEnded(route: route)
+            
+            if !((Bundle.main.infoDictionary?["CMHideOutOfServiceRoutes"] as? Bool ?? false) && outOfService) {
+                let item = CMMenuItem(title: route.fullName, action: #selector(openLink(_:)))
+                item.linkToOpen = route.link()
+                
+                let subMenu = NSMenu()
+                
+                let vehicleMenuItem = CMMenuItem(title: "Vehicles", action: #selector(openLink(_:)))
+                vehicleMenuItem.linkToOpen = URL(string: "https://tmweb.pacebus.com/TMWebWatch/MultiRoute")
+                subMenu.addItem(vehicleMenuItem)
+                
+                let instance = PaceAPI()
+                let vehicleSubMenu = NSMenu()
+                vehicleSubMenu.addItem(NSMenuItem.progressWheel())
+                
+                DispatchQueue.global().async {
+                    if !outOfService {
+                        let vehicles = instance.getVehicleLocationsForRouteID(routeID: route.id)
+                        
+                        DispatchQueue.main.sync {
+                            vehicleSubMenu.removeItem(at: 0)
+                            
+                            if vehicles.count > 0 {
+                                for vehicle in vehicles {
+                                    let direction = PTDirection.PTVehicleDirection(degrees: vehicle.heading).description
+                                    
+                                    let superSubMenu = NSMenu()
+                                    let vehicleItem = PTMenuItem(title: "\(vehicle.vehicleNumber) heading \(direction)", action: #selector(self.openPaceMapWindow(_:)))
+                                    vehicleItem.vehicleNumber = vehicle.vehicleNumber
+                                    vehicleItem.coordinate = vehicle.location
+                                    vehicleItem.busRoute = route
+                                    vehicleItem.linkToOpen = route.link()
+                                    
+                                    vehicleSubMenu.addItem(vehicleItem)
+                                    
+                                    if vehicle.isAccessible {
+                                        let isAccessibleItem = NSMenuItem(title: "Accessible bus", action: #selector(self.nop))
+                                        superSubMenu.addItem(isAccessibleItem)
+                                        
+                                        let hasLiftItem = NSMenuItem(title: "Has wheelchair lift", action: #selector(self.nop))
+                                        superSubMenu.addItem(hasLiftItem)
+                                    } else {
+                                        let inAccessibleItem = CMMenuItem(title: "Inaccessible bus", action: #selector(self.openLink))
+                                        inAccessibleItem.linkToOpen = URL(string: "https://www.pacebus.com/ada")!
+                                        superSubMenu.addItem(inAccessibleItem)
+                                    }
+                                    
+                                    if vehicle.hasWiFi {
+                                        let hasWifiItem = NSMenuItem(title: "Has WiFi", action: #selector(self.nop))
+                                        superSubMenu.addItem(hasWifiItem)
+                                    }
+                                    
+                                    if vehicle.hasBikeRack {
+                                        let hasBikeRackItem = NSMenuItem(title: "Has a bike rack", action: #selector(self.nop))
+                                        superSubMenu.addItem(hasBikeRackItem)
+                                    }
+                                    
+                                    vehicleItem.submenu = superSubMenu
+                                }
+                            } else {
+                                vehicleSubMenu.addItem(NSMenuItem(title: "No active buses", action: nil))
+                            }
+                            
+                            vehicleMenuItem.submenu = vehicleSubMenu
+                        }
+                    } else {
+                        subMenu.removeItem(at: 0)
+                        subMenu.addItem(NSMenuItem(title: "Route not in service", action: nil))
+                    }
+                }
+                
+                let stopMenuItem = CMMenuItem(title: "Stops", action: #selector(openLink(_:)))
+                stopMenuItem.linkToOpen = URL(string: "https://tmweb.pacebus.com/TMWebWatch/LiveArrivalTimes")!
+                subMenu.addItem(stopMenuItem)
+                
+                let jnstance = PaceAPI()
+                
+                let stopSubMenu = NSMenu()
+                stopSubMenu.addItem(NSMenuItem.progressWheel())
+                
+                DispatchQueue.global().async {
+                    if !outOfService {
+                        let directions = jnstance.getRouteDirections(routeID: route.id)
+                        
+                        DispatchQueue.main.sync {
+                            stopSubMenu.removeItem(at: 0)
+                            
+                            for direction in directions {
+                                let directionItem = NSMenuItem(title: direction.name, action: #selector(self.nop))
+                                stopSubMenu.addItem(directionItem)
+                                
+                                let powerPose = PaceAPI()
+                                let stopListSubMenu = NSMenu()
+                                stopListSubMenu.addItem(NSMenuItem.progressWheel())
+                                
+                                DispatchQueue.global().async {
+                                    let stops = powerPose.getStopsForRouteAndDirectionID(routeID: route.id, directionID: direction.id)
+                                    
+                                    DispatchQueue.main.sync {
+                                        stopListSubMenu.removeItem(at: 0)
+                                        for stop in stops {
+                                            let stopMenuItem = PTMenuItem(title: "\(stop.name)", action: #selector(self.openPaceMapWindow(_:)))
+                                            stopMenuItem.coordinate = stop.location
+                                            stopListSubMenu.addItem(stopMenuItem)
+                                        }
+                                    }
+                                }
+                                
+                                directionItem.submenu = stopListSubMenu
+                                
+                                //print(direction)
+                            }
+                            
+                            /*if stops.count > 0 {
+                                for stop in stops {
+                                    //print(stop)
+                                    /*let direction = PTVehicle.PTVehicleDirection(degrees: vehicle.heading).description
+                                    
+                                    let superSubMenu = NSMenu()
+                                    let vehicleItem = PTMenuItem(title: "\(vehicle.vehicleNumber) heading \(direction)", action: #selector(self.openPaceMapWindow(_:)))
+                                    vehicleItem.vehicleNumber = vehicle.vehicleNumber
+                                    vehicleItem.vehicleCoordinate = vehicle.location
+                                    vehicleItem.busRoute = route
+                                    vehicleItem.linkToOpen = route.link()
+                                    print(vehicle)
+                                    
+                                    vehicleSubMenu.addItem(vehicleItem)
+                                    
+                                    if vehicle.isAccessible {
+                                        let isAccessibleItem = NSMenuItem(title: "Accessible bus", action: #selector(self.nop))
+                                        superSubMenu.addItem(isAccessibleItem)
+                                        
+                                        let hasLiftItem = NSMenuItem(title: "Has wheelchair lift", action: #selector(self.nop))
+                                        superSubMenu.addItem(hasLiftItem)
+                                    } else {
+                                        let inAccessibleItem = CMMenuItem(title: "Inaccessible bus", action: #selector(self.openLink))
+                                        inAccessibleItem.linkToOpen = URL(string: "https://www.pacebus.com/ada")!
+                                        superSubMenu.addItem(inAccessibleItem)
+                                    }
+                                    
+                                    if vehicle.hasWiFi {
+                                        let hasWifiItem = NSMenuItem(title: "Has WiFi", action: #selector(self.nop))
+                                        superSubMenu.addItem(hasWifiItem)
+                                    }
+                                    
+                                    if vehicle.hasBikeRack {
+                                        let hasBikeRackItem = NSMenuItem(title: "Has a bike rack", action: #selector(self.nop))
+                                        superSubMenu.addItem(hasBikeRackItem)
+                                    }
+                                    
+                                    vehicleItem.submenu = superSubMenu*/
+                                }
+                            } else {
+                                stopSubMenu.addItem(NSMenuItem(title: "No stops found", action: nil))
+                            }*/
+                            
+                            stopMenuItem.submenu = stopSubMenu
+                        }
+                    } else {
+                        subMenu.removeItem(at: 0)
+                        subMenu.addItem(NSMenuItem(title: "Route not in service", action: nil))
+                    }
+                }
+                
+                item.submenu = subMenu
+                
+                paceMenu.addItem(item)
+            }
+        }
+    }
+    
+    @MainActor @objc func refreshCTAInfo() {
+        ctaMenu.removeAllItems()
         for route in CMRoute.allCases {
             let outOfService = ChicagoTransitInterface.hasServiceEnded(route: route)
             
@@ -102,7 +359,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                 for vehicle in vehicles {
                                     var subItem: CMMenuItem!
                                     if let latitudeString = vehicle["latitude"], let longitudeString = vehicle["longitude"], let latitude = Double(latitudeString), let longitude = Double(longitudeString), (latitude != -3 && longitude != -2) {
-                                        subItem = CMMenuItem(title: "\(vehicle["vehicleId"] ?? "Unknown Vehicle Number") to \(vehicle["destination"] ?? "Unknown Destination")", action: #selector(self.openWindow(_:)))
+                                        subItem = CMMenuItem(title: "\(vehicle["vehicleId"] ?? "Unknown Vehicle Number") to \(vehicle["destination"] ?? "Unknown Destination")", action: #selector(self.openCTAMapWindow(_:)))
                                         subItem.vehicleCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
                                         
                                         subItem.busRoute = route
@@ -111,7 +368,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                     } else {
                                         subItem = CMMenuItem(title: "\(vehicle["vehicleId"] ?? "Unknown Vehicle Number") to \(vehicle["destination"] ?? "Unknown Destination")", action: #selector(self.nop))
                                     }
-                                    subItem.action = #selector(self.openWindow(_:))
+                                    subItem.action = #selector(self.openCTAMapWindow(_:))
                                     
                                     let subSubMenu = NSMenu()
                                     subSubMenu.addItem(NSMenuItem.progressWheel())
@@ -126,7 +383,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                             
                                             if niceStats.count > 0 {
                                                 
-                                                let subSubItem = CMMenuItem(title: "\(route.textualRepresentation(addRouteNumber: false)) bus \(vehicle["vehicleId"] ?? "0000"), \((niceStats[0]["routeDirection"] ?? "Unknown Direction").lowercased()) to \(vehicle["destination"] ?? "Unknown Destination")", action: #selector(self.openWindow(_:)))
+                                                let subSubItem = CMMenuItem(title: "\(route.textualRepresentation(addRouteNumber: false)) bus \(vehicle["vehicleId"] ?? "0000"), \((niceStats[0]["routeDirection"] ?? "Unknown Direction").lowercased()) to \(vehicle["destination"] ?? "Unknown Destination")", action: #selector(self.openCTAMapWindow(_:)))
                                                 
                                                 subSubItem.busRoute = route
                                                 subSubItem.vehicleNumber = vehicle["vehicleId"]
@@ -137,7 +394,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                                 
                                                 for stop in niceStats {
                                                     if let direction = niceStats[0]["routeDirection"], let vehicleId = vehicle["vehicleId"], let stopName = stop["stopName"], let stopId = stop["stopId"], let latitudeString = vehicle["latitude"], let longitudeString = vehicle["longitude"], let latitude = Double(latitudeString), let longitude = Double(longitudeString), (latitude != -3 && longitude != -2) {
-                                                        let subSubItem = CMMenuItem(title: "\(stopName) at \(CMTime.apiTimeToReadabletime(string: stop["exactTime"] ?? "dont know man"))", action: #selector(self.openWindow(_:)))
+                                                        let subSubItem = CMMenuItem(title: "\(stopName) at \(CMTime.apiTimeToReadabletime(string: stop["exactTime"] ?? "dont know man"))", action: #selector(self.openCTAMapWindow(_:)))
                                                         
                                                         subSubItem.vehicleDirection = direction
                                                         subSubItem.vehicleCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -185,26 +442,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
                 
                 item.submenu = subMenu
-                menu.addItem(item)
+                ctaMenu.addItem(item)
             }
         }
-        
-        menu.addItem(NSMenuItem.separator())
-        
-        let aboutItem = NSMenuItem(title: "About", action: #selector(openAboutWindow), keyEquivalent: "a")
-        aboutItem.keyEquivalentModifierMask = [.command]
-        menu.addItem(aboutItem)
-        
-        let refreshItem = NSMenuItem(title: "Refresh", action: #selector(refreshInfo), keyEquivalent: "r")
-        refreshItem.keyEquivalentModifierMask = [.command]
-        menu.addItem(refreshItem)
-        
-        let quitItem = NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q")
-        quitItem.keyEquivalentModifierMask = [.command]
-        menu.addItem(quitItem)
     }
     
-    @objc func openWindow(_ sender: CMMenuItem) {
+    @objc func openCTAMapWindow(_ sender: CMMenuItem) {
         mapMutex.lock()
         if let screenSize = NSScreen.main?.frame.size {
             let window = NSWindow(contentRect: NSMakeRect(0, 0, screenSize.width * 0.5, screenSize.height * 0.5), styleMask: [.titled, .closable], backing: .buffered, defer: false)
@@ -253,6 +496,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         mapMutex.unlock()
+    }
+    
+    @objc func openPaceMapWindow(_ sender: PTMenuItem) {
+        
     }
     
     @objc func openAboutWindow() {
