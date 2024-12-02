@@ -31,6 +31,7 @@
 		42D999B82CFD330600A060A2 /* PTMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D999B72CFD330600A060A2 /* PTMarkerAnnotationView.swift */; };
 		42D999F02CFD3A8B00A060A2 /* PaceTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D999DA2CFD3A6E00A060A2 /* PaceTracker.framework */; };
 		42D999F72CFD521500A060A2 /* PTPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D999F62CFD521300A060A2 /* PTPolyline.swift */; };
+		42D999FA2CFD6BAC00A060A2 /* PaceTracker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 42D999DA2CFD3A6E00A060A2 /* PaceTracker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				42D999FA2CFD6BAC00A060A2 /* PaceTracker.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
