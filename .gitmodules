@@ -1,0 +1,3 @@
+[submodule "PaceTracker"]
+	path = PaceTracker
+	url = ./PaceTracker
