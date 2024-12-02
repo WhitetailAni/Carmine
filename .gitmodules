@@ -1,3 +1,3 @@
 [submodule "PaceTracker"]
 	path = PaceTracker
-	url = ./PaceTracker
+	url = https://github.com/WhitetailAni/PaceTracker.git
