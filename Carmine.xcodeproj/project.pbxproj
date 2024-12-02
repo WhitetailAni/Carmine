@@ -30,6 +30,7 @@
 		42D999B62CFD2FE800A060A2 /* PTPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D999B52CFD2FE800A060A2 /* PTPointAnnotation.swift */; };
 		42D999B82CFD330600A060A2 /* PTMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D999B72CFD330600A060A2 /* PTMarkerAnnotationView.swift */; };
 		42D999F02CFD3A8B00A060A2 /* PaceTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D999DA2CFD3A6E00A060A2 /* PaceTracker.framework */; };
+		42D999F72CFD521500A060A2 /* PTPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D999F62CFD521300A060A2 /* PTPolyline.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		42D999B52CFD2FE800A060A2 /* PTPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTPointAnnotation.swift; sourceTree = "<group>"; };
 		42D999B72CFD330600A060A2 /* PTMarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTMarkerAnnotationView.swift; sourceTree = "<group>"; };
 		42D999D32CFD3A6E00A060A2 /* PaceTracker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PaceTracker.xcodeproj; path = PaceTracker/PaceTracker.xcodeproj; sourceTree = "<group>"; };
+		42D999F62CFD521300A060A2 /* PTPolyline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTPolyline.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +177,7 @@
 		42D999BA2CFD332B00A060A2 /* Pace */ = {
 			isa = PBXGroup;
 			children = (
+				42D999F62CFD521300A060A2 /* PTPolyline.swift */,
 				42D999B12CFD1E8200A060A2 /* PTPlacemark.swift */,
 				42D999A42CFBE7FE00A060A2 /* PTMenuItem.swift */,
 				42D999B32CFD22F200A060A2 /* PTMapView.swift */,
@@ -288,6 +291,7 @@
 				424B28F32C509E81002E3E9B /* CMMapView.swift in Sources */,
 				420013032C54B0AF007ACC67 /* CMMarkerAnnotationView.swift in Sources */,
 				422124CE2C5026FA0062695A /* ChicagoTransitInterface.swift in Sources */,
+				42D999F72CFD521500A060A2 /* PTPolyline.swift in Sources */,
 				422124DA2C502D920062695A /* CarmineApp.swift in Sources */,
 				420013082C54B1FC007ACC67 /* CMTime.swift in Sources */,
 				4273D1E42C8663D5003BBCC6 /* CMRoute.swift in Sources */,
@@ -437,7 +441,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 147;
+				CURRENT_PROJECT_VERSION = 213;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = DK2B92MAN7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -475,7 +479,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 147;
+				CURRENT_PROJECT_VERSION = 213;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = DK2B92MAN7;
 				ENABLE_HARDENED_RUNTIME = YES;

@@ -12,233 +12,28 @@ import MapKit
 public class PaceAPI: NSObject {
     let semaphore = DispatchSemaphore(value: 0)
     var stopPredictionType: PTPredictionType
+    var retryIfTimedOut = true
+    
+    public init(stopPredictionType: PTPredictionType, retryIfTimedOut: Bool) {
+        self.retryIfTimedOut = retryIfTimedOut
+        self.stopPredictionType = stopPredictionType
+    }
     
     ///Use this instance if querying stop predictions to set the requested prediction type. Otherwise it defaults to arrivals.
     public init(stopPredictionType: PTPredictionType) {
         self.stopPredictionType = stopPredictionType
     }
     
+    public init(retryIfTimedOut: Bool) {
+        self.stopPredictionType = .arrivals
+        self.retryIfTimedOut = retryIfTimedOut
+    }
+    
     override public init() {
         self.stopPredictionType = .arrivals
     }
     
-    ///Tells you if service has ended for the day for a given route.
-    class public func hasServiceEnded(route: PTRoute) -> Bool {
-        var weekday = Calendar.current.component(.weekday, from: Date())
-        if isHoliday() {
-            weekday = 1
-        }
-        
-        switch route.number {
-        case 208:
-            switch weekday {
-            case 1:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 7, minute: 45), end: PTTime(hour: 21, minute: 26))
-            case 7:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 6, minute: 00), end: PTTime(hour: 22, minute: 58))
-            default:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 30), end: PTTime(hour: 23, minute: 02))
-            }
-        case 209:
-            if (weekday != 1 || weekday != 7) {
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 11), end: PTTime(hour: 19, minute: 44))
-            }
-        case 210:
-            if (weekday != 1 || weekday != 7) {
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 47), end: PTTime(hour: 19, minute: 44))
-            }
-        case 213:
-            if (weekday != 1 || weekday != 7) {
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 15), end: PTTime(hour: 22, minute: 07))
-            } else if weekday == 7 {
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 6, minute: 44), end: PTTime(hour: 20, minute: 00))
-            }
-        case 215:
-            switch weekday {
-            case 1:
-                return !PTTime.isItCurrentlyBetween(start: PTTime(hour: 0, minute: 10), end: PTTime(hour: 6, minute: 15))
-            case 7:
-                return !PTTime.isItCurrentlyBetween(start: PTTime(hour: 0, minute: 10), end: PTTime(hour: 5, minute: 45))
-            default:
-                return !PTTime.isItCurrentlyBetween(start: PTTime(hour: 0, minute: 10), end: PTTime(hour: 5, minute: 06))
-            }
-        case 221:
-            if (weekday != 1 || weekday != 7) {
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 13), end: PTTime(hour: 19, minute: 22))
-            }
-        case 223:
-            switch weekday {
-            case 1:
-                return !PTTime.isItCurrentlyBetween(start: PTTime(hour: 0, minute: 19), end: PTTime(hour: 5, minute: 30))
-            case 7:
-                return !PTTime.isItCurrentlyBetween(start: PTTime(hour: 1, minute: 19), end: PTTime(hour: 5, minute: 25))
-            default:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 4, minute: 59), end: PTTime(hour: 1, minute: 44))
-            }
-        case 225:
-            if (weekday != 1 || weekday != 7) {
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 6, minute: 05), end: PTTime(hour: 9, minute: 03)) || PTTime.isItCurrentlyBetween(start: PTTime(hour: 15, minute: 35), end: PTTime(hour: 18, minute: 31))
-            }
-        case 226:
-            if (weekday != 1 || weekday != 7) {
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 01), end: PTTime(hour: 19, minute: 11))
-            }
-        case 230:
-            if (weekday != 1 || weekday != 7) {
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 35), end: PTTime(hour: 19, minute: 33))
-            }
-        case 234:
-            if (weekday != 1 || weekday != 7) {
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 20), end: PTTime(hour: 19, minute: 35))
-            }
-        case 240:
-            if (weekday != 1 || weekday != 7) {
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 35), end: PTTime(hour: 19, minute: 24))
-            }
-        case 241:
-            if (weekday != 1 || weekday != 7) {
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 45), end: PTTime(hour: 19, minute: 11))
-            }
-        case 250:
-            switch weekday {
-            case 1:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 6, minute: 20), end: PTTime(hour: 21, minute: 43))
-            case 7:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 6, minute: 05), end: PTTime(hour: 21, minute: 29))
-            default:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 51), end: PTTime(hour: 21, minute: 42))
-            }
-        case 272:
-            if (weekday != 1 || weekday != 7) {
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 29), end: PTTime(hour: 22, minute: 52))
-            } else if weekday == 7 {
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 7, minute: 58), end: PTTime(hour: 19, minute: 36))
-            }
-        case 290:
-            switch weekday {
-            case 1:
-                return !PTTime.isItCurrentlyBetween(start: PTTime(hour: 0, minute: 41), end: PTTime(hour: 6, minute: 30))
-            case 7:
-                return !PTTime.isItCurrentlyBetween(start: PTTime(hour: 1, minute: 17), end: PTTime(hour: 5, minute: 25))
-            default:
-                return !PTTime.isItCurrentlyBetween(start: PTTime(hour: 1, minute: 39), end: PTTime(hour: 4, minute: 50))
-            }
-        case 301:
-            switch weekday {
-            case 1:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 7, minute: 05), end: PTTime(hour: 19, minute: 44))
-            case 7:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 36), end: PTTime(hour: 22, minute: 45))
-            default:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 22), end: PTTime(hour: 23, minute: 32))
-            }
-        case 302:
-            if weekday != 1 {
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 6, minute: 40), end: PTTime(hour: 18, minute: 30))
-            }
-        case 303:
-            switch weekday {
-            case 1:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 10, minute: 03), end: PTTime(hour: 21, minute: 57))
-            case 7:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 43), end: PTTime(hour: 22, minute: 24))
-            default:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 03), end: PTTime(hour: 22, minute: 59))
-            }
-        case 305:
-            switch weekday {
-            case 1:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 7, minute: 05), end: PTTime(hour: 19, minute: 47))
-            case 7:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 6, minute: 05), end: PTTime(hour: 22, minute: 49))
-            default:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 25), end: PTTime(hour: 22, minute: 45))
-            }
-        case 307:
-            switch weekday {
-            case 1:
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 59), end: PTTime(hour: 22, minute: 58))
-            case 7:
-                return !PTTime.isItCurrentlyBetween(start: PTTime(hour: 0, minute: 10), end: PTTime(hour: 5, minute: 33))
-            default:
-                return !PTTime.isItCurrentlyBetween(start: PTTime(hour: 0, minute: 02), end: PTTime(hour: 4, minute: 53))
-            }
-        case 309:
-            if weekday == 1 || weekday == 7 {
-                return PTTime.isItCurrentlyBetween(start: PTTime(hour: 6, minute: 0), end: PTTime(hour: 21, minute: 49))
-            }
-            return PTTime.isItCurrentlyBetween(start: PTTime(hour: 5, minute: 22), end: PTTime(hour: 23, minute: 56))
-        default:
-            return false
-        }
-        return false
-    }
-    
-    class private func isHoliday() -> Bool {
-        let calendar = Calendar.current
-        let today = Date()
-        let year = calendar.component(.year, from: today)
-        let month = calendar.component(.month, from: today)
-        let day = calendar.component(.day, from: today)
-        let weekday = calendar.component(.weekday, from: today)
-
-        if month == 1 && day == 1 {
-            return true
-        }
-
-        if month == 5 && weekday == 2 && (31 - day) < 7 {
-            return true
-        }
-        
-        if month == 7 && day == 4 {
-            return true
-        }
-
-        if month == 9 && weekday == 2 && day <= 7 {
-            return true
-        }
-
-        if month == 11 && weekday == 5 && (22...28).contains(day) {
-            return true
-        }
-
-        if month == 12 && day == 25 {
-            return true
-        }
-        
-        let easterDate = calculateEasterDate(year: year)
-        if calendar.isDate(today, inSameDayAs: easterDate) {
-            return true
-        }
-
-        return false
-    }
-
-    class private func calculateEasterDate(year: Int) -> Date {
-        let a = year % 19
-        let b = Int(floor(Double(year) / 100))
-        let c = year % 100
-        let d = Int(floor(Double(b) / 4))
-        let e = b % 4
-        let f = Int(floor(Double(b + 8) / 25))
-        let g = Int(floor(Double(b - f + 1) / 3))
-        let h = (19 * a + b - d - g + 15) % 30
-        let i = Int(floor(Double(c) / 4))
-        let k = c % 4
-        let l = (32 + 2 * e + 2 * i - h - k) % 7
-        let m = Int(floor(Double(a + 11 * h + 22 * l) / 451))
-        let month = Int(floor(Double(h + l - 7 * m + 114) / 31))
-        let day = ((h + l - 7 * m + 114) % 31) + 1
-
-        var dateComponents = DateComponents()
-        dateComponents.year = year
-        dateComponents.month = month
-        dateComponents.day = day
-
-        return Calendar.current.date(from: dateComponents)!
-    }
-    
-    ///Returns a list of all current Pace routes - except for 546, that's missing from their API currently.
+    ///Returns a list of all currently running Pace routes
     public func getRoutes() -> [PTRoute] {
         var returnedData: [String: Any] = [:]
         var routeArray: [PTRoute] = []
@@ -251,8 +46,8 @@ public class PaceAPI: NSObject {
         
         let routes: [[String: Any]] = returnedData["d"] as? [[String : Any]] ?? []
         for route in routes {
-            let name = route["name"] as! String
-            routeArray.append(PTRoute(id: route["id"] as! Int, number: Int(name.components(separatedBy: " - ").first ?? "0")!, name: name.components(separatedBy: " - ").dropFirst().joined(separator: " - "), fullName: name))
+            let name = route["name"] as? String ?? ""
+            routeArray.append(PTRoute(id: route["id"] as? Int ?? 0, number: Int(name.components(separatedBy: " - ").first ?? "0") ?? 000, name: name.components(separatedBy: " - ").dropFirst().joined(separator: " - "), fullName: name))
         }
         
         return routeArray
@@ -289,7 +84,7 @@ public class PaceAPI: NSObject {
         }
         self.semaphore.wait()
         
-        let stops: [[String: Any]] = returnedData["d"] as! [[String : Any]]
+        let stops: [[String: Any]] = returnedData["d"] as? [[String : Any]] ?? []
         for stop in stops {
             idArray.append(stop["id"] as? Int ?? -1)
         }
@@ -361,15 +156,15 @@ public class PaceAPI: NSObject {
             let stopName = stop["stopName"] as? String ?? ""
             let stopNumber = stop["stopNumber"] as? Int ?? 0
             let timePointID = stop["timePointID"] as? Int ?? 0
-            let direction: PTDirection? = {
+            let direction: PTDirection = {
                 for routeDirection in routeDirections {
                     if routeDirection.id == directionID {
                         return routeDirection
                     }
                 }
-                return nil
+                return PTDirection(id: 0, name: "Unknown")
             }()
-            stopArray.append(PTStop(id: stopID, name: stopName, timePointID: timePointID, direction: direction!, directionName: directionName, location: location, number: stopNumber))
+            stopArray.append(PTStop(id: stopID, name: stopName, timePointID: timePointID, direction: direction, directionName: directionName, location: location, number: stopNumber))
         }
         
         return stopArray
@@ -406,7 +201,7 @@ public class PaceAPI: NSObject {
     }
     
     ///Returns an MKPolyline for overlaying on an MKMapView from a given route ID.
-    public func getPolyLineForRouteID(routeID: Int) -> MKPolyline {
+    public func getPolyLineForRouteID(routeID: Int) -> [CLLocationCoordinate2D] {
         var rawData: Data = Data()
         var jsonResult: [String: Any] = [:]
         
@@ -420,10 +215,6 @@ public class PaceAPI: NSObject {
             if let error = error {
                 print(error.localizedDescription)
                 self.semaphore.signal()
-            }
-            
-            if let response = response as? HTTPURLResponse {
-                print(response.statusCode)
             }
             
             if let data: Data = data {
@@ -444,15 +235,15 @@ public class PaceAPI: NSObject {
         }
         
         let data = jsonResult["d"] as? [String: Any] ?? [:]
-        let rawPolylineList = data["polylines"] as? [[String: Any]] ?? []
+        let rawPolylineList = data["polylines"] as? [[[String: Any]]] ?? []
         var coordinateArray: [CLLocationCoordinate2D] = []
-        
-        for rawPolyline in rawPolylineList {
+
+        for rawPolyline in rawPolylineList[0] {
             let latitude = rawPolyline["lat"] as? Double ?? 0.0
             let longitude = rawPolyline["lon"] as? Double ?? 0.0
             coordinateArray.append(CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
         }
-        return MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
+        return coordinateArray
     }
     
     ///Gets the current location of a Pace vehicle for its unique vehicle ID.
@@ -479,8 +270,12 @@ public class PaceAPI: NSObject {
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(["Error": "Request failed: \(error.localizedDescription)"])
+            if let error = error as? NSError {
+                if (error.code == NSURLErrorTimedOut && self.retryIfTimedOut) {
+                    self.theScraperrrrr(endpoint: endpoint) { result in
+                        completion(result)
+                    }
+                }
                 return
             }
             

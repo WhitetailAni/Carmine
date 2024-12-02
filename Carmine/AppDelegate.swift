@@ -63,6 +63,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(ctaItem)
         menu.addItem(paceItem)
         
+        /*let window = NSWindow(contentRect: NSMakeRect(0, 0, (NSScreen.main?.frame.size.width)! * 0.5, (NSScreen.main?.frame.size.height)! * 0.5), styleMask: [.titled, .closable], backing: .buffered, defer: false)
+        let index = mapWindows.count
+        mapWindows.append(window)
+        
+        let vehicle = PaceAPI().getVehiclesForRoute(routeID: 293)[0]
+        
+        let placemark = PTPlacemark(coordinate: vehicle.location)
+        let route = PTRoute(id: 428, number: 290, name: "Touhy", fullName: "290 - Touhy")
+        
+        placemark.route = route
+        placemark.vehicleNumber = vehicle.vehicleNumber
+        placemark.heading = vehicle.heading
+        let direction = PTDirection.PTVehicleDirection(degrees: vehicle.heading)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.current
+        
+        dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "HH:mm", options: 0, locale: Locale.current)
+        
+        mapWindows[index].title = "Carmine - \(route.fullName) bus \(vehicle.vehicleNumber) \(direction.description)"
+        
+        self.mapWindows[index].contentView = PTMapView(mark: placemark, timeLastUpdated: dateFormatter.string(from: Date()), isVehicle: true)
+        self.mapWindows[index].center()
+        self.mapWindows[index].setIsVisible(true)
+        self.mapWindows[index].orderFrontRegardless()
+        self.mapWindows[index].makeKey()
+        NSApp.activate(ignoringOtherApps: true)*/
+        
         menu.addItem(NSMenuItem.separator())
         
         let aboutItem = NSMenuItem(title: "About", action: #selector(openAboutWindow), keyEquivalent: "a")
@@ -117,191 +145,176 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @MainActor @objc func refreshPaceInfo() {
         paceMenu.removeAllItems()
         for route in PaceAPI().getRoutes() {
-            let outOfService = PaceAPI.hasServiceEnded(route: route)
+            let item = CMMenuItem(title: route.fullName, action: #selector(openLink(_:)))
+            item.linkToOpen = route.link()
             
-            if !((Bundle.main.infoDictionary?["CMHideOutOfServiceRoutes"] as? Bool ?? false) && outOfService) {
-                let item = CMMenuItem(title: route.fullName, action: #selector(openLink(_:)))
-                item.linkToOpen = route.link()
+            let subMenu = NSMenu()
+            
+            let vehicleMenuItem = CMMenuItem(title: "Vehicles", action: #selector(openLink(_:)))
+            vehicleMenuItem.linkToOpen = URL(string: "https://tmweb.pacebus.com/TMWebWatch/MultiRoute")
+            subMenu.addItem(vehicleMenuItem)
+            
+            let instance = PaceAPI()
+            let vehicleSubMenu = NSMenu()
+            vehicleSubMenu.addItem(NSMenuItem.progressWheel())
+            
+            DispatchQueue.global().async {
+                let vehicles = instance.getVehiclesForRoute(routeID: route.id)
                 
-                let subMenu = NSMenu()
-                
-                let vehicleMenuItem = CMMenuItem(title: "Vehicles", action: #selector(openLink(_:)))
-                vehicleMenuItem.linkToOpen = URL(string: "https://tmweb.pacebus.com/TMWebWatch/MultiRoute")
-                subMenu.addItem(vehicleMenuItem)
-                
-                let instance = PaceAPI()
-                let vehicleSubMenu = NSMenu()
-                vehicleSubMenu.addItem(NSMenuItem.progressWheel())
-                
-                DispatchQueue.global().async {
-                    if !outOfService {
-                        let vehicles = instance.getVehiclesForRoute(routeID: route.id)
-                        
-                        DispatchQueue.main.sync {
-                            vehicleSubMenu.removeItem(at: 0)
+                DispatchQueue.main.sync {
+                    vehicleSubMenu.removeItem(at: 0)
+                    
+                    if vehicles.count > 0 {
+                        for vehicle in vehicles {
+                            let direction = PTDirection.PTVehicleDirection(degrees: vehicle.heading).description
                             
-                            if vehicles.count > 0 {
-                                for vehicle in vehicles {
-                                    let direction = PTDirection.PTVehicleDirection(degrees: vehicle.heading).description
-                                    
-                                    let superSubMenu = NSMenu()
-                                    let vehicleItem = PTMenuItem(title: "\(vehicle.vehicleNumber) heading \(direction)", action: #selector(self.openPaceMapWindow(_:)))
-                                    vehicleItem.vehicleNumber = vehicle.vehicleNumber
-                                    vehicleItem.coordinate = vehicle.location
-                                    vehicleItem.route = route
-                                    vehicleItem.linkToOpen = route.link()
-                                    vehicleItem.vehicleHeading = vehicle.heading
-                                    
-                                    vehicleSubMenu.addItem(vehicleItem)
-                                    
-                                    if vehicle.isAccessible {
-                                        let isAccessibleItem = NSMenuItem(title: "Accessible bus", action: #selector(self.nop))
-                                        superSubMenu.addItem(isAccessibleItem)
-                                        
-                                        let hasLiftItem = NSMenuItem(title: "Has wheelchair lift", action: #selector(self.nop))
-                                        superSubMenu.addItem(hasLiftItem)
-                                    } else {
-                                        let inAccessibleItem = CMMenuItem(title: "Inaccessible bus", action: #selector(self.openLink))
-                                        inAccessibleItem.linkToOpen = URL(string: "https://www.pacebus.com/ada")!
-                                        superSubMenu.addItem(inAccessibleItem)
-                                    }
-                                    
-                                    if vehicle.hasWiFi {
-                                        let hasWifiItem = NSMenuItem(title: "Has WiFi", action: #selector(self.nop))
-                                        superSubMenu.addItem(hasWifiItem)
-                                    }
-                                    
-                                    if vehicle.hasBikeRack {
-                                        let hasBikeRackItem = NSMenuItem(title: "Has a bike rack", action: #selector(self.nop))
-                                        superSubMenu.addItem(hasBikeRackItem)
-                                    }
-                                    
-                                    vehicleItem.submenu = superSubMenu
-                                }
+                            let superSubMenu = NSMenu()
+                            let vehicleItem = PTMenuItem(title: "\(vehicle.vehicleNumber) heading \(direction)", action: #selector(self.openPaceMapWindow(_:)))
+                            vehicleItem.vehicleNumber = vehicle.vehicleNumber
+                            vehicleItem.coordinate = vehicle.location
+                            vehicleItem.route = route
+                            vehicleItem.linkToOpen = route.link()
+                            vehicleItem.vehicleHeading = vehicle.heading
+                            
+                            vehicleSubMenu.addItem(vehicleItem)
+                            
+                            if vehicle.isAccessible {
+                                let isAccessibleItem = NSMenuItem(title: "Accessible bus", action: #selector(self.nop))
+                                superSubMenu.addItem(isAccessibleItem)
+                                
+                                let hasLiftItem = NSMenuItem(title: "Has wheelchair lift", action: #selector(self.nop))
+                                superSubMenu.addItem(hasLiftItem)
                             } else {
-                                vehicleSubMenu.addItem(NSMenuItem(title: "No active buses", action: nil))
+                                let inAccessibleItem = CMMenuItem(title: "Inaccessible bus", action: #selector(self.openLink))
+                                inAccessibleItem.linkToOpen = URL(string: "https://www.pacebus.com/ada")!
+                                superSubMenu.addItem(inAccessibleItem)
                             }
                             
-                            vehicleMenuItem.submenu = vehicleSubMenu
-                        }
-                    } else {
-                        subMenu.removeItem(at: 0)
-                        subMenu.addItem(NSMenuItem(title: "Route not in service", action: nil))
-                    }
-                }
-                
-                let stopMenuItem = CMMenuItem(title: "Stops", action: #selector(openLink(_:)))
-                stopMenuItem.linkToOpen = URL(string: "https://tmweb.pacebus.com/TMWebWatch/LiveArrivalTimes")!
-                subMenu.addItem(stopMenuItem)
-                
-                let jnstance = PaceAPI()
-                
-                let stopSubMenu = NSMenu()
-                stopSubMenu.addItem(NSMenuItem.progressWheel())
-                
-                DispatchQueue.global().async {
-                    if !outOfService {
-                        let directions = jnstance.getDirectionsForRoute(routeID: route.id)
-                        
-                        DispatchQueue.main.sync {
-                            stopSubMenu.removeItem(at: 0)
-                            
-                            for direction in directions {
-                                let directionItem = NSMenuItem(title: direction.name, action: #selector(self.nop))
-                                stopSubMenu.addItem(directionItem)
-                                
-                                let powerPose = PaceAPI()
-                                let stopListSubMenu = NSMenu()
-                                stopListSubMenu.addItem(NSMenuItem.progressWheel())
-                                
-                                DispatchQueue.global().async {
-                                    let stops = powerPose.getStopsForRouteAndDirection(routeID: route.id, directionID: direction.id)
-                                    
-                                    DispatchQueue.main.sync {
-                                        stopListSubMenu.removeItem(at: 0)
-                                        for stop in stops {
-                                            let stopMenuItem = PTMenuItem(title: "\(stop.name)", action: #selector(self.openPaceMapWindow(_:)))
-                                            stopMenuItem.coordinate = stop.location
-                                            stopMenuItem.route = route
-                                            stopMenuItem.stop = stop
-                                            stopListSubMenu.addItem(stopMenuItem)
-                                            
-                                            let stopTypeMenu = NSMenu()
-                                            
-                                            let arrivalListItem = CMMenuItem(title: "Arrivals", action: #selector(self.openLink(_:)))
-                                            arrivalListItem.linkToOpen = URL(string: "https://tmweb.pacebus.com/TMWebWatch/LiveArrivalTimes")!
-                                            let arrivalMenu = NSMenu()
-                                            arrivalMenu.addItem(NSMenuItem.progressWheel())
-                                            
-                                            let departureListItem = CMMenuItem(title: "Departures", action: #selector(self.openLink(_:)))
-                                            departureListItem.linkToOpen = URL(string: "https://tmweb.pacebus.com/TMWebWatch/LiveDepartureTimes")!
-                                            let departureMenu = NSMenu()
-                                            departureMenu.addItem(NSMenuItem.progressWheel())
-                                            
-                                            stopTypeMenu.addItem(arrivalListItem)
-                                            stopTypeMenu.addItem(departureListItem)
-                                            
-                                            stopMenuItem.submenu = stopTypeMenu
-                                            
-                                            DispatchQueue.global().async {
-                                                let arrivals = PaceAPI(stopPredictionType: .arrivals).getPredictionTimesForStop(routeID: route.id, directionID: direction.id, stopID: stop.id, timePointID: stop.timePointID)
-                                                let departures = PaceAPI(stopPredictionType: .departures).getPredictionTimesForStop(routeID: route.id, directionID: direction.id, stopID: stop.id, timePointID: stop.timePointID)
-                                                
-                                                DispatchQueue.main.sync {
-                                                    
-                                                    arrivalMenu.removeItem(at: 0)
-                                                    if !(arrivals.predictionSet[0].predictedTime.stringVersion() == "00:00") {
-                                                        for arrival in arrivals.predictionSet {
-                                                            var arrivalItem: NSMenuItem!
-                                                            if arrival.scheduledTime.stringVersion() == "00:00" {
-                                                                arrivalItem = NSMenuItem(title: "Arrives \(arrival.predictedTime.stringVersion())", action: #selector(self.nop))
-                                                            } else {
-                                                                arrivalItem = NSMenuItem(title: "Arrives \(arrival.predictedTime.stringVersion()), scheduled \(arrival.scheduledTime.stringVersion())", action: #selector(self.nop))
-                                                            }
-                                                            arrivalMenu.addItem(arrivalItem)
-                                                        }
-                                                    } else {
-                                                        arrivalMenu.addItem(NSMenuItem(title: "No arrivals available", action: nil))
-                                                    }
-                                                    
-                                                    departureMenu.removeItem(at: 0)
-                                                    if !(departures.predictionSet[0].predictedTime.stringVersion() == "00:00") {
-                                                        for departure in departures.predictionSet {
-                                                            var departureItem: NSMenuItem!
-                                                            if departure.scheduledTime.stringVersion() == "00:00" {
-                                                                departureItem = NSMenuItem(title: "Departs \(departure.predictedTime.stringVersion())", action: #selector(self.nop))
-                                                            } else {
-                                                                departureItem = NSMenuItem(title: "Departs \(departure.predictedTime.stringVersion()), scheduled \(departure.scheduledTime.stringVersion())", action: #selector(self.nop))
-                                                            }
-                                                            departureMenu.addItem(departureItem)
-                                                        }
-                                                    } else {
-                                                        departureMenu.addItem(NSMenuItem(title: "No departures available", action: nil))
-                                                    }
-                                                    
-                                                    arrivalListItem.submenu = arrivalMenu
-                                                    departureListItem.submenu = departureMenu
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                
-                                directionItem.submenu = stopListSubMenu
+                            if vehicle.hasWiFi {
+                                let hasWifiItem = NSMenuItem(title: "Has WiFi", action: #selector(self.nop))
+                                superSubMenu.addItem(hasWifiItem)
                             }
                             
-                            stopMenuItem.submenu = stopSubMenu
+                            if vehicle.hasBikeRack {
+                                let hasBikeRackItem = NSMenuItem(title: "Has a bike rack", action: #selector(self.nop))
+                                superSubMenu.addItem(hasBikeRackItem)
+                            }
+                            
+                            vehicleItem.submenu = superSubMenu
                         }
                     } else {
-                        subMenu.removeItem(at: 0)
-                        subMenu.addItem(NSMenuItem(title: "Route not in service", action: nil))
+                        vehicleSubMenu.addItem(NSMenuItem(title: "No active buses", action: nil))
                     }
+                    
+                    vehicleMenuItem.submenu = vehicleSubMenu
                 }
-                
-                item.submenu = subMenu
-                
-                paceMenu.addItem(item)
             }
+            
+            let stopMenuItem = CMMenuItem(title: "Stops", action: #selector(openLink(_:)))
+            stopMenuItem.linkToOpen = URL(string: "https://tmweb.pacebus.com/TMWebWatch/LiveArrivalTimes")!
+            subMenu.addItem(stopMenuItem)
+            
+            let jnstance = PaceAPI()
+            
+            let stopSubMenu = NSMenu()
+            stopSubMenu.addItem(NSMenuItem.progressWheel())
+            
+            DispatchQueue.global().async {
+                let directions = jnstance.getDirectionsForRoute(routeID: route.id)
+                
+                DispatchQueue.main.sync {
+                    stopSubMenu.removeItem(at: 0)
+                    
+                    for direction in directions {
+                        let directionItem = NSMenuItem(title: direction.name, action: #selector(self.nop))
+                        stopSubMenu.addItem(directionItem)
+                        
+                        let powerPose = PaceAPI()
+                        let stopListSubMenu = NSMenu()
+                        stopListSubMenu.addItem(NSMenuItem.progressWheel())
+                        
+                        DispatchQueue.global().async {
+                            let stops = powerPose.getStopsForRouteAndDirection(routeID: route.id, directionID: direction.id)
+                            
+                            DispatchQueue.main.sync {
+                                stopListSubMenu.removeItem(at: 0)
+                                for stop in stops {
+                                    let stopMenuItem = PTMenuItem(title: "\(stop.name)", action: #selector(self.openPaceMapWindow(_:)))
+                                    stopMenuItem.coordinate = stop.location
+                                    stopMenuItem.route = route
+                                    stopMenuItem.stop = stop
+                                    stopListSubMenu.addItem(stopMenuItem)
+                                    
+                                    /*let stopTypeMenu = NSMenu()
+                                    
+                                    let arrivalListItem = CMMenuItem(title: "Arrivals", action: #selector(self.openLink(_:)))
+                                    arrivalListItem.linkToOpen = URL(string: "https://tmweb.pacebus.com/TMWebWatch/LiveArrivalTimes")!
+                                    let arrivalMenu = NSMenu()
+                                    arrivalMenu.addItem(NSMenuItem.progressWheel())
+                                    
+                                    let departureListItem = CMMenuItem(title: "Departures", action: #selector(self.openLink(_:)))
+                                    departureListItem.linkToOpen = URL(string: "https://tmweb.pacebus.com/TMWebWatch/LiveDepartureTimes")!
+                                    let departureMenu = NSMenu()
+                                    departureMenu.addItem(NSMenuItem.progressWheel())
+                                    
+                                    stopTypeMenu.addItem(arrivalListItem)
+                                    stopTypeMenu.addItem(departureListItem)
+                                    
+                                    stopMenuItem.submenu = stopTypeMenu
+                                    
+                                    DispatchQueue.global().async {
+                                        let arrivals = PaceAPI(stopPredictionType: .arrivals).getPredictionTimesForStop(routeID: route.id, directionID: direction.id, stopID: stop.id, timePointID: stop.timePointID)
+                                        let departures = PaceAPI(stopPredictionType: .departures).getPredictionTimesForStop(routeID: route.id, directionID: direction.id, stopID: stop.id, timePointID: stop.timePointID)
+                                        
+                                        DispatchQueue.main.sync {
+                                            arrivalMenu.removeItem(at: 0)
+                                            if !(arrivals.predictionSet[0].predictedTime.stringVersion() == "00:00") {
+                                                for arrival in arrivals.predictionSet {
+                                                    var arrivalItem: NSMenuItem!
+                                                    if arrival.scheduledTime.stringVersion() == "00:00" {
+                                                        arrivalItem = NSMenuItem(title: "Arrives \(arrival.predictedTime.stringVersion())", action: #selector(self.nop))
+                                                    } else {
+                                                        arrivalItem = NSMenuItem(title: "Arrives \(arrival.predictedTime.stringVersion()), scheduled \(arrival.scheduledTime.stringVersion())", action: #selector(self.nop))
+                                                    }
+                                                    arrivalMenu.addItem(arrivalItem)
+                                                }
+                                            } else {
+                                                arrivalMenu.addItem(NSMenuItem(title: "No arrivals available", action: nil))
+                                            }
+                                            
+                                            departureMenu.removeItem(at: 0)
+                                            if !(departures.predictionSet[0].predictedTime.stringVersion() == "00:00") {
+                                                for departure in departures.predictionSet {
+                                                    var departureItem: NSMenuItem!
+                                                    if departure.scheduledTime.stringVersion() == "00:00" {
+                                                        departureItem = NSMenuItem(title: "Departs \(departure.predictedTime.stringVersion())", action: #selector(self.nop))
+                                                    } else {
+                                                        departureItem = NSMenuItem(title: "Departs \(departure.predictedTime.stringVersion()), scheduled \(departure.scheduledTime.stringVersion())", action: #selector(self.nop))
+                                                    }
+                                                    departureMenu.addItem(departureItem)
+                                                }
+                                            } else {
+                                                departureMenu.addItem(NSMenuItem(title: "No departures available", action: nil))
+                                            }
+                                            
+                                            arrivalListItem.submenu = arrivalMenu
+                                            departureListItem.submenu = departureMenu
+                                        }
+                                    }*/
+                                }
+                            }
+                        }
+                        
+                        directionItem.submenu = stopListSubMenu
+                    }
+                    
+                    stopMenuItem.submenu = stopSubMenu
+                }
+            }
+            
+            item.submenu = subMenu
+            
+            paceMenu.addItem(item)
         }
     }
     

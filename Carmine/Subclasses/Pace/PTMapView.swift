@@ -34,6 +34,8 @@ class PTMapView: MKMapView {
         
         self.register(PTMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         
+        self.delegate = self
+        
         timeLabel = NSTextField(labelWithString: "Updated at \(timeLastUpdated)")
         timeLabel.font = NSFont.systemFont(ofSize: 12)
         timeLabel.textColor = NSColor(r: 222, g: 222, b: 222)
@@ -60,6 +62,20 @@ class PTMapView: MKMapView {
                 refreshButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
                 refreshButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             ])
+        }
+        
+        DispatchQueue.global().async {
+            let coordinateArray = PaceAPI().getPolyLineForRouteID(routeID: self.mark.route?.id ?? 0)
+            let overlay = PTPolyline(coordinates: coordinateArray, count: coordinateArray.count)
+            overlay.isPulse = false
+            
+            if self.mark.route?.number ?? 404 < 150 {
+                overlay.isPulse = true
+            }
+            
+            DispatchQueue.main.sync {
+                self.addOverlay(overlay)
+            }
         }
         
         if isVehicle {
@@ -115,5 +131,21 @@ class PTMapView: MKMapView {
                 }
             }
         }
+    }
+}
+
+extension PTMapView: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let polyline = overlay as? PTPolyline {
+            let polylineRenderer = MKPolylineRenderer(polyline: polyline)
+            if polyline.isPulse == true {
+                polylineRenderer.strokeColor = NSColor(r: 128, g: 76, b: 158)
+            } else {
+                polylineRenderer.strokeColor = NSColor(r: 0, g: 133, b: 255)
+            }
+            polylineRenderer.lineWidth = 4.0
+            return polylineRenderer
+        }
+        return MKOverlayRenderer(overlay: overlay)
     }
 }
