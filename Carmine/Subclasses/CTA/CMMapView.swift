@@ -80,7 +80,6 @@ class CMMapView: MKMapView {
         busAnnotation.coordinate = bus.coordinate
         busAnnotation.title = "\(bus.route?.textualRepresentation() ?? "Unknown") bus \(bus.vehicleNumber ?? "0000")"
         busAnnotation.mark = bus
-        busAnnotation.isBusAnnotation = true
         self.addAnnotation(busAnnotation)
         
         let coordinate = bus.coordinate
@@ -95,14 +94,12 @@ class CMMapView: MKMapView {
         busAnnotation.coordinate = bus.coordinate
         busAnnotation.title = "\(bus.route?.textualRepresentation() ?? "Unknown") bus \(bus.vehicleNumber ?? "0000")"
         busAnnotation.mark = bus
-        busAnnotation.isBusAnnotation = true
         self.addAnnotation(busAnnotation)
         
         let stopAnnotation = CMPointAnnotation()
         stopAnnotation.coordinate = stop.coordinate
         stopAnnotation.title = stop.stopName ?? "Unknown"
         stopAnnotation.mark = stop
-        stopAnnotation.isBusAnnotation = false
         
         self.addAnnotations([busAnnotation, stopAnnotation])
         

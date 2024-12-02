@@ -5,6 +5,8 @@
 //  Created by WhitetailAni on 11/29/24.
 //
 
+import AppKit
+
 public struct PTRoute {
     ///The route's ID, for API purposes.
     public var id: Int
@@ -15,19 +17,23 @@ public struct PTRoute {
     ///"number - name"
     public var fullName: String
     
+    public func colors() -> (main: NSColor, accent: NSColor) {
+        if number > 150 { //incredibly simple check
+            return (NSColor.white, NSColor(r: 0, g: 83, b: 159))
+        }
+        return (NSColor(r: 128, g: 76, b: 158), NSColor.white)
+    }
+    
     public func link() -> URL {
         if number == 101 {
             return URL(string: "https://www.pacebus.com/route/pulse-dempster-line")!
         }
         return URL(string: "https://www.pacebus.com/route/\(number)")!
     }
-    
-    public static func testValues() -> [PTRoute] {
-        let pulse = PTRoute(id: 293, number: 100, name: "Pulse Milwaukee Line", fullName: "100 - Pulse Milwaukee Line")
-        let greenLine = PTRoute(id: 35, number: 309, name: "Lake Street", fullName: "309 - Lake Street")
-        let loop = PTRoute(id: 55, number: 354, name: "Harvey - Oak Forest Loop", fullName: "354 - Harvey - Oak Forest Loop")
-        let elgin = PTRoute(id: 111, number: 541, name: "Northeast Elgin", fullName: "541 - Northeast Elgin")
-        
-        return [pulse, greenLine, loop, elgin]
+}
+
+extension NSColor {
+    convenience init(r: Int, g: Int, b: Int, a: CGFloat = 1.0) {
+        self.init(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: a)
     }
 }

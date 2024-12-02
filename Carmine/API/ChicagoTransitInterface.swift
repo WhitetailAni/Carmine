@@ -1001,7 +1001,7 @@ class ChicagoTransitInterface: NSObject {
             return true
         }
 
-        if month == 6 && day == 19 {
+        if month == 7 && day == 4 {
             return true
         }
 

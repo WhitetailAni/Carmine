@@ -10,5 +10,4 @@ import MapKit
 
 class CMPointAnnotation: MKPointAnnotation {
     var mark: CMPlacemark?
-    var isBusAnnotation: Bool?
 }

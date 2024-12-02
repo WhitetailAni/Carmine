@@ -10,11 +10,12 @@ import CoreLocation
 import PaceTracker
 
 class PTMenuItem: NSMenuItem {
-    var busRoute: PTRoute?
+    var route: PTRoute?
     var vehicleNumber: String?
     var coordinate: CLLocationCoordinate2D?
+    var stop: PTStop?
     
-    var vehicleHeading: String?
+    var vehicleHeading: Int?
     
     var timeLastUpdated: String?
     
