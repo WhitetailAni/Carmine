@@ -63,34 +63,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(ctaItem)
         menu.addItem(paceItem)
         
-        /*let window = NSWindow(contentRect: NSMakeRect(0, 0, (NSScreen.main?.frame.size.width)! * 0.5, (NSScreen.main?.frame.size.height)! * 0.5), styleMask: [.titled, .closable], backing: .buffered, defer: false)
-        let index = mapWindows.count
-        mapWindows.append(window)
-        
-        let vehicle = PaceAPI().getVehiclesForRoute(routeID: 293)[0]
-        
-        let placemark = PTPlacemark(coordinate: vehicle.location)
-        let route = PTRoute(id: 428, number: 290, name: "Touhy", fullName: "290 - Touhy")
-        
-        placemark.route = route
-        placemark.vehicleNumber = vehicle.vehicleNumber
-        placemark.heading = vehicle.heading
-        let direction = PTDirection.PTVehicleDirection(degrees: vehicle.heading)
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale.current
-        
-        dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "HH:mm", options: 0, locale: Locale.current)
-        
-        mapWindows[index].title = "Carmine - \(route.fullName) bus \(vehicle.vehicleNumber) \(direction.description)"
-        
-        self.mapWindows[index].contentView = PTMapView(mark: placemark, timeLastUpdated: dateFormatter.string(from: Date()), isVehicle: true)
-        self.mapWindows[index].center()
-        self.mapWindows[index].setIsVisible(true)
-        self.mapWindows[index].orderFrontRegardless()
-        self.mapWindows[index].makeKey()
-        NSApp.activate(ignoringOtherApps: true)*/
-        
         menu.addItem(NSMenuItem.separator())
         
         let aboutItem = NSMenuItem(title: "About", action: #selector(openAboutWindow), keyEquivalent: "a")
@@ -104,6 +76,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let quitItem = NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q")
         quitItem.keyEquivalentModifierMask = [.command]
         menu.addItem(quitItem)
+        
+        autoRefresh = AutomaticRefresh(interval: Bundle.main.infoDictionary?["CMRefreshInterval"] as? Double ?? 720.0) {
+            self.refreshInfo()
+        }
+        autoRefresh.start()
         
         statusItem.menu = menu
     }
