@@ -22,5 +22,7 @@ class CMMenuItem: NSMenuItem {
     var timeLastUpdated: String?
     
     var linkToOpen: URL?
+    
+    var index: Int?
 }
 

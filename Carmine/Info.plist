@@ -4,10 +4,10 @@
 <dict>
 	<key>CFBundleIconName</key>
 	<string>AppIcon</string>
-	<key>CMRefreshInterval</key>
-	<integer>720</integer>
 	<key>CMHideOutOfServiceRoutes</key>
 	<true/>
+	<key>CMRefreshInterval</key>
+	<integer>720</integer>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

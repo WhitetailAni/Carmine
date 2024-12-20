@@ -66,6 +66,18 @@ class CMMapView: MKMapView {
             refreshButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
         ])
         
+        DispatchQueue.global().async {
+            self.removeOverlays(self.overlays)
+            let ids = self.bus.route?.gtfsKey() ?? []
+            let coordinates = ChicagoTransitInterface.polylines.overlayTable
+            for id in ids {
+                let coords = coordinates[String(id)] ?? []
+                let polyline = CMPolyline(coordinates: coords, count: coords.count)
+                polyline.color = self.bus.route?.colors().main
+                self.addOverlay(polyline)
+            }
+        }
+        
         if stop.coordinate.latitude == 52.31697130005335 && stop.coordinate.longitude == 4.746418131532647 {
             zoomMapToBus()
         } else {
@@ -134,5 +146,16 @@ class CMMapView: MKMapView {
                 }
             }
         }
+    }
+}
+
+extension CMMapView: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let polyline = overlay as? CMPolyline {
+            let polylineRenderer = MKPolylineRenderer(polyline: polyline)
+            polylineRenderer.strokeColor = polyline.color ?? CMRoute.defaultColor
+            return polylineRenderer
+        }
+        return MKOverlayRenderer(overlay: overlay)
     }
 }

@@ -45,7 +45,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu = NSMenu()
         ctaMenu = NSMenu()
         paceMenu = NSMenu()
+        
         refreshInfo()
+        
+        //aboutMutex.lock()
+        /*if let screenSize = NSScreen.main?.frame.size {
+            print("joe")
+            let defaultRect = NSMakeRect(0, 0, screenSize.width * 0.5, screenSize.height * 0.5)
+            aboutWindows.append(NSWindow(contentRect: defaultRect, styleMask: [.titled, .closable], backing: .buffered, defer: false))
+            let index = aboutWindows.count - 1
+            
+            aboutWindows[index].contentView = TestMapView()
+            aboutWindows[index].title = "test map window"
+            aboutWindows[index].styleMask.insert(.resizable)
+            aboutWindows[index].center()
+            aboutWindows[index].setIsVisible(true)
+            aboutWindows[index].orderFrontRegardless()
+            aboutWindows[index].makeKey()
+            NSApp.activate(ignoringOtherApps: true)
+            aboutWindows[index].delegate = aboutWindowDelegate
+        } else {
+            print("mah")
+        }*/
+        //aboutMutex.unlock()
         
         let ctaTitleString = prependImageToString(imageName: "cta", title: "CTA")
         let paceTitleString = prependImageToString(imageName: "pace", title: "Pace")
@@ -116,12 +138,168 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @MainActor @objc func refreshInfo() {
         refreshCTAInfo()
-        refreshPaceInfo()
+        //refreshPaceInfo()
+    }
+    
+    @MainActor @objc func refreshCTAInfo() {
+        var menuItems = CMRoute.allCases.map { _ in CMMenuItem() }
+        
+        let routes = CMRoute.allCases
+        var routesCounted: [Bool] = [Bool](repeating: false, count: routes.count)
+        
+        ctaMenu.removeAllItems()
+        ctaMenu.addItem(NSMenuItem.progressWheel())
+        
+        DispatchQueue.global().async {
+            while routesCounted.contains(false) { usleep(10) }
+            DispatchQueue.main.sync {
+                self.ctaMenu.removeItem(at: 0)
+                for item in menuItems {
+                    if item.title != "NSMenuItem" {
+                        self.ctaMenu.addItem(item)
+                    }
+                }
+            }
+        }
+        
+        for i in 0..<routes.count {
+            let route = routes[i]
+            
+            var title = ""
+            if ChicagoTransitInterface.isNightServiceActive(route: route) {
+                title = "N" + route.textualRepresentation(addRouteNumber: true) + " Night"
+            } else {
+                title = route.textualRepresentation(addRouteNumber: true)
+            }
+            let item = CMMenuItem(title: title, action: #selector(openLink(_:)))
+            item.linkToOpen = route.link()
+            
+            let subMenu = NSMenu()
+            subMenu.addItem(NSMenuItem.progressWheel())
+            
+            let instance = ChicagoTransitInterface()
+            DispatchQueue.global().async {
+                let info = instance.getVehiclesForRoute(route: route)
+                let vehicles = InterfaceResultProcessing.cleanUpVehicleInfo(info: info)
+                
+                DispatchQueue.main.sync {
+                    subMenu.removeItem(at: 0)
+                    
+                    if vehicles.count > 0 {
+                        let timeLastUpdated = CMTime.apiTimeToReadabletime(string: vehicles[0]["time"] ?? "")
+                        subMenu.addItem(NSMenuItem(title: "Last updated at \(timeLastUpdated)", action: nil))
+                        subMenu.addItem(NSMenuItem.separator())
+                        
+                        for vehicle in vehicles {
+                            var subItem: CMMenuItem!
+                            if let latitudeString = vehicle["latitude"], let longitudeString = vehicle["longitude"], let latitude = Double(latitudeString), let longitude = Double(longitudeString), (latitude != -3 && longitude != -2) {
+                                subItem = CMMenuItem(title: "\(vehicle["vehicleId"] ?? "Unknown Vehicle Number") to \(vehicle["destination"] ?? "Unknown Destination")", action: #selector(self.openCTAMapWindow(_:)))
+                                subItem.vehicleCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                                
+                                subItem.busRoute = route
+                                subItem.vehicleNumber = vehicle["vehicleId"] ?? "Unknown Vehicle Number"
+                                subItem.timeLastUpdated = timeLastUpdated
+                            } else {
+                                subItem = CMMenuItem(title: "\(vehicle["vehicleId"] ?? "Unknown Vehicle Number") to \(vehicle["destination"] ?? "Unknown Destination")", action: #selector(self.nop))
+                            }
+                            subItem.action = #selector(self.openCTAMapWindow(_:))
+                            
+                            let subSubMenu = NSMenu()
+                            subSubMenu.addItem(NSMenuItem.progressWheel())
+                            subItem.submenu = subSubMenu
+                            subMenu.addItem(subItem)
+                            
+                            DispatchQueue.global().async {
+                                let niceStats = InterfaceResultProcessing.cleanUpPredictionInfo(info: instance.getPredictionsForVehicle(route: route, vehicleId: vehicle["vehicleId"] ?? "0000"))
+                                
+                                DispatchQueue.main.sync {
+                                    subSubMenu.removeItem(at: 0)
+                                    
+                                    if niceStats.count > 0 {
+                                        let subSubItem = CMMenuItem(title: "\(route.textualRepresentation(addRouteNumber: false)) bus \(vehicle["vehicleId"] ?? "0000"), \((niceStats[0]["routeDirection"] ?? "Unknown Direction").lowercased()) to \(vehicle["destination"] ?? "Unknown Destination")", action: #selector(self.openCTAMapWindow(_:)))
+                                        
+                                        subSubItem.busRoute = route
+                                        subSubItem.vehicleNumber = vehicle["vehicleId"]
+                                        subSubItem.timeLastUpdated = timeLastUpdated
+                                        
+                                        subSubMenu.addItem(subSubItem)
+                                        subSubMenu.addItem(NSMenuItem.separator())
+                                        
+                                        for stop in niceStats {
+                                            if let direction = niceStats[0]["routeDirection"], let vehicleId = vehicle["vehicleId"], let stopName = stop["stopName"], let stopId = stop["stopId"], let latitudeString = vehicle["latitude"], let longitudeString = vehicle["longitude"], let latitude = Double(latitudeString), let longitude = Double(longitudeString), (latitude != -3 && longitude != -2) {
+                                                let subSubItem = CMMenuItem(title: "\(stopName) at \(CMTime.apiTimeToReadabletime(string: stop["exactTime"] ?? "dont know man"))", action: #selector(self.openCTAMapWindow(_:)))
+                                                
+                                                subSubItem.vehicleDirection = direction
+                                                subSubItem.vehicleCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                                                
+                                                subSubItem.busRoute = route
+                                                subSubItem.vehicleNumber = vehicleId
+                                                subSubItem.timeLastUpdated = timeLastUpdated
+                                                subSubItem.vehicleDesiredStopID = stopId
+                                                subSubItem.vehicleDesiredStop = stopName
+                                                
+                                                subSubMenu.addItem(subSubItem)
+                                                
+                                                let subSubSubMenu = NSMenu()
+                                                
+                                                
+                                                let delayItem = NSMenuItem(title: "Delayed: \(stop["isDelayed"] ?? "No")", action: #selector(self.nop))
+                                                
+                                                if stop["isDeparture"] == "D" {
+                                                    let departureItem = NSMenuItem(title: "Bus departs from this stop", action: #selector(self.nop))
+                                                    subSubSubMenu.addItem(departureItem)
+                                                    subSubSubMenu.addItem(NSMenuItem.separator())
+                                                }
+                                                
+                                                subSubSubMenu.addItem(delayItem)
+                                                
+                                                subSubItem.submenu = subSubSubMenu
+                                            } else {
+                                                let subSubItem = CMMenuItem(title: "\(stop["stopName"] ?? "Unknown Stop") at \(CMTime.apiTimeToReadabletime(string: stop["exactTime"] ?? "26:48"))", action: #selector(self.nop))
+                                                subSubMenu.addItem(subSubItem)
+                                            }
+                                        }
+                                    } else {
+                                        let errorItem = NSMenuItem(title: "No predictions available", action: nil)
+                                        subSubMenu.addItem(errorItem)
+                                    }
+                                }
+                            }
+                        }
+                        
+                        item.submenu = subMenu
+                        menuItems[i] = item
+                    }
+                    routesCounted[i] = true
+                }
+            }
+        }
     }
     
     @MainActor @objc func refreshPaceInfo() {
+        var menuItems = CMRoute.allCases.map { _ in CMMenuItem() }
+        
+        let routes = PaceAPI().getRoutes()
+        var routesCounted: [Bool] = [Bool](repeating: false, count: routes.count)
+        
         paceMenu.removeAllItems()
-        for route in PaceAPI().getRoutes() {
+        paceMenu.addItem(NSMenuItem.progressWheel())
+        
+        DispatchQueue.global().async {
+            while routesCounted.contains(false) { usleep(10) }
+            DispatchQueue.main.sync {
+                self.paceMenu.removeItem(at: 0)
+                for item in menuItems {
+                    if item.title != "NSMenuItem" {
+                        self.paceMenu.addItem(item)
+                    }
+                }
+            }
+        }
+        
+        paceMenu.removeAllItems()
+        for i in 0..<routes.count {
+            let route = routes[i]
             let item = CMMenuItem(title: route.fullName, action: #selector(openLink(_:)))
             item.linkToOpen = route.link()
             
@@ -179,9 +357,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             
                             vehicleItem.submenu = superSubMenu
                         }
-                    } else {
-                        vehicleSubMenu.addItem(NSMenuItem(title: "No active buses", action: nil))
+                        item.submenu = subMenu
+                        menuItems[i] = item
                     }
+                    routesCounted[i] = true
                     
                     vehicleMenuItem.submenu = vehicleSubMenu
                 }
@@ -291,132 +470,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             item.submenu = subMenu
             
-            paceMenu.addItem(item)
-        }
-    }
-    
-    @MainActor @objc func refreshCTAInfo() {
-        ctaMenu.removeAllItems()
-        for route in CMRoute.allCases {
-            let outOfService = ChicagoTransitInterface.hasServiceEnded(route: route)
-            
-            if !((Bundle.main.infoDictionary?["CMHideOutOfServiceRoutes"] as? Bool ?? false) && outOfService) {
-                var title = ""
-                if ChicagoTransitInterface.isNightServiceActive(route: route) {
-                    title = "N" + route.textualRepresentation(addRouteNumber: true) + " Night"
-                } else {
-                    title = route.textualRepresentation(addRouteNumber: true)
-                }
-                let item = CMMenuItem(title: title, action: #selector(openLink(_:)))
-                item.linkToOpen = route.link()
-                
-                let subMenu = NSMenu()
-                subMenu.addItem(NSMenuItem.progressWheel())
-                
-                let instance = ChicagoTransitInterface()
-                DispatchQueue.global().async {
-                    if !outOfService {
-                        let info = instance.getVehiclesForRoute(route: route)
-                        let vehicles = InterfaceResultProcessing.cleanUpVehicleInfo(info: info)
-                        
-                        DispatchQueue.main.sync {
-                            subMenu.removeItem(at: 0)
-                            
-                            if vehicles.count == 0 {
-                                subMenu.addItem(NSMenuItem(title: "No active buses", action: nil))
-                            } else {
-                                let timeLastUpdated = CMTime.apiTimeToReadabletime(string: vehicles[0]["time"] ?? "")
-                                subMenu.addItem(NSMenuItem(title: "Last updated at \(timeLastUpdated)", action: nil))
-                                subMenu.addItem(NSMenuItem.separator())
-                                
-                                for vehicle in vehicles {
-                                    var subItem: CMMenuItem!
-                                    if let latitudeString = vehicle["latitude"], let longitudeString = vehicle["longitude"], let latitude = Double(latitudeString), let longitude = Double(longitudeString), (latitude != -3 && longitude != -2) {
-                                        subItem = CMMenuItem(title: "\(vehicle["vehicleId"] ?? "Unknown Vehicle Number") to \(vehicle["destination"] ?? "Unknown Destination")", action: #selector(self.openCTAMapWindow(_:)))
-                                        subItem.vehicleCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                                        
-                                        subItem.busRoute = route
-                                        subItem.vehicleNumber = vehicle["vehicleId"] ?? "Unknown Vehicle Number"
-                                        subItem.timeLastUpdated = timeLastUpdated
-                                    } else {
-                                        subItem = CMMenuItem(title: "\(vehicle["vehicleId"] ?? "Unknown Vehicle Number") to \(vehicle["destination"] ?? "Unknown Destination")", action: #selector(self.nop))
-                                    }
-                                    subItem.action = #selector(self.openCTAMapWindow(_:))
-                                    
-                                    let subSubMenu = NSMenu()
-                                    subSubMenu.addItem(NSMenuItem.progressWheel())
-                                    subItem.submenu = subSubMenu
-                                    subMenu.addItem(subItem)
-                                    
-                                    DispatchQueue.global().async {
-                                        let niceStats = InterfaceResultProcessing.cleanUpPredictionInfo(info: instance.getPredictionsForVehicle(route: route, vehicleId: vehicle["vehicleId"] ?? "0000"))
-                                        
-                                        DispatchQueue.main.sync {
-                                            subSubMenu.removeItem(at: 0)
-                                            
-                                            if niceStats.count > 0 {
-                                                
-                                                let subSubItem = CMMenuItem(title: "\(route.textualRepresentation(addRouteNumber: false)) bus \(vehicle["vehicleId"] ?? "0000"), \((niceStats[0]["routeDirection"] ?? "Unknown Direction").lowercased()) to \(vehicle["destination"] ?? "Unknown Destination")", action: #selector(self.openCTAMapWindow(_:)))
-                                                
-                                                subSubItem.busRoute = route
-                                                subSubItem.vehicleNumber = vehicle["vehicleId"]
-                                                subSubItem.timeLastUpdated = timeLastUpdated
-                                                
-                                                subSubMenu.addItem(subSubItem)
-                                                subSubMenu.addItem(NSMenuItem.separator())
-                                                
-                                                for stop in niceStats {
-                                                    if let direction = niceStats[0]["routeDirection"], let vehicleId = vehicle["vehicleId"], let stopName = stop["stopName"], let stopId = stop["stopId"], let latitudeString = vehicle["latitude"], let longitudeString = vehicle["longitude"], let latitude = Double(latitudeString), let longitude = Double(longitudeString), (latitude != -3 && longitude != -2) {
-                                                        let subSubItem = CMMenuItem(title: "\(stopName) at \(CMTime.apiTimeToReadabletime(string: stop["exactTime"] ?? "dont know man"))", action: #selector(self.openCTAMapWindow(_:)))
-                                                        
-                                                        subSubItem.vehicleDirection = direction
-                                                        subSubItem.vehicleCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                                                        
-                                                        subSubItem.busRoute = route
-                                                        subSubItem.vehicleNumber = vehicleId
-                                                        subSubItem.timeLastUpdated = timeLastUpdated
-                                                        subSubItem.vehicleDesiredStopID = stopId
-                                                        subSubItem.vehicleDesiredStop = stopName
-                                                        
-                                                        subSubMenu.addItem(subSubItem)
-                                                        
-                                                        let subSubSubMenu = NSMenu()
-                                                        
-                                                        
-                                                        let delayItem = NSMenuItem(title: "Delayed: \(stop["isDelayed"] ?? "No")", action: #selector(self.nop))
-                                                        
-                                                        if stop["isDeparture"] == "D" {
-                                                            let departureItem = NSMenuItem(title: "Bus departs from this stop", action: #selector(self.nop))
-                                                            subSubSubMenu.addItem(departureItem)
-                                                            subSubSubMenu.addItem(NSMenuItem.separator())
-                                                        }
-                                                        
-                                                        subSubSubMenu.addItem(delayItem)
-                                                        
-                                                        subSubItem.submenu = subSubSubMenu
-                                                    } else {
-                                                        let subSubItem = CMMenuItem(title: "\(stop["stopName"] ?? "Unknown Stop") at \(CMTime.apiTimeToReadabletime(string: stop["exactTime"] ?? "26:48"))", action: #selector(self.nop))
-                                                        subSubMenu.addItem(subSubItem)
-                                                    }
-                                                }
-                                            } else {
-                                                let errorItem = NSMenuItem(title: "No predictions available", action: nil)
-                                                subSubMenu.addItem(errorItem)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        subMenu.removeItem(at: 0)
-                        subMenu.addItem(NSMenuItem(title: "Route not in service", action: nil))
-                    }
-                }
-                
-                item.submenu = subMenu
-                ctaMenu.addItem(item)
-            }
+            //if !noBuses {
+                paceMenu.addItem(item)
+            //}
         }
     }
     

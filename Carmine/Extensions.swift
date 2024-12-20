@@ -6,6 +6,7 @@
 //
 
 import AppKit
+import CoreLocation
 
 extension NSMenuItem {
     convenience init(title: String, action: Selector?) {
@@ -51,5 +52,11 @@ extension NSImage {
         image.unlockFocus()
 
         return image
+    }
+}
+
+extension CLLocationCoordinate2D {
+    init(_ latitude: Double, _ longitude: Double) {
+        self.init(latitude: latitude, longitude: longitude)
     }
 }

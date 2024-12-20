@@ -32,6 +32,10 @@
 		42D999F02CFD3A8B00A060A2 /* PaceTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D999DA2CFD3A6E00A060A2 /* PaceTracker.framework */; };
 		42D999F72CFD521500A060A2 /* PTPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D999F62CFD521300A060A2 /* PTPolyline.swift */; };
 		42D999FA2CFD6BAC00A060A2 /* PaceTracker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 42D999DA2CFD3A6E00A060A2 /* PaceTracker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		42D99A252D00F53400A060A2 /* shapes.csv in Resources */ = {isa = PBXBuildFile; fileRef = 42D99A242D00F53400A060A2 /* shapes.csv */; };
+		42D99A2B2D01371900A060A2 /* TestMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D99A2A2D01371900A060A2 /* TestMapView.swift */; };
+		42D99A2D2D013EA500A060A2 /* CMOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D99A2C2D013E9500A060A2 /* CMOverlay.swift */; };
+		42F953082D0A6F0000295BD5 /* CMPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F953072D0A6F0000295BD5 /* CMPolyline.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +90,10 @@
 		42D999B72CFD330600A060A2 /* PTMarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTMarkerAnnotationView.swift; sourceTree = "<group>"; };
 		42D999D32CFD3A6E00A060A2 /* PaceTracker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PaceTracker.xcodeproj; path = PaceTracker/PaceTracker.xcodeproj; sourceTree = "<group>"; };
 		42D999F62CFD521300A060A2 /* PTPolyline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTPolyline.swift; sourceTree = "<group>"; };
+		42D99A242D00F53400A060A2 /* shapes.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = shapes.csv; sourceTree = "<group>"; };
+		42D99A2A2D01371900A060A2 /* TestMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMapView.swift; sourceTree = "<group>"; };
+		42D99A2C2D013E9500A060A2 /* CMOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMOverlay.swift; sourceTree = "<group>"; };
+		42F953072D0A6F0000295BD5 /* CMPolyline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMPolyline.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +120,7 @@
 		420013042C54B1EC007ACC67 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				42D99A2C2D013E9500A060A2 /* CMOverlay.swift */,
 				4273D1E32C8663D4003BBCC6 /* CMRoute.swift */,
 				420013072C54B1FB007ACC67 /* CMTime.swift */,
 			);
@@ -138,6 +147,7 @@
 		422124BD2C5026D80062695A /* Carmine */ = {
 			isa = PBXGroup;
 			children = (
+				42D99A242D00F53400A060A2 /* shapes.csv */,
 				420013042C54B1EC007ACC67 /* Classes */,
 				420012FE2C5367A5007ACC67 /* UserInfo.swift */,
 				420013002C536B93007ACC67 /* AboutWindowDelegate.swift */,
@@ -168,6 +178,8 @@
 			isa = PBXGroup;
 			children = (
 				424B28F22C509E79002E3E9B /* CMMapView.swift */,
+				42F953072D0A6F0000295BD5 /* CMPolyline.swift */,
+				42D99A2A2D01371900A060A2 /* TestMapView.swift */,
 				420013022C54B0AC007ACC67 /* CMMarkerAnnotationView.swift */,
 				420012EF2C50B9BD007ACC67 /* CMMenuItem.swift */,
 				420012F12C50B9C3007ACC67 /* CMPlacemark.swift */,
@@ -273,6 +285,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42D99A252D00F53400A060A2 /* shapes.csv in Resources */,
 				422124C12C5026DA0062695A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -285,14 +298,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				42D999B22CFD1E8400A060A2 /* PTPlacemark.swift in Sources */,
+				42D99A2B2D01371900A060A2 /* TestMapView.swift in Sources */,
 				42D999B82CFD330600A060A2 /* PTMarkerAnnotationView.swift in Sources */,
 				422124BF2C5026D80062695A /* AppDelegate.swift in Sources */,
+				42D99A2D2D013EA500A060A2 /* CMOverlay.swift in Sources */,
 				420012F22C50B9C5007ACC67 /* CMPlacemark.swift in Sources */,
 				4200132C2C54E846007ACC67 /* AutomaticRefresh.swift in Sources */,
 				420013012C536B95007ACC67 /* AboutWindowDelegate.swift in Sources */,
 				424B28F32C509E81002E3E9B /* CMMapView.swift in Sources */,
 				420013032C54B0AF007ACC67 /* CMMarkerAnnotationView.swift in Sources */,
 				422124CE2C5026FA0062695A /* ChicagoTransitInterface.swift in Sources */,
+				42F953082D0A6F0000295BD5 /* CMPolyline.swift in Sources */,
 				42D999F72CFD521500A060A2 /* PTPolyline.swift in Sources */,
 				422124DA2C502D920062695A /* CarmineApp.swift in Sources */,
 				420013082C54B1FC007ACC67 /* CMTime.swift in Sources */,
@@ -443,7 +459,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 213;
+				CURRENT_PROJECT_VERSION = 214;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = DK2B92MAN7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -460,7 +476,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whitetailani.Carmine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -481,7 +497,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 213;
+				CURRENT_PROJECT_VERSION = 214;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = DK2B92MAN7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -498,7 +514,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whitetailani.Carmine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
