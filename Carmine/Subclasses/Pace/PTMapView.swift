@@ -65,16 +65,21 @@ class PTMapView: MKMapView {
         }
         
         DispatchQueue.global().async {
-            let coordinateArray = PaceAPI().getPolyLineForRouteID(routeID: self.mark.route?.id ?? 0)
-            let overlay = PTPolyline(coordinates: coordinateArray, count: coordinateArray.count)
-            overlay.isPulse = false
+            let coordinateArrays = PaceAPI().getPolyLineForRouteID(routeID: self.mark.route?.id ?? 0)
+            var overlayArray: [PTPolyline] = []
             
-            if self.mark.route?.number ?? 404 < 150 {
-                overlay.isPulse = true
+            for coordinateArray in coordinateArrays {
+                let overlay = PTPolyline(coordinates: coordinateArray, count: coordinateArray.count)
+                overlay.isPulse = false
+                
+                if self.mark.route?.number ?? 404 < 150 {
+                    overlay.isPulse = true
+                }
+                
+                overlayArray.append(overlay)
             }
-            
             DispatchQueue.main.sync {
-                self.addOverlay(overlay)
+                self.addOverlays(overlayArray)
             }
         }
         
