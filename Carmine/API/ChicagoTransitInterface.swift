@@ -11,7 +11,7 @@ import CoreLocation
 ///The class used to interface with the CTA's Train Tracker API. A new instance should be created on every request to allow for multiple concurrent requests.
 class ChicagoTransitInterface: NSObject {
     let semaphore = DispatchSemaphore(value: 0)
-    private let busTrackerAPIKey = "NknhMpnUYfzxrjk3pWw2pTZ3A"
+    private let busTrackerAPIKey = ""
     
     public static var polylines = ChicagoTransitInterface(polyline: true)
     var overlayTable: [String: [CLLocationCoordinate2D]] = [:]
@@ -26,7 +26,7 @@ class ChicagoTransitInterface: NSObject {
     }
     
     ///Checks if service has ended for the day for a given CTA line
-    class func hasServiceEnded(route: CMRoute) -> Bool {
+    /*class func hasServiceEnded(route: CMRoute) -> Bool {
         var weekday = Calendar.current.component(.weekday, from: Date())
         if isHoliday() {
             weekday = 1
@@ -859,7 +859,7 @@ class ChicagoTransitInterface: NSObject {
             }
         }
         return true
-    }
+    }*/
     
     class func isNightServiceActive(route: CMRoute) -> Bool {
         var weekday = Calendar.current.component(.weekday, from: Date())
@@ -1103,8 +1103,6 @@ class ChicagoTransitInterface: NSObject {
             
             var rows = rawList.components(separatedBy: "\n")
             rows.removeFirst()
-            
-            print(rows.count)
             
             for row in rows {
                 let components = row.split(separator: ",")

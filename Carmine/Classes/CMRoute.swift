@@ -501,6 +501,8 @@ enum CMRoute: CaseIterable {
                     66815955, //74th southbound
                     66804658, //95th southbound
                     66809803] //95th southbound
+            
+        #warning("10 overlay not in data, extract separately")
         case ._10:
             return []
         case ._11:
@@ -536,7 +538,7 @@ enum CMRoute: CaseIterable {
                     66800940, //kedzie->47th eastbound
                     66803918] //westbound
         case ._19:
-            return []
+            return [] //will never be used
         case ._20:
             return [66802063, 66800957, 66800956, 66800951, 66802062, 66800959, 66825888, 66800947, 66800949, 66800954, 66804096, 66804095, 66800953]
         case ._21:
@@ -975,6 +977,8 @@ enum CMRoute: CaseIterable {
             return [66804505, 66810912, 66810903, 66808413, 66801116, 66801111, 66804504, 66801117, 66803934, 66801110, 66805857, 66810932, 66810922, 66800786, 66810911]
         case ._128:
             return []
+        
+        #warning("130 overlay not in data, extract separately")
         case ._130:
             return []
         case ._134:
