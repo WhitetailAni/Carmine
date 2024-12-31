@@ -43,4 +43,12 @@ struct CMTime: Comparable {
         
         return outputFormatter.string(from: time)
     }
+    
+    static func currentReadableTime() -> String {
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "HH:mm"
+        outputFormatter.timeZone = TimeZone.autoupdatingCurrent
+        
+        return outputFormatter.string(from: Date())
+    }
 }

@@ -7,6 +7,7 @@
 
 import AppKit
 import CoreLocation
+import Foundation
 
 extension NSMenuItem {
     convenience init(title: String, action: Selector?) {
@@ -60,3 +61,9 @@ extension CLLocationCoordinate2D {
         self.init(latitude: latitude, longitude: longitude)
     }
 }
+
+class CMMenu: NSMenu {
+    
+}
+
+//extension CMMenu: Sendable { }

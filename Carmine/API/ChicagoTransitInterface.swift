@@ -876,6 +876,8 @@ class ChicagoTransitInterface: NSObject {
             default:
                 return CMTime.isItCurrentlyBetween(start: CMTime(hour: 1, minute: 10), end: CMTime(hour: 4, minute: 33))
             }
+        case ._N5:
+            return true
         case ._9:
             switch weekday {
             case 1:
@@ -982,6 +984,15 @@ class ChicagoTransitInterface: NSObject {
                 return CMTime.isItCurrentlyBetween(start: CMTime(hour: 1, minute: 00), end: CMTime(hour: 4, minute: 18))
             default:
                 return CMTime.isItCurrentlyBetween(start: CMTime(hour: 1, minute: 03), end: CMTime(hour: 4, minute: 35))
+            }
+        case ._81:
+            switch weekday {
+            case 1:
+                return CMTime.isItCurrentlyBetween(start: CMTime(hour: 00, minute: 05), end: CMTime(hour: 4, minute: 02))
+            case 7:
+                return CMTime.isItCurrentlyBetween(start: CMTime(hour: 00, minute: 05), end: CMTime(hour: 4, minute: 04))
+            default:
+                return !CMTime.isItCurrentlyBetween(start: CMTime(hour: 4, minute: 00), end: CMTime(hour: 23, minute: 33))
             }
         case ._87:
             switch weekday {

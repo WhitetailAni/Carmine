@@ -124,15 +124,19 @@ class PTMapView: MKMapView {
                 let location = PaceAPI().getLocationForVehicle(vehicleID: vehicleId, routeID: self.mark.route?.id ?? 0)
                 
                 DispatchQueue.main.sync {
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.locale = Locale.current
-                    
-                    dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "HH:mm", options: 0, locale: Locale.current)
-                    
-                    self.mark = self.mark.placemarkWithNewLocation(location)
-                    self.timeLabel.stringValue = "Updated at \(dateFormatter.string(from: Date()))"
-                    
-                    self.zoomMapToBus()
+                    if (location.longitude == -4.0 && location.latitude == -4.0) {
+                        self.window?.close()
+                    } else {
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.locale = Locale.current
+                        
+                        dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "HH:mm", options: 0, locale: Locale.current)
+                        
+                        self.mark = self.mark.placemarkWithNewLocation(location)
+                        self.timeLabel.stringValue = "Updated at \(dateFormatter.string(from: Date()))"
+                        
+                        self.zoomMapToBus()
+                    }
                 }
             }
         }

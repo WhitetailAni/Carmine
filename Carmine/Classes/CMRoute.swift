@@ -115,7 +115,6 @@ enum CMRoute: CaseIterable {
     case _124
     case _125
     case _126
-    case _128
     case _130
     case _134
     case _135
@@ -137,12 +136,17 @@ enum CMRoute: CaseIterable {
     case _201
     case _206
     
-    static var defaultColor: NSColor = NSColor(r: 107, g: 160, b: 227)
+    nonisolated(unsafe) static var defaultColor: NSColor = NSColor(r: 107, g: 160, b: 227)
     
     func textualRepresentation(addRouteNumber: Bool = false) -> String {
         var addNumber = ""
+        var nightVal = ""
         if addRouteNumber {
             addNumber = routeNumber() + " "
+            if ChicagoTransitInterface.isNightServiceActive(route: self) {
+                addNumber = "N" + routeNumber() + " "
+                nightVal = " Night"
+            }
         }
         switch self {
         case ._1:
@@ -152,7 +156,7 @@ enum CMRoute: CaseIterable {
         case ._3:
             return addNumber + "King Drive"
         case ._4:
-            return addNumber + "Cottage Grove"
+            return addNumber + "Cottage Grove" + nightVal
         case ._X4:
             return addNumber + "Cottage Grove Express"
         case ._N5:
@@ -166,7 +170,7 @@ enum CMRoute: CaseIterable {
         case ._8A:
             return addNumber + "South Halsted"
         case ._9:
-            return addNumber + "Ashland"
+            return addNumber + "Ashland" + nightVal
         case ._X9:
             return addNumber + "Ashland Express"
         case ._10:
@@ -184,11 +188,11 @@ enum CMRoute: CaseIterable {
         case ._19:
             return addNumber + "United Center Express"
         case ._20:
-            return addNumber + "Madison"
+            return addNumber + "Madison" + nightVal
         case ._21:
             return addNumber + "Cermak"
         case ._22:
-            return addNumber + "Clark"
+            return addNumber + "Clark" + nightVal
         case ._24:
             return addNumber + "Wentworth"
         case ._26:
@@ -202,7 +206,7 @@ enum CMRoute: CaseIterable {
         case ._31:
             return addNumber + "31st"
         case ._34:
-            return addNumber + "South Michigan"
+            return addNumber + "South Michigan" + nightVal
         case ._35:
             return addNumber + "31st/35th"
         case ._36:
@@ -220,7 +224,7 @@ enum CMRoute: CaseIterable {
         case ._48:
             return addNumber + "South Damen"
         case ._49:
-            return addNumber + "Western"
+            return addNumber + "Western" + nightVal
         case ._49B:
             return addNumber + "North Western"
         case ._X49:
@@ -234,7 +238,7 @@ enum CMRoute: CaseIterable {
         case ._52A:
             return addNumber + "South Kedzie"
         case ._53:
-            return addNumber + "Pulaski"
+            return addNumber + "Pulaski" + nightVal
         case ._53A:
             return addNumber + "South Pulaski"
         case ._54:
@@ -244,7 +248,7 @@ enum CMRoute: CaseIterable {
         case ._54B:
             return addNumber + "South Cicero"
         case ._55:
-            return addNumber + "Garfield"
+            return addNumber + "Garfield" + nightVal
         case ._55A:
             return addNumber + "55th/Austin"
         case ._55N:
@@ -256,19 +260,19 @@ enum CMRoute: CaseIterable {
         case ._59:
             return addNumber + "59th/61st"
         case ._60:
-            return addNumber + "Blue Island/26th"
+            return addNumber + "Blue Island/26th" + nightVal
         case ._62:
-            return addNumber + "Archer"
+            return addNumber + "Archer" + nightVal
         case ._62H:
             return addNumber + "Archer/Harlem"
         case ._63:
-            return addNumber + "63rd"
+            return addNumber + "63rd" + nightVal
         case ._63W:
             return addNumber + "West 63rd"
         case ._65:
             return addNumber + "Grand"
         case ._66:
-            return addNumber + "Chicago"
+            return addNumber + "Chicago" + nightVal
         case ._67:
             return addNumber + "67th-69th-71st"
         case ._68:
@@ -288,15 +292,15 @@ enum CMRoute: CaseIterable {
         case ._76:
             return addNumber + "Diversey"
         case ._77:
-            return addNumber + "Belmont"
+            return addNumber + "Belmont" + nightVal
         case ._78:
             return addNumber + "Montrose"
         case ._79:
-            return addNumber + "79th"
+            return addNumber + "79th" + nightVal
         case ._80:
             return addNumber + "Irving Park"
         case ._81:
-            return addNumber + "Lawrence"
+            return addNumber + "Lawrence" + nightVal
         case ._81W:
             return addNumber + "West Lawrence"
         case ._82:
@@ -310,7 +314,7 @@ enum CMRoute: CaseIterable {
         case ._86:
             return addNumber + "Narragansett/Ridgeland"
         case ._87:
-            return addNumber + "87th"
+            return addNumber + "87th" + nightVal
         case ._88:
             return addNumber + "Higgins"
         case ._90:
@@ -357,8 +361,8 @@ enum CMRoute: CaseIterable {
             return addNumber + "Water Tower Express"
         case ._126:
             return addNumber + "Jackson"
-        case ._128:
-            return addNumber + "Soldier Field Express"
+        /*case ._128:
+            return addNumber + "Soldier Field Express"*/
         case ._130:
             return addNumber + "Museum Campus"
         case ._134:
@@ -402,7 +406,7 @@ enum CMRoute: CaseIterable {
         }
     }
     
-    func gtfsKey() -> [Int] {
+    func gtfsKey(n5: Bool = false) -> [Int] {
         switch self {
         case ._1:
             return [66808085, //35th indiana to greyhound
@@ -886,13 +890,15 @@ enum CMRoute: CaseIterable {
                     66814119, //southbound
                     66807184] //california orig southbound
         case ._95:
+            if n5 {
+                return [66808148, //95 becomes N5 at 95th/dan ryan eastbound
+                        66808142] //N5 becomes 95 at 95th/dan ryan westbound
+            }
             return [66808147, //eastbound
                     66808146, //stony island->south chicago eastbound
-                    66808148, //95 becomes N5 at 95th/dan ryan eastbound
                     66808149, //throop->state eastbound
-                    66815949, //95th/dan ryan->sout chicago eastbound
+                    66815949, //95th/dan ryan->south chicago eastbound
                     66810956, //westbound
-                    66808142, //N5 becomes 95 at 95th/dan ryan westbound
                     66808144, //south chicago->95th/dan ryan westbound
                     66808143] //south chicago->stony island westbound
         case ._96:
@@ -975,8 +981,8 @@ enum CMRoute: CaseIterable {
                     66802862] //southbound
         case ._126:
             return [66804505, 66810912, 66810903, 66808413, 66801116, 66801111, 66804504, 66801117, 66803934, 66801110, 66805857, 66810932, 66810922, 66800786, 66810911]
-        case ._128:
-            return []
+        /*case ._128:
+            return []*/
         
         #warning("130 overlay not in data, extract separately")
         case ._130:
@@ -1048,16 +1054,19 @@ enum CMRoute: CaseIterable {
                     66804319, //full length southbound
                     66804320] //central cowper northbound
         case ._206:
-            return [66803189, //AM southbound
-                    66803190, //PM southbound
-                    66800978, //PM school southbound
-                    66808689, //PM school chicago southbound
-                    66808113, //AM southbound
-                    66808115, //AM school northbound
-                    66808117, //AM northbound
-                    66808116, //AM northbound but better
-                    66808114, //PM northbound
-                    66808118] //central->school southbound?
+            if CMTime.isItCurrentlyBetween(start: CMTime(hour: 7, minute: 00), end: CMTime(hour: 9, minute: 30)) {
+                return [66803189, //AM southbound
+                        66808113, //AM southbound
+                        66808115, //AM school northbound
+                        //66808117, //AM northbound
+                        66808116] //AM northbound but better
+            } else {
+                return [66803190, //PM southbound
+                        66800978, //PM school southbound
+                        66808689, //PM school chicago southbound
+                        66808114] //PM northbound
+                        //66808118] //central->school southbound?
+            }
         }
     }
     
@@ -1066,7 +1075,11 @@ enum CMRoute: CaseIterable {
     }
     
     func routeNumber() -> String {
-        return String(String(describing: self).dropFirst())
+        if self == ._N5 {
+            return "5"
+        } else {
+            return String(String(describing: self).dropFirst())
+        }
     }
     
     func colors() -> (main: NSColor, accent: NSColor) {
@@ -1083,11 +1096,11 @@ enum CMRoute: CaseIterable {
             return (NSColor(r: 183, g: 17, b: 52), NSColor.white) //red background white text
         case ._J14:
             return (NSColor(r: 1, g: 101, b: 189), NSColor.white) //blue background white text (J14 only)
-        case ._19, ._128:
+        case ._19/*, ._128*/:
             return (NSColor.white, NSColor.white) //white background black text, for express buses
         case ._4, ._9, ._20, ._22, ._34, ._49, ._53, ._55, ._60, ._62, ._63, ._66, ._77, ._79, ._81, ._87:
             if ChicagoTransitInterface.isNightServiceActive(route: self) {
-                return (NSColor.white, NSColor(r: 0, g: 153, b: 153)) //white background bluegreen text
+                return (NSColor(r: 0, g: 153, b: 153), NSColor.white) //white background bluegreen text
             }
             return (NSColor(r: 87, g: 88, b: 90), NSColor.white)
         default:
