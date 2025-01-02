@@ -413,9 +413,11 @@ enum CMRoute: CaseIterable {
                     66808084, //35th indiana to union
                     66806351] //greyhound to 34th michigan
         case ._2:
+            if CMTime.isItCurrentlyBetween(start: CMTime(hour: 5, minute: 30), end: CMTime(hour: 10, minute: 30)) {
+                return [66805530, //northbound AM
+                        66805529] //southbound AM
+            }
             return [66805531, //northbound PM
-                    66805530, //northbound AM
-                    66805529, //southbound AM
                     66805528] //southbound PM
         case ._3:
             return [66818414, //northbound full
@@ -524,7 +526,7 @@ enum CMRoute: CaseIterable {
         case ._J14:
             return [66804276, //northbound
                     66804277, //madison northbound
-                    66807173, //idk + idc
+                    //66807173, //idk + idc
                     66804278, //93rd->madison northbound
                     66804275, //southbound
                     66804274] //93rd southbound
@@ -553,7 +555,7 @@ enum CMRoute: CaseIterable {
             return [66806772, 66806775, 66801009, 66807454, 66809653, 66806771, 66806778, 66806779, 66806776, 66806773, 66806777, 66807007]
         case ._26:
             return [66808121, //northbound
-                    66808120, //useless
+                    //66808120, //useless
                     66808119] //southbound
         case ._28:
             return [66810941, 66802162, 66823276, 66808123, 66808122, 66802156, 66810931, 66806643, 66803937, 66802823, 66823277, 66808380]
@@ -572,14 +574,14 @@ enum CMRoute: CaseIterable {
                     66804561, //gardens + carver southbound
                     66801093, //carver southbound
                     66810934, //gardens northbound
-                    66800420, //??
+                    //66800420, //??
                     66804563, //gardens->corliss hs northbound
                     66802673] //carver + gardens northbound
         case ._35:
             return [66807104, 66807100, 66807105, 66807103, 66807101, 66807102, 66807387, 66806455]
         case ._36:
             return [66805907, //full length northbound
-                    66805906, //useless
+                    //66805906, //useless
                     66805905, //northbound
                     66805901] //foster southbound
         case ._37:
@@ -616,8 +618,8 @@ enum CMRoute: CaseIterable {
         case ._49:
             return [66801180, //northbound
                     66801175, //division northbound
-                    66801178, //southbound
-                    66809379] //identical to 1178
+                    //66809379, //identical to 1178
+                    66801178] //southbound
         case ._49B:
             return [66801187, //western brown->foster northbound
                     66804107, //northbound
@@ -626,15 +628,15 @@ enum CMRoute: CaseIterable {
                     66801184] //foster->western brown southbound
         case ._X49:
             return [66807873, //northbound
-                    66807871, //southbound
-                    66809808] //identical to 7871
+                    //66809808, //identical to 7871
+                    66807871] //southbound
         case ._50:
             return [66801192, //northbound
                     66814126, //jackson northbound
                     66801151, //southbound
                     66807389, //adams southbound
                     66814127, //jackson southbound
-                    66810920, //southbound copy
+                    //66810920, //southbound copy
                     66801190] //foster southbound
         case ._51:
             return [66807021, //eastbound
@@ -714,7 +716,7 @@ enum CMRoute: CaseIterable {
                     66808414, //chicago northbound
                     66801329, //school trip (ignore)
                     66801326, //southbound
-                    66808415] //chicag southbound
+                    66808415] //chicago southbound
         case ._59:
             return [66807025, //eastbound
                     66807024, //ashland eastbound
@@ -949,7 +951,7 @@ enum CMRoute: CaseIterable {
             return [66800752, //northbound
                     66800746, //vincennes->95th northbound
                     66800751, //vincennes southbound
-                    66807348, //northbound repeat?
+                    //66807348, //northbound repeat?
                     66800749, //southbound
                     66800750] //vincennes northbound
         case ._115:
@@ -961,23 +963,27 @@ enum CMRoute: CaseIterable {
                     66800757, //western southbound
                     66800758] //ashland southbound
         case ._120:
-            return [66806361, //AM northbound
-                    66806362, //PM northbound
-                    66806363, //AM southbound
+            if CMTime.isItCurrentlyBetween(start: CMTime(hour: 5, minute: 30), end: CMTime(hour: 10, minute: 30)) {
+                return [66806361, //AM northbound
+                        66806363] //AM southbound
+            }
+            return [66806362, //PM northbound
                     66806364] //PM southbound
         case ._121:
-            return [66808086, //AM northbound
-                    66808087, //PM northbound
-                    66808091, //PM southbound?
-                    66808090, //more no sense
-                    66808089, //AM southbound
-                    66808088] //idk
+            if CMTime.isItCurrentlyBetween(start: CMTime(hour: 5, minute: 30), end: CMTime(hour: 10, minute: 30)) {
+                return [66808086, //AM northbound
+                        66808089] //AM southbound
+            }
+            return [66808087, //PM northbound
+                    66808091] //PM southbound?
+            //[66808090, //more no sense
+            //66808088] //idk
         case ._124:
             return [66810950, //eastbound
                     66804708] //westbound
         case ._125:
             return [66802863, //northbound slightly farther
-                    66806369, //northbound
+                    //66806369, //northbound
                     66802862] //southbound
         case ._126:
             return [66804505, 66810912, 66810903, 66808413, 66801116, 66801111, 66804504, 66801117, 66803934, 66801110, 66805857, 66810932, 66810922, 66800786, 66810911]
@@ -1028,7 +1034,7 @@ enum CMRoute: CaseIterable {
             #warning("this bus route is fucked up")
             return [66814133, //halsted northbound
                     66814132, //northbound
-                    66807864, //what
+                    //66807864, //what
                     66814131, //ogilvie southbound
                     66814130] //southbound
         case ._165:
@@ -1044,10 +1050,12 @@ enum CMRoute: CaseIterable {
             return [66814103, //northbound
                     66814110] //southbound
         case ._192:
-            return [66802671, //PM
-                    66824000, //AM
-                    66806980, //AM
-                    66819367] //AM
+            if CMTime.isItCurrentlyBetween(start: CMTime(hour: 5, minute: 30), end: CMTime(hour: 10, minute: 30)) {
+                return [66824000, //AM
+                        66806980, //AM
+                        66819367] //AM
+            }
+            return [66802671] //AM
         case ._201:
             return [66804318, //full length northbound
                     66804321, //central cowper southbound

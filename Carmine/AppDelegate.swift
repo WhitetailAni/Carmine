@@ -537,7 +537,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 
                 dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "HH:mm", options: 0, locale: Locale.current)
                 
-                mapWindows[index].title = "Carmine - \(route.fullName) bus \(vehicleId) \(direction.description)"
+                mapWindows[index].title = "Carmine - \(route.fullName) bus \(vehicleId) heading \(direction.description)"
                 
                 self.mapWindows[index].contentView = PTMapView(mark: placemark, timeLastUpdated: dateFormatter.string(from: Date()), isVehicle: true)
                 self.mapWindows[index].center()

@@ -35,6 +35,7 @@
 		42D99A252D00F53400A060A2 /* shapes.csv in Resources */ = {isa = PBXBuildFile; fileRef = 42D99A242D00F53400A060A2 /* shapes.csv */; };
 		42D99A2B2D01371900A060A2 /* TestMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D99A2A2D01371900A060A2 /* TestMapView.swift */; };
 		42D99A2D2D013EA500A060A2 /* CMOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D99A2C2D013E9500A060A2 /* CMOverlay.swift */; };
+		42F0BBD42D26745200F834DF /* YOUDIED.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F0BBD22D26745100F834DF /* YOUDIED.swift */; };
 		42F953082D0A6F0000295BD5 /* CMPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F953072D0A6F0000295BD5 /* CMPolyline.swift */; };
 /* End PBXBuildFile section */
 
@@ -93,6 +94,7 @@
 		42D99A242D00F53400A060A2 /* shapes.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = shapes.csv; sourceTree = "<group>"; };
 		42D99A2A2D01371900A060A2 /* TestMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMapView.swift; sourceTree = "<group>"; };
 		42D99A2C2D013E9500A060A2 /* CMOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMOverlay.swift; sourceTree = "<group>"; };
+		42F0BBD22D26745100F834DF /* YOUDIED.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YOUDIED.swift; sourceTree = "<group>"; };
 		42F953072D0A6F0000295BD5 /* CMPolyline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMPolyline.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -191,6 +193,7 @@
 		42D999BA2CFD332B00A060A2 /* Pace */ = {
 			isa = PBXGroup;
 			children = (
+				42F0BBD22D26745100F834DF /* YOUDIED.swift */,
 				42D999F62CFD521300A060A2 /* PTPolyline.swift */,
 				42D999B12CFD1E8200A060A2 /* PTPlacemark.swift */,
 				42D999A42CFBE7FE00A060A2 /* PTMenuItem.swift */,
@@ -310,6 +313,7 @@
 				422124CE2C5026FA0062695A /* ChicagoTransitInterface.swift in Sources */,
 				42F953082D0A6F0000295BD5 /* CMPolyline.swift in Sources */,
 				42D999F72CFD521500A060A2 /* PTPolyline.swift in Sources */,
+				42F0BBD42D26745200F834DF /* YOUDIED.swift in Sources */,
 				422124DA2C502D920062695A /* CarmineApp.swift in Sources */,
 				420013082C54B1FC007ACC67 /* CMTime.swift in Sources */,
 				4273D1E42C8663D5003BBCC6 /* CMRoute.swift in Sources */,

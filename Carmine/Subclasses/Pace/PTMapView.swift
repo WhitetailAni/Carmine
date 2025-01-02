@@ -124,8 +124,12 @@ class PTMapView: MKMapView {
                 let location = PaceAPI().getLocationForVehicle(vehicleID: vehicleId, routeID: self.mark.route?.id ?? 0)
                 
                 DispatchQueue.main.sync {
-                    if (location.longitude == -4.0 && location.latitude == -4.0) {
-                        self.window?.close()
+                    if !(location.longitude == -4.0 && location.latitude == -4.0) {
+                        self.removeAnnotations(self.annotations)
+                        let overlay = YOUDIED(text: "BUS STOPPED TRACKING")
+                        self.addSubview(overlay)
+                        overlay.frame = self .bounds
+                        overlay.animate()
                     } else {
                         let dateFormatter = DateFormatter()
                         dateFormatter.locale = Locale.current
