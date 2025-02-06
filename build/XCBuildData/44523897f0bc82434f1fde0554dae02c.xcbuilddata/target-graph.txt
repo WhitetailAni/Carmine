@@ -1,4 +1,0 @@
-Target dependency graph (2 targets)
-Target 'Carmine' in project 'Carmine'
-➜ Explicit dependency on target 'PaceTracker' in project 'Carmine'
-Target 'PaceTracker' in project 'Carmine' (no dependencies)

@@ -11,6 +11,11 @@ struct CMTime: Comparable {
     let hour: Int
     let minute: Int
     
+    init(hour: Int, minute: Int) {
+        self.hour = hour
+        self.minute = minute
+    }
+    
     static func < (lhs: CMTime, rhs: CMTime) -> Bool {
         return lhs.hour * 60 + lhs.minute < rhs.hour * 60 + rhs.minute
     }
@@ -21,7 +26,8 @@ struct CMTime: Comparable {
     
     static func isItCurrentlyBetween(start: CMTime, end: CMTime) -> Bool {
         let now = Date()
-        let calendar = Calendar.current
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(identifier: "America/Chicago")!
         let current = CMTime(hour: calendar.component(.hour, from: now), minute: calendar.component(.minute, from: now))
         
         if start < end {
@@ -29,6 +35,12 @@ struct CMTime: Comparable {
         } else {
             return current >= start || current < end
         }
+    }
+    
+    static func is24Hour() -> Bool {
+        let dateFormat = DateFormatter.dateFormat(fromTemplate: "j", options: 0, locale: Locale.current)!
+
+        return dateFormat.firstIndex(of: "a") == nil
     }
     
     static func apiTimeToReadabletime(string: String) -> String {

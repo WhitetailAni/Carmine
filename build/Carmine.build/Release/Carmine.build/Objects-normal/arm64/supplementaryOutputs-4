@@ -1,9 +1,0 @@
-"/Users/whitetailani/Carmine/Carmine/AppDelegate.swift":
-  objc-header: "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/arm64/Carmine-Swift.h"
-  diagnostics: "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/arm64/Carmine-master.dia"
-  abi-baseline-json: "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/arm64/Carmine.abi.json"
-  dependencies: "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/arm64/Carmine-master.d"
-  swiftdoc: "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/arm64/Carmine.swiftdoc"
-  swiftsourceinfo: "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/arm64/Carmine.swiftsourceinfo"
-  swiftmodule: "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/arm64/Carmine.swiftmodule"
-  const-values: "/Users/whitetailani/Carmine/build/Carmine.build/Release/Carmine.build/Objects-normal/arm64/Carmine-master.swiftconstvalues"

@@ -1,6 +1,0 @@
-framework module PaceTracker {
-  umbrella header "PaceTracker.h"
-  export *
-
-  module * { export * }
-}

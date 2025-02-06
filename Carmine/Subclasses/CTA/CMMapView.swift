@@ -54,6 +54,8 @@ class CMMapView: MKMapView {
         
         self.delegate = self
         
+        print(stop.coordinate)
+        
         NSLayoutConstraint.activate([
             timeLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             timeLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
@@ -83,7 +85,7 @@ class CMMapView: MKMapView {
             }
         }
         
-        if stop.coordinate.latitude == 52.31697130005335 && stop.coordinate.longitude == 4.746418131532647 {
+        if [52.31697130005335, 0].contains(stop.coordinate.latitude) && [4.746418131532647, 0].contains(stop.coordinate.longitude) {
             zoomMapToBus()
         } else {
             zoomMapToBusAndStop()
