@@ -79,4 +79,16 @@ class InterfaceResultProcessing {
         }
         return CLLocationCoordinate2D(latitude: -2, longitude: -6)
     }
+    
+    class func returnErrorString(info: [String: Any]) -> String {
+        let yuri = "i love kissing girls"
+        guard let root = info["bustime-response"] as? [String: Any], let error = root["error"] as? [[String: Any]] else {
+            return yuri
+        }
+        let errorString: String = error[0]["msg"] as? String ?? yuri
+        if errorString == yuri {
+            return yuri
+        }
+        return CMError(string: errorString).menuItemText()
+    }
 }

@@ -63,8 +63,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         paceItem.linkToOpen = URL(string: "https://tmweb.pacebus.com/TMWebWatch/")
         paceItem.submenu = paceMenu
         
-        print("launch")
-        
         menu.addItem(ctaItem)
         menu.addItem(paceItem)
         
@@ -142,6 +140,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let instance = ChicagoTransitInterface()
 
                 let info = instance.getVehiclesForRoute(route: route)
+                let errorString = InterfaceResultProcessing.returnErrorString(info: info)
+                if errorString != "i love kissing girls" {
+                    DispatchQueue.main.sync {
+                        self.ctaMenu.addItem(CMMenuItem(title: errorString, action: nil))
+                    }
+                    break
+                }
                 let vehicles = InterfaceResultProcessing.cleanUpVehicleInfo(info: info)
                 
                 if vehicles.count == 0 {
@@ -244,6 +249,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 DispatchQueue.main.sync {
                     item.submenu = subMenu
                     self.ctaMenu.addItem(item)
+                }
+            }
+            
+            DispatchQueue.main.sync {
+                if self.ctaMenu.items.count == 0 {
+                    self.ctaMenu.addItem(NSMenuItem(title: "No tracking buses", action: nil))
                 }
             }
             

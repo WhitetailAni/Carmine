@@ -24,6 +24,7 @@
 		422124DA2C502D920062695A /* CarmineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422124D92C502D900062695A /* CarmineApp.swift */; };
 		424B28F32C509E81002E3E9B /* CMMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424B28F22C509E79002E3E9B /* CMMapView.swift */; };
 		4273D1E42C8663D5003BBCC6 /* CMRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273D1E32C8663D4003BBCC6 /* CMRoute.swift */; };
+		42CAD3B12D65A0E90061E73F /* CMError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CAD3AF2D65A0E80061E73F /* CMError.swift */; };
 		42D999A52CFBE7FF00A060A2 /* PTMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D999A42CFBE7FE00A060A2 /* PTMenuItem.swift */; };
 		42D999B22CFD1E8400A060A2 /* PTPlacemark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D999B12CFD1E8200A060A2 /* PTPlacemark.swift */; };
 		42D999B42CFD22F200A060A2 /* PTMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D999B32CFD22F200A060A2 /* PTMapView.swift */; };
@@ -84,6 +85,7 @@
 		422124DB2C502E6D0062695A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		424B28F22C509E79002E3E9B /* CMMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMMapView.swift; sourceTree = "<group>"; };
 		4273D1E32C8663D4003BBCC6 /* CMRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMRoute.swift; sourceTree = "<group>"; };
+		42CAD3AF2D65A0E80061E73F /* CMError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMError.swift; sourceTree = "<group>"; };
 		42D999A42CFBE7FE00A060A2 /* PTMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTMenuItem.swift; sourceTree = "<group>"; };
 		42D999B12CFD1E8200A060A2 /* PTPlacemark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTPlacemark.swift; sourceTree = "<group>"; };
 		42D999B32CFD22F200A060A2 /* PTMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTMapView.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 		420013042C54B1EC007ACC67 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				42CAD3AF2D65A0E80061E73F /* CMError.swift */,
 				42D99A2C2D013E9500A060A2 /* CMOverlay.swift */,
 				4273D1E32C8663D4003BBCC6 /* CMRoute.swift */,
 				420013072C54B1FB007ACC67 /* CMTime.swift */,
@@ -315,6 +318,7 @@
 				42D999F72CFD521500A060A2 /* PTPolyline.swift in Sources */,
 				42F0BBD42D26745200F834DF /* YOUDIED.swift in Sources */,
 				422124DA2C502D920062695A /* CarmineApp.swift in Sources */,
+				42CAD3B12D65A0E90061E73F /* CMError.swift in Sources */,
 				420013082C54B1FC007ACC67 /* CMTime.swift in Sources */,
 				4273D1E42C8663D5003BBCC6 /* CMRoute.swift in Sources */,
 				4200130A2C54B2B6007ACC67 /* Extensions.swift in Sources */,

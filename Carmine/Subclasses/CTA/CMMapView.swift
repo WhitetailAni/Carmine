@@ -54,8 +54,6 @@ class CMMapView: MKMapView {
         
         self.delegate = self
         
-        print(stop.coordinate)
-        
         NSLayoutConstraint.activate([
             timeLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             timeLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
@@ -97,7 +95,11 @@ class CMMapView: MKMapView {
         
         let busAnnotation = CMPointAnnotation()
         busAnnotation.coordinate = bus.coordinate
-        busAnnotation.title = "\(bus.route?.textualRepresentation() ?? "Unknown") bus \(bus.vehicleNumber ?? "0000")"
+        if bus.route == ._N5 {
+            busAnnotation.title = "\(bus.route?.textualRepresentation() ?? "Unknown") \(bus.vehicleNumber ?? "0000")"
+        } else {
+            busAnnotation.title = "\(bus.route?.textualRepresentation() ?? "Unknown") bus \(bus.vehicleNumber ?? "0000")"
+        }
         busAnnotation.mark = bus
         self.addAnnotation(busAnnotation)
         

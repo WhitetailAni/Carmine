@@ -145,8 +145,10 @@ enum CMRoute: CaseIterable {
             addNumber = routeNumber() + " "
             if ChicagoTransitInterface.isNightServiceActive(route: self) {
                 addNumber = "N" + routeNumber() + " "
-                nightVal = " Night"
             }
+        }
+        if ChicagoTransitInterface.isNightServiceActive(route: self) {
+            nightVal = " Night"
         }
         switch self {
         case ._1:
@@ -1110,11 +1112,17 @@ enum CMRoute: CaseIterable {
             if ChicagoTransitInterface.isNightServiceActive(route: self) {
                 return (NSColor(r: 0, g: 153, b: 153), NSColor.white) //white background bluegreen text
             }
-            return (NSColor(r: 87, g: 88, b: 90), NSColor.white)
+            switch self {
+            case ._34, ._60, ._63, ._79://, ._4, ._20, ._49, ._66://, ._53, ._55, ._77://, ._9, ._81:
+                return (NSColor(r: 65, g: 65, b: 69), NSColor.white) //frequent network white text
+            default:
+                return (NSColor(r: 87, g: 88, b: 90), NSColor.white)
+            }
+        case ._47, ._54, ._95://, ._82://, ._12, ._72
+            return (NSColor(r: 65, g: 65, b: 69), NSColor.white)
         default:
             return (NSColor(r: 87, g: 88, b: 90), NSColor.white) //gray background white text
         }
-        
     }
     
     func link() -> URL {

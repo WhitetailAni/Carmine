@@ -11,7 +11,7 @@ import CoreLocation
 ///The class used to interface with the CTA's Train Tracker API. A new instance should be created on every request to allow for multiple concurrent requests.
 class ChicagoTransitInterface: NSObject {
     let semaphore = DispatchSemaphore(value: 0)
-    private let busTrackerAPIKey = "NknhMpnUYfzxrjk3pWw2pTZ3A"
+    private let busTrackerAPIKey = ""
     
     public static var polylines = ChicagoTransitInterface(polyline: true)
     var overlayTable: [String: [CLLocationCoordinate2D]] = [:]
@@ -921,7 +921,7 @@ class ChicagoTransitInterface: NSObject {
                 return CMTime.isItCurrentlyBetween(start: CMTime(hour: 00, minute: 00), end: CMTime(hour: 5, minute: 38))
             }
         case ._53:
-            return CMTime.isItCurrentlyBetween(start: CMTime(hour: 1, minute: 26), end: CMTime(hour: 3, minute: 06))
+            return CMTime.isItCurrentlyBetween(start: CMTime(hour: 1, minute: 26), end: CMTime(hour: 4, minute: 17))
         case ._55:
             switch weekday {
             case 1:
