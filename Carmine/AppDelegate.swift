@@ -128,8 +128,68 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             for route in CMRoute.allCases {
                 var item: CMMenuItem!
                 
-                let title = route.textualRepresentation(addRouteNumber: true)
-                item = CMMenuItem(title: title, action: #selector(self.openLink(_:)))
+                switch route {
+                case ._4, ._9, ._J14, ._20, ._22, ._34, ._47, ._49, ._53, ._54, ._55, ._60, ._62, ._63, ._66, ._77, ._79, ._81, ._87, ._95:
+                    let title = NSMutableAttributedString(string: route.textualRepresentation(addRouteNumber: true))
+                    item = CMMenuItem(title: "", action: #selector(self.openLink(_:)))
+                    
+                    var nightOwlString: NSAttributedString!
+                    var freqNetworkString: NSAttributedString!
+                    
+                    if [._4, ._N5, ._9, ._20, ._22, ._34, ._49, ._53, ._60, ._62, ._63, ._66, ._77, ._79, ._81, ._87].contains(route) {
+                        let height = NSFont.menuFont(ofSize: 0).boundingRectForFont.height - 5
+                        let nightOwlBaseImage = NSImage(named: "nightOwl")!
+                        let aspectRatio = nightOwlBaseImage.size.width / nightOwlBaseImage.size.height
+                        let newSize = NSSize(width: height * aspectRatio, height: height)
+                            
+                        let nightOwlImage = NSImage(size: newSize)
+                        nightOwlImage.lockFocus()
+                        nightOwlBaseImage.draw(in: NSRect(origin: .zero, size: newSize))
+                        nightOwlImage.unlockFocus()
+                        
+                        let nightOwl = NSTextAttachment()
+                        nightOwl.image = nightOwlImage
+                        
+                        nightOwlString = NSAttributedString(attachment: nightOwl)
+                    }
+                        
+                    if [._J14, ._34, ._47, ._54, ._60, ._63, ._79, ._95/*, ._4, ._20, ._49, ._66]*//*, ._53, ._55, ._77, ._82]*//*, ._9, ._12, ._72, ._81]*/].contains(route) {
+                        let height = NSFont.menuFont(ofSize: 0).boundingRectForFont.height - 5
+                        let freqBaseImage = NSImage(named: "frequentNetwork")!
+                        let aspectRatio = freqBaseImage.size.width / freqBaseImage.size.height
+                        let newSize = NSSize(width: height * aspectRatio, height: height)
+                            
+                        let freqImage = NSImage(size: newSize)
+                        freqImage.lockFocus()
+                        freqBaseImage.draw(in: NSRect(origin: .zero, size: newSize))
+                        freqImage.unlockFocus()
+                        
+                        let frequentNetwork = NSTextAttachment()
+                        frequentNetwork.image = freqImage
+                        
+                        freqNetworkString = NSAttributedString(attachment: frequentNetwork)
+                    }
+                    
+                    
+                    
+                    
+                    title.append(NSAttributedString(string: " "))
+                    if nightOwlString != nil {
+                        title.append(nightOwlString)
+                    }
+                    if freqNetworkString != nil {
+                        if nightOwlString != nil {
+                            title.append(NSAttributedString(string: " "))
+                        }
+                        title.append(freqNetworkString)
+                    }
+                    item.attributedTitle = title
+                default:
+                    let title = route.textualRepresentation(addRouteNumber: true)
+                    item = CMMenuItem(title: title, action: #selector(self.openLink(_:)))
+                }
+                
+                
                 item.linkToOpen = route.link()
                     
                 let subMenu = NSMenu()
@@ -276,6 +336,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     let route = routes[i]
                     let item = CMMenuItem(title: route.fullName, action: #selector(self.openLink(_:)))
                     item.linkToOpen = route.link()
+                    
+                    if route.number == 352 {
+                        let title = NSMutableAttributedString(string: route.fullName)
+                        
+                        let height = NSFont.menuFont(ofSize: 0).boundingRectForFont.height - 5
+                        let freqBaseImage = NSImage(named: "nightOwl")!
+                        let aspectRatio = freqBaseImage.size.width / freqBaseImage.size.height
+                        let newSize = NSSize(width: height * aspectRatio, height: height)
+                        
+                        let freqImage = NSImage(size: newSize)
+                        freqImage.lockFocus()
+                        freqBaseImage.draw(in: NSRect(origin: .zero, size: newSize))
+                        freqImage.unlockFocus()
+                        
+                        let frequentNetwork = NSTextAttachment()
+                        frequentNetwork.image = freqImage
+                        
+                        let freqNetworkString = NSAttributedString(attachment: frequentNetwork)
+                        title.append(NSAttributedString(string: " "))
+                        title.append(freqNetworkString)
+                        item.attributedTitle = title
+                    }
                     
                     let subMenu = NSMenu()
                     
