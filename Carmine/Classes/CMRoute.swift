@@ -1083,9 +1083,7 @@ enum CMRoute: CaseIterable {
     
     func routeNumber(addNightOwl: Bool = true) -> String {
         if addNightOwl && ChicagoTransitInterface.isNightServiceActive(route: self) && self != ._N5 {
-            print(self)
             let string = ("N" + String(String(describing: self).dropFirst()))
-            print(string)
             return string
         } else {
             return String(String(describing: self).dropFirst())

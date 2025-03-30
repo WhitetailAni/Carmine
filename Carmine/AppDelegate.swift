@@ -571,7 +571,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     
                     let view = CMMapView(bus: busMark, timeLastUpdated: timeLastUpdated)
                     if ["92nd/Commercial", "Commercial/92nd"].contains(sender.vehicleTerminus) {
-                        print("n5")
                         view.n5 = true
                     }
                     mapWindows[index].contentView = view
