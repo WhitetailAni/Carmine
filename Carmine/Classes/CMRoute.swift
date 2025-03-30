@@ -143,9 +143,6 @@ enum CMRoute: CaseIterable {
         var nightVal = ""
         if addRouteNumber {
             addNumber = routeNumber() + " "
-            if ChicagoTransitInterface.isNightServiceActive(route: self) {
-                addNumber = "N" + routeNumber() + " "
-            }
         }
         if ChicagoTransitInterface.isNightServiceActive(route: self) {
             nightVal = " Night"
@@ -1081,12 +1078,15 @@ enum CMRoute: CaseIterable {
     }
     
     func apiRepresentation() -> String {
-        return routeNumber()
+        return routeNumber(addNightOwl: false)
     }
     
-    func routeNumber() -> String {
-        if self == ._N5 {
-            return "5"
+    func routeNumber(addNightOwl: Bool = true) -> String {
+        if addNightOwl && ChicagoTransitInterface.isNightServiceActive(route: self) && self != ._N5 {
+            print(self)
+            let string = ("N" + String(String(describing: self).dropFirst()))
+            print(string)
+            return string
         } else {
             return String(String(describing: self).dropFirst())
         }
@@ -1122,6 +1122,25 @@ enum CMRoute: CaseIterable {
             return (NSColor(r: 65, g: 65, b: 69), NSColor.white)
         default:
             return (NSColor(r: 87, g: 88, b: 90), NSColor.white) //gray background white text
+        }
+    }
+    
+    func glyphs() -> [NSImage]? {
+        let nightOwl = NSImage(named: "nightOwl")!
+        let freqNetwork = NSImage(named: "frequentNetwork")!
+        let jump = NSImage(named: "jump")!
+        
+        switch self {
+        case ._4, ._N5, ._9, ._20, ._22, ._49, ._53, ._55, ._62, ._66, ._77, ._81, ._87:
+            return [nightOwl]
+        case ._34, ._60, ._63, ._79/*, ._4, ._20, ._49, ._66*//*, ._53, ._55, ._77*//*, ._9, _81*/:
+            return [nightOwl, freqNetwork]
+        case ._47, ._54, ._95/*, ._82*//*, ._12, ._72*/:
+            return [freqNetwork]
+        case ._J14:
+            return [jump, freqNetwork]
+        default:
+            return nil
         }
     }
     

@@ -95,11 +95,7 @@ class CMMapView: MKMapView {
         
         let busAnnotation = CMPointAnnotation()
         busAnnotation.coordinate = bus.coordinate
-        if bus.route == ._N5 {
-            busAnnotation.title = "\(bus.route?.textualRepresentation() ?? "Unknown") \(bus.vehicleNumber ?? "0000")"
-        } else {
-            busAnnotation.title = "\(bus.route?.textualRepresentation() ?? "Unknown") bus \(bus.vehicleNumber ?? "0000")"
-        }
+        busAnnotation.title = "\(bus.route?.routeNumber() ?? "Unknown")\(bus.route == ._N5 ? "" : " bus") \(bus.vehicleNumber ?? "0000")"
         busAnnotation.mark = bus
         self.addAnnotation(busAnnotation)
         
@@ -113,7 +109,7 @@ class CMMapView: MKMapView {
         
         let busAnnotation = CMPointAnnotation()
         busAnnotation.coordinate = bus.coordinate
-        busAnnotation.title = "\(bus.route?.textualRepresentation() ?? "Unknown") bus \(bus.vehicleNumber ?? "0000")"
+        busAnnotation.title = "\(bus.route?.routeNumber() ?? "Unknown")\(bus.route == ._N5 ? "" : " bus") \(bus.vehicleNumber ?? "0000")"
         busAnnotation.mark = bus
         self.addAnnotation(busAnnotation)
         

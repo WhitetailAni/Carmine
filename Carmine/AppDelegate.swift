@@ -127,68 +127,31 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         DispatchQueue.global().async {
             for route in CMRoute.allCases {
                 var item: CMMenuItem!
-                
-                switch route {
-                case ._4, ._9, ._J14, ._20, ._22, ._34, ._47, ._49, ._53, ._54, ._55, ._60, ._62, ._63, ._66, ._77, ._79, ._81, ._87, ._95:
+                if let glyphs = route.glyphs() {
                     let title = NSMutableAttributedString(string: route.textualRepresentation(addRouteNumber: true))
                     item = CMMenuItem(title: "", action: #selector(self.openLink(_:)))
                     
-                    var nightOwlString: NSAttributedString!
-                    var freqNetworkString: NSAttributedString!
-                    
-                    if [._4, ._N5, ._9, ._20, ._22, ._34, ._49, ._53, ._60, ._62, ._63, ._66, ._77, ._79, ._81, ._87].contains(route) {
+                    for glyph in glyphs {
                         let height = NSFont.menuFont(ofSize: 0).boundingRectForFont.height - 5
-                        let nightOwlBaseImage = NSImage(named: "nightOwl")!
-                        let aspectRatio = nightOwlBaseImage.size.width / nightOwlBaseImage.size.height
+                        let aspectRatio = glyph.size.width / glyph.size.height
                         let newSize = NSSize(width: height * aspectRatio, height: height)
                             
-                        let nightOwlImage = NSImage(size: newSize)
-                        nightOwlImage.lockFocus()
-                        nightOwlBaseImage.draw(in: NSRect(origin: .zero, size: newSize))
-                        nightOwlImage.unlockFocus()
+                        let image = NSImage(size: newSize)
+                        image.lockFocus()
+                        glyph.draw(in: NSRect(origin: .zero, size: newSize))
+                        image.unlockFocus()
                         
-                        let nightOwl = NSTextAttachment()
-                        nightOwl.image = nightOwlImage
+                        let attachment = NSTextAttachment()
+                        attachment.image = image
                         
-                        nightOwlString = NSAttributedString(attachment: nightOwl)
-                    }
-                        
-                    if [._J14, ._34, ._47, ._54, ._60, ._63, ._79, ._95/*, ._4, ._20, ._49, ._66]*//*, ._53, ._55, ._77, ._82]*//*, ._9, ._12, ._72, ._81]*/].contains(route) {
-                        let height = NSFont.menuFont(ofSize: 0).boundingRectForFont.height - 5
-                        let freqBaseImage = NSImage(named: "frequentNetwork")!
-                        let aspectRatio = freqBaseImage.size.width / freqBaseImage.size.height
-                        let newSize = NSSize(width: height * aspectRatio, height: height)
-                            
-                        let freqImage = NSImage(size: newSize)
-                        freqImage.lockFocus()
-                        freqBaseImage.draw(in: NSRect(origin: .zero, size: newSize))
-                        freqImage.unlockFocus()
-                        
-                        let frequentNetwork = NSTextAttachment()
-                        frequentNetwork.image = freqImage
-                        
-                        freqNetworkString = NSAttributedString(attachment: frequentNetwork)
-                    }
-                    
-                    
-                    
-                    
-                    title.append(NSAttributedString(string: " "))
-                    if nightOwlString != nil {
-                        title.append(nightOwlString)
-                    }
-                    if freqNetworkString != nil {
-                        if nightOwlString != nil {
-                            title.append(NSAttributedString(string: " "))
-                        }
-                        title.append(freqNetworkString)
+                        title.append(NSAttributedString(string: " "))
+                        title.append(NSAttributedString(attachment: attachment))
                     }
                     item.attributedTitle = title
-                default:
+                } else {
                     let title = route.textualRepresentation(addRouteNumber: true)
                     item = CMMenuItem(title: title, action: #selector(self.openLink(_:)))
                 }
-                
                 
                 item.linkToOpen = route.link()
                     
@@ -608,6 +571,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     
                     let view = CMMapView(bus: busMark, timeLastUpdated: timeLastUpdated)
                     if ["92nd/Commercial", "Commercial/92nd"].contains(sender.vehicleTerminus) {
+                        print("n5")
                         view.n5 = true
                     }
                     mapWindows[index].contentView = view
