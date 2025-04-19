@@ -50,8 +50,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         refreshInfo()
         
-        let ctaTitleString = prependImageToString(imageName: "cta", title: "CTA")
-        let paceTitleString = prependImageToString(imageName: "pace", title: "Pace")
+        let ctaTitleString = createMutableStringFromImage(imageName: "cta")
+        let paceTitleString = createMutableStringFromImage(imageName: "pace")
         
         let ctaItem = CMMenuItem(title: "", action: #selector(openLink(_:)))
         ctaItem.attributedTitle = ctaTitleString
@@ -92,7 +92,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return false
     }
     
-    func prependImageToString(imageName: String, title: String) -> NSMutableAttributedString {
+    func createMutableStringFromImage(imageName: String) -> NSMutableAttributedString {
         let height = NSFont.menuFont(ofSize: 0).boundingRectForFont.height - 5
         let baseImage = NSImage(named: imageName)!
         
@@ -112,7 +112,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let attributedTitle = NSMutableAttributedString(string: "")
         attributedTitle.append(resultingString)
         attributedTitle.append(NSAttributedString(string: " "))
-        attributedTitle.append(NSAttributedString(string: title))
         
         return attributedTitle
     }
@@ -300,11 +299,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     let item = CMMenuItem(title: route.fullName, action: #selector(self.openLink(_:)))
                     item.linkToOpen = route.link()
                     
-                    if route.number == 352 {
+                    if [0, 352].contains(route.number) {
                         let title = NSMutableAttributedString(string: route.fullName)
                         
                         let height = NSFont.menuFont(ofSize: 0).boundingRectForFont.height - 5
-                        let freqBaseImage = NSImage(named: "nightOwl")!
+                        var freqBaseImage: NSImage!
+                        if route.number == 352 {
+                            freqBaseImage = NSImage(named: "nightOwl")!
+                        } else {
+                            freqBaseImage = NSImage(named: "pulse")!
+                        }
                         let aspectRatio = freqBaseImage.size.width / freqBaseImage.size.height
                         let newSize = NSSize(width: height * aspectRatio, height: height)
                         
