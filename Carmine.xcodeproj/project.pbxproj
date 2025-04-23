@@ -17,6 +17,8 @@
 		4200130A2C54B2B6007ACC67 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420013092C54B2B5007ACC67 /* Extensions.swift */; };
 		4200130C2C54B47E007ACC67 /* CMPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4200130B2C54B479007ACC67 /* CMPointAnnotation.swift */; };
 		4200132C2C54E846007ACC67 /* AutomaticRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4200132B2C54E841007ACC67 /* AutomaticRefresh.swift */; };
+		42115E1D2DB960A9002039D2 /* FindMyBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42115E1B2DB960A3002039D2 /* FindMyBus.swift */; };
+		42115E1F2DB962C3002039D2 /* bus.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42115E1E2DB962C3002039D2 /* bus.plist */; };
 		422124BF2C5026D80062695A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422124BE2C5026D80062695A /* AppDelegate.swift */; };
 		422124C12C5026DA0062695A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 422124C02C5026DA0062695A /* Assets.xcassets */; };
 		422124CE2C5026FA0062695A /* ChicagoTransitInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422124CC2C5026FA0062695A /* ChicagoTransitInterface.swift */; };
@@ -75,6 +77,8 @@
 		420013092C54B2B5007ACC67 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		4200130B2C54B479007ACC67 /* CMPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMPointAnnotation.swift; sourceTree = "<group>"; };
 		4200132B2C54E841007ACC67 /* AutomaticRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomaticRefresh.swift; sourceTree = "<group>"; };
+		42115E1B2DB960A3002039D2 /* FindMyBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMyBus.swift; sourceTree = "<group>"; };
+		42115E1E2DB962C3002039D2 /* bus.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = bus.plist; sourceTree = "<group>"; };
 		422124BB2C5026D80062695A /* Carmine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carmine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		422124BE2C5026D80062695A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		422124C02C5026DA0062695A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -153,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				42D99A242D00F53400A060A2 /* shapes.csv */,
+				42115E1E2DB962C3002039D2 /* bus.plist */,
 				420013042C54B1EC007ACC67 /* Classes */,
 				420012FE2C5367A5007ACC67 /* UserInfo.swift */,
 				420013002C536B93007ACC67 /* AboutWindowDelegate.swift */,
@@ -174,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				422124CC2C5026FA0062695A /* ChicagoTransitInterface.swift */,
+				42115E1B2DB960A3002039D2 /* FindMyBus.swift */,
 				422124CD2C5026FA0062695A /* InterfaceResultProcessing.swift */,
 			);
 			path = API;
@@ -293,6 +299,7 @@
 			files = (
 				42D99A252D00F53400A060A2 /* shapes.csv in Resources */,
 				422124C12C5026DA0062695A /* Assets.xcassets in Resources */,
+				42115E1F2DB962C3002039D2 /* bus.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,6 +329,7 @@
 				420013082C54B1FC007ACC67 /* CMTime.swift in Sources */,
 				4273D1E42C8663D5003BBCC6 /* CMRoute.swift in Sources */,
 				4200130A2C54B2B6007ACC67 /* Extensions.swift in Sources */,
+				42115E1D2DB960A9002039D2 /* FindMyBus.swift in Sources */,
 				42D999A52CFBE7FF00A060A2 /* PTMenuItem.swift in Sources */,
 				420012F02C50B9BF007ACC67 /* CMMenuItem.swift in Sources */,
 				42D999B42CFD22F200A060A2 /* PTMapView.swift in Sources */,
@@ -467,7 +475,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 574;
+				CURRENT_PROJECT_VERSION = 603;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -484,7 +492,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.4;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whitetailani.Carmine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -505,7 +513,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 574;
+				CURRENT_PROJECT_VERSION = 603;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -523,7 +531,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.4.4;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whitetailani.Carmine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

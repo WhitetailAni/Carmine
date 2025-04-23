@@ -1221,6 +1221,49 @@ class ChicagoTransitInterface: NSObject {
         return returnedData
     }
     
+    func getNextPredictionForVehicle(route: CMRoute, vehicleId: String) -> [String: String] {
+        let baseURL = "http://www.ctabustracker.com/bustime/api/v2/getpredictions"
+        var returnedData: [String: Any] = [:]
+        
+        var components = URLComponents(string: baseURL)
+        components?.queryItems = [
+            URLQueryItem(name: "key", value: busTrackerAPIKey),
+            URLQueryItem(name: "rt", value: route.apiRepresentation()),
+            URLQueryItem(name: "vid", value: vehicleId),
+            URLQueryItem(name: "top", value: "1")
+        ]
+        
+        contactDowntown(components: components) { result in
+            returnedData = result
+            self.semaphore.signal()
+        }
+        semaphore.wait()
+        
+        guard let root = returnedData["bustime-response"] as? [String: Any], let predictions = root["prd"] as? [[String: Any]] else {
+            return [:]
+        }
+        
+        for prediction in predictions {
+            let destination = prediction["des"] as? String ?? "Unknown Destination"
+            let isDelayedRaw = prediction["dly"] as? String ?? "0"
+            var isDelayed = "Yes"
+            if isDelayedRaw == "0" {
+                isDelayed = "No"
+            }
+            let distanceFromStop = prediction["dstp"] as? String ?? "9999"
+            let exactTime = prediction["prdtm"] as? String ?? "Unknown Departure Time"
+            let stopName = prediction["stpnm"] as? String ?? "Unknown Stop"
+            let stopId = prediction["stpid"] as? String ?? "Unknown Stop ID"
+            let isDeparturePrediction = prediction["typ"] as? String ?? "A"
+            let vehicleId = prediction["vid"] as? String ?? "0000"
+            let routeDirection = prediction["rtdir"] as? String ?? "Unknown Direction"
+            
+            return (["destination": destination, "isDelayed": isDelayed, "distanceFromStop": distanceFromStop, "exactTime": exactTime, "stopName": stopName, "stopId": stopId, "vehicleId": vehicleId, "routeDirection": routeDirection, "isDeparture": isDeparturePrediction])
+        }
+        return [:]
+        
+    }
+    
     private func contactDowntown(components: URLComponents?, completion: @escaping ([String: Any]) -> Void) {
         var conponents = components
         conponents?.queryItems?.append(URLQueryItem(name: "format", value: "json"))

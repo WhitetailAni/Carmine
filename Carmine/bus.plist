@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CMFindMyBusCTA</key>
+	<dict>
+		<key>CMFindMyBusRange</key>
+		<array>
+			<array>
+				<string>4150</string>
+				<string>4207</string>
+			</array>
+		</array>
+		<key>CMFindMyBusSpecific</key>
+		<array>
+			<string>1000</string>
+			<string>1001</string>
+			<string>4000</string>
+			<string>4399</string>
+		</array>
+	</dict>
+	<key>CMFindMyBusPace</key>
+	<dict>
+		<key>CMFindMyBusRange</key>
+		<array>
+			<array>
+				<string>0</string>
+				<string>0</string>
+			</array>
+		</array>
+		<key>CMFindMyBusSpecific</key>
+		<array>
+			<string>2829</string>
+		</array>
+	</dict>
+</dict>
+</plist>

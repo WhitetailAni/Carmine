@@ -28,6 +28,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var aboutWindowDelegate: AboutWindowDelegate!
     var aboutMutex = NSLock()
     
+    var canPush = false
+    var findMyBusDict: [String: Any] = [:]
+    var ctaBusesAlreadyPushed: [String] = []
+    var paceBusesAlreadyPushed: [String] = []
+    var totalBuses = 0
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         
@@ -43,6 +49,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         _ = ChicagoTransitInterface.polylines //this makes sure the polyline table is loaded at startup
+        
+        FindMyBus.shared.canIPunchYou { permissionState in
+            self.canPush = permissionState
+        }
+        findMyBusDict = NSDictionary(contentsOfFile: Bundle.main.path(forResource: "bus", ofType: "plist") ?? "") as? [String: Any] ?? [:]
         
         menu = NSMenu()
         ctaMenu = NSMenu()
@@ -117,14 +128,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @MainActor @objc func refreshInfo() {
+        findMyBusDict = NSDictionary(contentsOfFile: Bundle.main.path(forResource: "bus", ofType: "plist") ?? "") as? [String: Any] ?? [:]
+        
         refreshCTAInfo()
         refreshPaceInfo()
+        if NSEvent.modifierFlags.contains(.option) {
+            ctaBusesAlreadyPushed = []
+            paceBusesAlreadyPushed = []
+        }
     }
     
     @MainActor @objc func refreshCTAInfo() {
         ctaMenu.removeAllItems()
+        totalBuses = 0
         DispatchQueue.global().async {
             for route in CMRoute.allCases {
+                let findMyCTABusDict = self.findMyBusDict["CMFindMyBusCTA"] as? [String: Any] ?? [:]
+                let findMyCTABusSpecific = findMyCTABusDict["CMFindMyBusSpecific"] as? [String] ?? []
+                let findMyCTABusRange = findMyCTABusDict["CMFindMyBusRange"] as? [[String]] ?? []
+                
                 var item: CMMenuItem!
                 if let glyphs = route.glyphs() {
                     let title = NSMutableAttributedString(string: route.textualRepresentation(addRouteNumber: true))
@@ -183,19 +205,48 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         
                         for vehicle in vehicles {
                             var subItem: CMMenuItem!
+                            self.totalBuses += 1
                             
                             let destination = vehicle["destination"] ?? "Unknown Destination"
-                            if let latitudeString = vehicle["latitude"], let longitudeString = vehicle["longitude"], let latitude = Double(latitudeString), let longitude = Double(longitudeString), (latitude != -3 && longitude != -2) {
-                                subItem = CMMenuItem(title: "\(vehicle["vehicleId"] ?? "Unknown Vehicle Number") to \(destination)", action: #selector(self.openCTAMapWindow(_:)))
+                            let vehicleId = vehicle["vehicleId"] ?? "Unknown Vehicle Number"
+                            
+                            if !self.ctaBusesAlreadyPushed.contains(vehicleId) {
+                                self.ctaBusesAlreadyPushed.removeAll(where: { $0 == vehicleId })
+                            }
+                            
+                            for busNumber in findMyCTABusSpecific {
+                                if busNumber == vehicleId && !self.ctaBusesAlreadyPushed.contains(vehicleId) {
+                                    let nextStop = ChicagoTransitInterface().getNextPredictionForVehicle(route: route, vehicleId: vehicleId)
+                                    let nextStopName = nextStop["stopName"] ?? "Unknown"
+                                    
+                                    FindMyBus.shared.pushNotification(title: "\(vehicleId) on route \(route.routeNumber())", body: "Next stop \(nextStopName), terminus \(destination)")
+                                    self.ctaBusesAlreadyPushed.append(vehicleId)
+                                    
+                                }
+                            }
+                            for busRange in findMyCTABusRange {
+                                let first = busRange[0]
+                                let last = busRange[1]
+                                if (first <= vehicleId && vehicleId <= last) && !self.ctaBusesAlreadyPushed.contains(vehicleId) {
+                                    let nextStop = ChicagoTransitInterface().getNextPredictionForVehicle(route: route, vehicleId: vehicleId)
+                                    let nextStopName = nextStop["stopName"] ?? "Unknown"
+                                    
+                                    FindMyBus.shared.pushNotification(title: "\(vehicleId) on route \(route.routeNumber())", body: "Next stop \(nextStopName), terminus \(destination)")
+                                    self.ctaBusesAlreadyPushed.append(vehicleId)
+                                }
+                            }
+                            
+                            if let latitudeString = vehicle["latitude"], let longitudeString = vehicle["longitude"], let latitude = Double(latitudeString), let longitude = Double(longitudeString), (latitude != -3 && longitude != -2), let vehicleId = vehicle["vehicleId"] {
+                                subItem = CMMenuItem(title: "\(vehicleId) to \(destination)", action: #selector(self.openCTAMapWindow(_:)))
                                 subItem.vehicleCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
                                 
                                 subItem.vehicleTerminus = destination
                                 
                                 subItem.busRoute = route
-                                subItem.vehicleNumber = vehicle["vehicleId"] ?? "Unknown Vehicle Number"
+                                subItem.vehicleNumber = vehicleId
                                 subItem.timeLastUpdated = timeLastUpdated
                             } else {
-                                subItem = CMMenuItem(title: "\(vehicle["vehicleId"] ?? "Unknown Vehicle Number") to \(destination)", action: #selector(self.nop))
+                                subItem = CMMenuItem(title: "\(vehicleId) to \(destination)", action: #selector(self.nop))
                             }
                             subItem.action = #selector(self.openCTAMapWindow(_:))
                             
@@ -205,14 +256,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             subMenu.addItem(subItem)
                             
                             DispatchQueue.global().async {
-                                let niceStats = InterfaceResultProcessing.cleanUpPredictionInfo(info: instance.getPredictionsForVehicle(route: route, vehicleId: vehicle["vehicleId"] ?? "0000"))
+                                let niceStats = InterfaceResultProcessing.cleanUpPredictionInfo(info: instance.getPredictionsForVehicle(route: route, vehicleId: vehicleId))
                                 
                                 DispatchQueue.main.sync {
                                     subSubMenu.removeItem(at: 0)
                                     
                                     if niceStats.count > 0 {
                                         
-                                        let subSubItem = CMMenuItem(title: "\(route.textualRepresentation(addRouteNumber: false)) bus \(vehicle["vehicleId"] ?? "0000"), \((niceStats[0]["routeDirection"] ?? "Unknown Direction").lowercased()) to \(vehicle["destination"] ?? "Unknown Destination")", action: #selector(self.openCTAMapWindow(_:)))
+                                        let subSubItem = CMMenuItem(title: "\(route.textualRepresentation(addRouteNumber: false)) bus \(vehicleId), \((niceStats[0]["routeDirection"] ?? "Unknown Direction").lowercased()) to \(vehicle["destination"] ?? "Unknown Destination")", action: #selector(self.openCTAMapWindow(_:)))
                                         
                                         subSubItem.busRoute = route
                                         subSubItem.vehicleNumber = vehicle["vehicleId"]
@@ -222,7 +273,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                         subSubMenu.addItem(NSMenuItem.separator())
                                         
                                         for stop in niceStats {
-                                            if let direction = niceStats[0]["routeDirection"], let vehicleId = vehicle["vehicleId"], let stopName = stop["stopName"], let stopId = stop["stopId"], let latitudeString = vehicle["latitude"], let longitudeString = vehicle["longitude"], let latitude = Double(latitudeString), let longitude = Double(longitudeString), (latitude != -3 && longitude != -2) {
+                                            if let direction = niceStats[0]["routeDirection"], let stopName = stop["stopName"], let stopId = stop["stopId"], let latitudeString = vehicle["latitude"], let longitudeString = vehicle["longitude"], let latitude = Double(latitudeString), let longitude = Double(longitudeString), (latitude != -3 && longitude != -2) {
                                                 let subSubItem = CMMenuItem(title: "\(stopName) at \(CMTime.apiTimeToReadabletime(string: stop["exactTime"] ?? "dont know man"))", action: #selector(self.openCTAMapWindow(_:)))
                                                 
                                                 subSubItem.vehicleDirection = direction
@@ -299,6 +350,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     let item = CMMenuItem(title: route.fullName, action: #selector(self.openLink(_:)))
                     item.linkToOpen = route.link()
                     
+                    let findMyBusPaceDict = self.findMyBusDict["CMFindMyBusPace"] as? [String: Any] ?? [:]
+                    let findMyPaceBusSpecific = findMyBusPaceDict["CMFindMyBusSpecific"] as? [String] ?? []
+                    let findMyPaceBusRange = findMyBusPaceDict["CMFindMyBusRange"] as? [[String]] ?? []
+                    
                     if [0, 352].contains(route.number) {
                         let title = NSMutableAttributedString(string: route.fullName)
                         
@@ -345,6 +400,39 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             
                             for vehicle in vehicles {
                                 let direction = PTDirection.PTVehicleDirection(degrees: vehicle.heading).description
+                                
+                                if !self.paceBusesAlreadyPushed.contains(vehicle.vehicleNumber) {
+                                    self.paceBusesAlreadyPushed.removeAll(where: { $0 == vehicle.vehicleNumber })
+                                }
+                                
+                                for busNumber in findMyPaceBusSpecific {
+                                    if busNumber == vehicle.vehicleNumber && !self.paceBusesAlreadyPushed.contains(vehicle.vehicleNumber) {
+                                        
+                                        var routeNum = "route \(route.number)"
+                                        if route.number == 0 {
+                                            print(route)
+                                            routeNum = route.fullName
+                                        }
+                                        
+                                        FindMyBus.shared.pushNotification(title: "\(vehicle.vehicleNumber) on \(routeNum)", body: "Current heading \(vehicle.heading)°")
+                                        self.paceBusesAlreadyPushed.append(vehicle.vehicleNumber)
+                                        
+                                    }
+                                }
+                                for busRange in findMyPaceBusRange {
+                                    let first = busRange[0]
+                                    let last = busRange[1]
+                                    if (first <= vehicle.vehicleNumber && vehicle.vehicleNumber <= last) && !self.paceBusesAlreadyPushed.contains(vehicle.vehicleNumber) {
+                                        
+                                        var routeNum = "route \(route.number)"
+                                        if route.number == 0 {
+                                            routeNum = route.fullName
+                                        }
+                                        
+                                        FindMyBus.shared.pushNotification(title: "\(vehicle.vehicleNumber) on \(routeNum)", body: "Heading \(vehicle.heading)")
+                                        self.paceBusesAlreadyPushed.append(vehicle.vehicleNumber)
+                                    }
+                                }
                                 
                                 //let superSubMenu = NSMenu()
                                 let vehicleItem = PTMenuItem(title: "\(vehicle.vehicleNumber) heading \(direction)", action: #selector(self.openPaceMapWindow(_:)))
