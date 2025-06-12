@@ -99,7 +99,7 @@ class PTMapView: MKMapView {
         
         let annotation = PTPointAnnotation()
         annotation.coordinate = mark.coordinate
-        annotation.title = "\(mark.route?.fullName ?? "Unknown") bus \(mark.vehicleNumber ?? "0000")"
+        annotation.title = "\(mark.route?.fullName ?? "Unknown") bus \(mark.vehicleId ?? "0000")"
         annotation.mark = mark
         self.addAnnotation(annotation)
         
@@ -124,7 +124,7 @@ class PTMapView: MKMapView {
     
     @objc func refreshBusPosition() {
         DispatchQueue.global().async {
-            if let vehicleId = self.mark.vehicleNumber {
+            if let vehicleId = self.mark.vehicleId {
                 let location = PaceAPI().getLocationForVehicle(vehicleID: vehicleId, routeID: self.mark.route?.id ?? 0)
                 
                 DispatchQueue.main.sync {

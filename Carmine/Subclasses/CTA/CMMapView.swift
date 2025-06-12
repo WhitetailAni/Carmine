@@ -69,17 +69,10 @@ class CMMapView: MKMapView {
             refreshButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
         ])
         
-        if self.bus.route?.routeNumber() == "19" {
-            self.addOverlay(CMPolyline.nineteen)
-        } else if self.bus.route?.routeNumber() == "95" && n5 {
-            let ids = self.bus.route?.gtfsKey(n5: true) ?? []
-            for id in ids {
-                self.displayId(id)
-            }
-        } else {
-            let ids = self.bus.route?.gtfsKey() ?? []
-            for id in ids {
-                self.displayId(id)
+        if let route = self.bus.route {
+            self.addOverlays(ChicagoTransitInterface().getOverlaysForRoute(route: route))
+            if route == ._95 && n5 {
+                self.addOverlays(ChicagoTransitInterface().getOverlaysForRoute(route: ._N5))
             }
         }
         
@@ -95,7 +88,7 @@ class CMMapView: MKMapView {
         
         let busAnnotation = CMPointAnnotation()
         busAnnotation.coordinate = bus.coordinate
-        busAnnotation.title = "\(bus.route?.routeNumber() ?? "Unknown")\(bus.route == ._N5 ? "" : " bus") \(bus.vehicleNumber ?? "0000")"
+        busAnnotation.title = "\(bus.route?.routeNumber() ?? "Unknown")\(bus.route == ._N5 ? "" : " bus") \(bus.vehicleId ?? "0000")"
         busAnnotation.mark = bus
         self.addAnnotation(busAnnotation)
         
@@ -109,7 +102,7 @@ class CMMapView: MKMapView {
         
         let busAnnotation = CMPointAnnotation()
         busAnnotation.coordinate = bus.coordinate
-        busAnnotation.title = "\(bus.route?.routeNumber() ?? "Unknown")\(bus.route == ._N5 ? "" : " bus") \(bus.vehicleNumber ?? "0000")"
+        busAnnotation.title = "\(bus.route?.routeNumber() ?? "Unknown") bus \(bus.vehicleId ?? "0000")"
         busAnnotation.mark = bus
         self.addAnnotation(busAnnotation)
         
@@ -129,17 +122,10 @@ class CMMapView: MKMapView {
         self.setRegion(MKCoordinateRegion(center: midpoint, span: span), animated: true)
     }
     
-    private func displayId(_ id: Int) {
-        let coordinates = ChicagoTransitInterface.polylines.overlayTable
-        let coords = coordinates[String(id)] ?? []
-        let polyline = CMPolyline(coordinates: coords, count: coords.count)
-        self.addOverlay(polyline)
-    }
-    
     @objc func refreshBusPosition() {
         DispatchQueue.global().async {
             let instance = ChicagoTransitInterface()
-            if let vehicleId = self.bus.vehicleNumber {
+            if let vehicleId = self.bus.vehicleId {
                 let locationInfo = instance.getLocationForVehicleId(id: vehicleId)
                 
                 if locationInfo.latitude == -4, locationInfo.longitude == -4 {

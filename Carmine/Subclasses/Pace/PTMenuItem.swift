@@ -11,7 +11,7 @@ import PaceTracker
 
 class PTMenuItem: NSMenuItem {
     var route: PTRoute?
-    var vehicleNumber: String?
+    var vehicleId: String?
     var coordinate: CLLocationCoordinate2D?
     var stop: PTStop?
     

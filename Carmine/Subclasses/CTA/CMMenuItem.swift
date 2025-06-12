@@ -10,7 +10,7 @@ import CoreLocation
 
 class CMMenuItem: NSMenuItem {
     var busRoute: CMRoute?
-    var vehicleNumber: String?
+    var vehicleId: String?
     var vehicleCoordinate: CLLocationCoordinate2D?
     var vehicleDesiredStop: String?
     var vehicleDesiredStopID: String?
@@ -24,5 +24,7 @@ class CMMenuItem: NSMenuItem {
     var linkToOpen: URL?
     
     var index: Int?
+    
+    var viewState: FindMyBusShownView?
 }
 

@@ -5,7 +5,7 @@
 	<key>CFBundleIconName</key>
 	<string>AppIcon</string>
 	<key>CMFindMyBus</key>
-	<true/>
+	<false/>
 	<key>CMRefreshInterval</key>
 	<integer>720</integer>
 	<key>NSAppTransportSecurity</key>

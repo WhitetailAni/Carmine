@@ -29,7 +29,7 @@ class CMMarkerAnnotationView: MKMarkerAnnotationView {
             let annotation: CMPointAnnotation = annotation as! CMPointAnnotation
             if let route = annotation.mark?.route {
                 let colors = route.colors()
-                if let vehicleId = annotation.mark?.vehicleNumber {
+                if let vehicleId = annotation.mark?.vehicleId {
                     markerTintColor = colors.main
                     glyphText = vehicleId
                     glyphTintColor = colors.accent

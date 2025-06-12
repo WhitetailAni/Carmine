@@ -17,14 +17,19 @@
 		4200130A2C54B2B6007ACC67 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420013092C54B2B5007ACC67 /* Extensions.swift */; };
 		4200130C2C54B47E007ACC67 /* CMPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4200130B2C54B479007ACC67 /* CMPointAnnotation.swift */; };
 		4200132C2C54E846007ACC67 /* AutomaticRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4200132B2C54E841007ACC67 /* AutomaticRefresh.swift */; };
-		42115E1D2DB960A9002039D2 /* FindMyBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42115E1B2DB960A3002039D2 /* FindMyBus.swift */; };
+		42115E1D2DB960A9002039D2 /* FindMyBusNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42115E1B2DB960A3002039D2 /* FindMyBusNotifications.swift */; };
 		42115E1F2DB962C3002039D2 /* bus.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42115E1E2DB962C3002039D2 /* bus.plist */; };
+		42115E222DC31D71002039D2 /* FindMyBusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42115E212DC31D6F002039D2 /* FindMyBusView.swift */; };
 		422124BF2C5026D80062695A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422124BE2C5026D80062695A /* AppDelegate.swift */; };
 		422124C12C5026DA0062695A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 422124C02C5026DA0062695A /* Assets.xcassets */; };
 		422124CE2C5026FA0062695A /* ChicagoTransitInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422124CC2C5026FA0062695A /* ChicagoTransitInterface.swift */; };
-		422124CF2C5026FA0062695A /* InterfaceResultProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422124CD2C5026FA0062695A /* InterfaceResultProcessing.swift */; };
 		422124DA2C502D920062695A /* CarmineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422124D92C502D900062695A /* CarmineApp.swift */; };
 		424B28F32C509E81002E3E9B /* CMMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424B28F22C509E79002E3E9B /* CMMapView.swift */; };
+		424EF0FD2DFA7EE100BA2954 /* FindMyBusCTAMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424EF0FB2DFA7EDE00BA2954 /* FindMyBusCTAMapView.swift */; };
+		424EF0FF2DFA7EFA00BA2954 /* FindMyBusPaceMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424EF0FE2DFA7EF700BA2954 /* FindMyBusPaceMapView.swift */; };
+		424EF1012DFA81ED00BA2954 /* CMVehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424EF1002DFA81EA00BA2954 /* CMVehicle.swift */; };
+		424EF1032DFA8F3200BA2954 /* CMPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424EF1022DFA8F3000BA2954 /* CMPrediction.swift */; };
+		424EF1052DFAC80000BA2954 /* CMDetour.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424EF1042DFAC7FF00BA2954 /* CMDetour.swift */; };
 		4273D1E42C8663D5003BBCC6 /* CMRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273D1E32C8663D4003BBCC6 /* CMRoute.swift */; };
 		42CAD3B12D65A0E90061E73F /* CMError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CAD3AF2D65A0E80061E73F /* CMError.swift */; };
 		42D999A52CFBE7FF00A060A2 /* PTMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D999A42CFBE7FE00A060A2 /* PTMenuItem.swift */; };
@@ -35,9 +40,8 @@
 		42D999F02CFD3A8B00A060A2 /* PaceTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D999DA2CFD3A6E00A060A2 /* PaceTracker.framework */; };
 		42D999F72CFD521500A060A2 /* PTPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D999F62CFD521300A060A2 /* PTPolyline.swift */; };
 		42D999FA2CFD6BAC00A060A2 /* PaceTracker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 42D999DA2CFD3A6E00A060A2 /* PaceTracker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		42D99A252D00F53400A060A2 /* shapes.csv in Resources */ = {isa = PBXBuildFile; fileRef = 42D99A242D00F53400A060A2 /* shapes.csv */; };
-		42D99A2B2D01371900A060A2 /* TestMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D99A2A2D01371900A060A2 /* TestMapView.swift */; };
 		42D99A2D2D013EA500A060A2 /* CMOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D99A2C2D013E9500A060A2 /* CMOverlay.swift */; };
+		42DDBD462DECC3CB000DA61B /* FCMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DDBD442DECC3C6000DA61B /* FCMapView.swift */; };
 		42F0BBD42D26745200F834DF /* YOUDIED.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F0BBD22D26745100F834DF /* YOUDIED.swift */; };
 		42F953082D0A6F0000295BD5 /* CMPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F953072D0A6F0000295BD5 /* CMPolyline.swift */; };
 /* End PBXBuildFile section */
@@ -77,17 +81,22 @@
 		420013092C54B2B5007ACC67 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		4200130B2C54B479007ACC67 /* CMPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMPointAnnotation.swift; sourceTree = "<group>"; };
 		4200132B2C54E841007ACC67 /* AutomaticRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomaticRefresh.swift; sourceTree = "<group>"; };
-		42115E1B2DB960A3002039D2 /* FindMyBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMyBus.swift; sourceTree = "<group>"; };
+		42115E1B2DB960A3002039D2 /* FindMyBusNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMyBusNotifications.swift; sourceTree = "<group>"; };
 		42115E1E2DB962C3002039D2 /* bus.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = bus.plist; sourceTree = "<group>"; };
+		42115E212DC31D6F002039D2 /* FindMyBusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMyBusView.swift; sourceTree = "<group>"; };
 		422124BB2C5026D80062695A /* Carmine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carmine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		422124BE2C5026D80062695A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		422124C02C5026DA0062695A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		422124C52C5026DA0062695A /* Carmine.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Carmine.entitlements; sourceTree = "<group>"; };
 		422124CC2C5026FA0062695A /* ChicagoTransitInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChicagoTransitInterface.swift; sourceTree = "<group>"; };
-		422124CD2C5026FA0062695A /* InterfaceResultProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceResultProcessing.swift; sourceTree = "<group>"; };
 		422124D92C502D900062695A /* CarmineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarmineApp.swift; sourceTree = "<group>"; };
 		422124DB2C502E6D0062695A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		424B28F22C509E79002E3E9B /* CMMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMMapView.swift; sourceTree = "<group>"; };
+		424EF0FB2DFA7EDE00BA2954 /* FindMyBusCTAMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMyBusCTAMapView.swift; sourceTree = "<group>"; };
+		424EF0FE2DFA7EF700BA2954 /* FindMyBusPaceMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMyBusPaceMapView.swift; sourceTree = "<group>"; };
+		424EF1002DFA81EA00BA2954 /* CMVehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMVehicle.swift; sourceTree = "<group>"; };
+		424EF1022DFA8F3000BA2954 /* CMPrediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMPrediction.swift; sourceTree = "<group>"; };
+		424EF1042DFAC7FF00BA2954 /* CMDetour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMDetour.swift; sourceTree = "<group>"; };
 		4273D1E32C8663D4003BBCC6 /* CMRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMRoute.swift; sourceTree = "<group>"; };
 		42CAD3AF2D65A0E80061E73F /* CMError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMError.swift; sourceTree = "<group>"; };
 		42D999A42CFBE7FE00A060A2 /* PTMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTMenuItem.swift; sourceTree = "<group>"; };
@@ -97,9 +106,8 @@
 		42D999B72CFD330600A060A2 /* PTMarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTMarkerAnnotationView.swift; sourceTree = "<group>"; };
 		42D999D32CFD3A6E00A060A2 /* PaceTracker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PaceTracker.xcodeproj; path = PaceTracker/PaceTracker.xcodeproj; sourceTree = "<group>"; };
 		42D999F62CFD521300A060A2 /* PTPolyline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTPolyline.swift; sourceTree = "<group>"; };
-		42D99A242D00F53400A060A2 /* shapes.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = shapes.csv; sourceTree = "<group>"; };
-		42D99A2A2D01371900A060A2 /* TestMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMapView.swift; sourceTree = "<group>"; };
 		42D99A2C2D013E9500A060A2 /* CMOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMOverlay.swift; sourceTree = "<group>"; };
+		42DDBD442DECC3C6000DA61B /* FCMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMapView.swift; sourceTree = "<group>"; };
 		42F0BBD22D26745100F834DF /* YOUDIED.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YOUDIED.swift; sourceTree = "<group>"; };
 		42F953072D0A6F0000295BD5 /* CMPolyline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMPolyline.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -128,12 +136,26 @@
 		420013042C54B1EC007ACC67 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				424EF1042DFAC7FF00BA2954 /* CMDetour.swift */,
 				42CAD3AF2D65A0E80061E73F /* CMError.swift */,
 				42D99A2C2D013E9500A060A2 /* CMOverlay.swift */,
+				424EF1022DFA8F3000BA2954 /* CMPrediction.swift */,
 				4273D1E32C8663D4003BBCC6 /* CMRoute.swift */,
 				420013072C54B1FB007ACC67 /* CMTime.swift */,
+				424EF1002DFA81EA00BA2954 /* CMVehicle.swift */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		42115E232DC32172002039D2 /* FindMyBus */ = {
+			isa = PBXGroup;
+			children = (
+				42115E212DC31D6F002039D2 /* FindMyBusView.swift */,
+				42115E1B2DB960A3002039D2 /* FindMyBusNotifications.swift */,
+				424EF0FB2DFA7EDE00BA2954 /* FindMyBusCTAMapView.swift */,
+				424EF0FE2DFA7EF700BA2954 /* FindMyBusPaceMapView.swift */,
+			);
+			path = FindMyBus;
 			sourceTree = "<group>";
 		};
 		422124B22C5026D80062695A = {
@@ -156,7 +178,6 @@
 		422124BD2C5026D80062695A /* Carmine */ = {
 			isa = PBXGroup;
 			children = (
-				42D99A242D00F53400A060A2 /* shapes.csv */,
 				42115E1E2DB962C3002039D2 /* bus.plist */,
 				420013042C54B1EC007ACC67 /* Classes */,
 				420012FE2C5367A5007ACC67 /* UserInfo.swift */,
@@ -168,6 +189,7 @@
 				422124BE2C5026D80062695A /* AppDelegate.swift */,
 				4200132B2C54E841007ACC67 /* AutomaticRefresh.swift */,
 				420012FC2C535F88007ACC67 /* AboutView.swift */,
+				42115E232DC32172002039D2 /* FindMyBus */,
 				420013092C54B2B5007ACC67 /* Extensions.swift */,
 				422124C02C5026DA0062695A /* Assets.xcassets */,
 				422124C52C5026DA0062695A /* Carmine.entitlements */,
@@ -179,8 +201,6 @@
 			isa = PBXGroup;
 			children = (
 				422124CC2C5026FA0062695A /* ChicagoTransitInterface.swift */,
-				42115E1B2DB960A3002039D2 /* FindMyBus.swift */,
-				422124CD2C5026FA0062695A /* InterfaceResultProcessing.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -189,8 +209,8 @@
 			isa = PBXGroup;
 			children = (
 				424B28F22C509E79002E3E9B /* CMMapView.swift */,
+				42DDBD442DECC3C6000DA61B /* FCMapView.swift */,
 				42F953072D0A6F0000295BD5 /* CMPolyline.swift */,
-				42D99A2A2D01371900A060A2 /* TestMapView.swift */,
 				420013022C54B0AC007ACC67 /* CMMarkerAnnotationView.swift */,
 				420012EF2C50B9BD007ACC67 /* CMMenuItem.swift */,
 				420012F12C50B9C3007ACC67 /* CMPlacemark.swift */,
@@ -297,7 +317,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42D99A252D00F53400A060A2 /* shapes.csv in Resources */,
 				422124C12C5026DA0062695A /* Assets.xcassets in Resources */,
 				42115E1F2DB962C3002039D2 /* bus.plist in Resources */,
 			);
@@ -311,9 +330,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				42D999B22CFD1E8400A060A2 /* PTPlacemark.swift in Sources */,
-				42D99A2B2D01371900A060A2 /* TestMapView.swift in Sources */,
 				42D999B82CFD330600A060A2 /* PTMarkerAnnotationView.swift in Sources */,
 				422124BF2C5026D80062695A /* AppDelegate.swift in Sources */,
+				42115E222DC31D71002039D2 /* FindMyBusView.swift in Sources */,
+				42DDBD462DECC3CB000DA61B /* FCMapView.swift in Sources */,
 				42D99A2D2D013EA500A060A2 /* CMOverlay.swift in Sources */,
 				420012F22C50B9C5007ACC67 /* CMPlacemark.swift in Sources */,
 				4200132C2C54E846007ACC67 /* AutomaticRefresh.swift in Sources */,
@@ -321,23 +341,27 @@
 				424B28F32C509E81002E3E9B /* CMMapView.swift in Sources */,
 				420013032C54B0AF007ACC67 /* CMMarkerAnnotationView.swift in Sources */,
 				422124CE2C5026FA0062695A /* ChicagoTransitInterface.swift in Sources */,
+				424EF1052DFAC80000BA2954 /* CMDetour.swift in Sources */,
 				42F953082D0A6F0000295BD5 /* CMPolyline.swift in Sources */,
 				42D999F72CFD521500A060A2 /* PTPolyline.swift in Sources */,
+				424EF1032DFA8F3200BA2954 /* CMPrediction.swift in Sources */,
 				42F0BBD42D26745200F834DF /* YOUDIED.swift in Sources */,
 				422124DA2C502D920062695A /* CarmineApp.swift in Sources */,
 				42CAD3B12D65A0E90061E73F /* CMError.swift in Sources */,
 				420013082C54B1FC007ACC67 /* CMTime.swift in Sources */,
 				4273D1E42C8663D5003BBCC6 /* CMRoute.swift in Sources */,
 				4200130A2C54B2B6007ACC67 /* Extensions.swift in Sources */,
-				42115E1D2DB960A9002039D2 /* FindMyBus.swift in Sources */,
+				424EF1012DFA81ED00BA2954 /* CMVehicle.swift in Sources */,
+				42115E1D2DB960A9002039D2 /* FindMyBusNotifications.swift in Sources */,
 				42D999A52CFBE7FF00A060A2 /* PTMenuItem.swift in Sources */,
 				420012F02C50B9BF007ACC67 /* CMMenuItem.swift in Sources */,
 				42D999B42CFD22F200A060A2 /* PTMapView.swift in Sources */,
 				42D999B62CFD2FE800A060A2 /* PTPointAnnotation.swift in Sources */,
 				4200130C2C54B47E007ACC67 /* CMPointAnnotation.swift in Sources */,
-				422124CF2C5026FA0062695A /* InterfaceResultProcessing.swift in Sources */,
 				420012FF2C5367A7007ACC67 /* UserInfo.swift in Sources */,
 				420012FD2C535F8C007ACC67 /* AboutView.swift in Sources */,
+				424EF0FF2DFA7EFA00BA2954 /* FindMyBusPaceMapView.swift in Sources */,
+				424EF0FD2DFA7EE100BA2954 /* FindMyBusCTAMapView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,7 +499,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 603;
+				CURRENT_PROJECT_VERSION = 725;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -491,8 +515,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 3.0.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whitetailani.Carmine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -513,7 +537,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 603;
+				CURRENT_PROJECT_VERSION = 725;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -530,8 +554,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 3.0.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whitetailani.Carmine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
