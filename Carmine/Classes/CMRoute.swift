@@ -454,7 +454,7 @@ enum CMRoute: String, CaseIterable {
     
     func colors() -> (main: NSColor, accent: NSColor) {
         switch self {
-        case ._1, ._48, ._54B, ._55A, ._108, ._165, ._206:
+        case ._1, ._48, ._54A, ._55A, ._108, ._165, ._206:
             return (NSColor.white, NSColor(r: 87, g: 88, b: 90)) //white background gray text
         case ._2, ._10, ._26, ._100, ._120, ._121, ._125, ._130, ._135, ._136, ._143, ._148, ._169, ._192:
             return (NSColor.white, NSColor(r: 183, g: 17, b: 52)) //white background red text
