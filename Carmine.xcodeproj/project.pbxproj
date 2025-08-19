@@ -30,6 +30,9 @@
 		424EF1012DFA81ED00BA2954 /* CMVehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424EF1002DFA81EA00BA2954 /* CMVehicle.swift */; };
 		424EF1032DFA8F3200BA2954 /* CMPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424EF1022DFA8F3000BA2954 /* CMPrediction.swift */; };
 		424EF1052DFAC80000BA2954 /* CMDetour.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424EF1042DFAC7FF00BA2954 /* CMDetour.swift */; };
+		424EF1322DFD0FE500BA2954 /* PaceTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 424EF12E2DFD0F6C00BA2954 /* PaceTracker.framework */; };
+		424EF1332DFD0FE900BA2954 /* PaceTracker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 424EF12E2DFD0F6C00BA2954 /* PaceTracker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		424EF1592DFE541F00BA2954 /* PLMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424EF1572DFE541A00BA2954 /* PLMapView.swift */; };
 		4273D1E42C8663D5003BBCC6 /* CMRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273D1E32C8663D4003BBCC6 /* CMRoute.swift */; };
 		42CAD3B12D65A0E90061E73F /* CMError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CAD3AF2D65A0E80061E73F /* CMError.swift */; };
 		42D999A52CFBE7FF00A060A2 /* PTMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D999A42CFBE7FE00A060A2 /* PTMenuItem.swift */; };
@@ -37,9 +40,7 @@
 		42D999B42CFD22F200A060A2 /* PTMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D999B32CFD22F200A060A2 /* PTMapView.swift */; };
 		42D999B62CFD2FE800A060A2 /* PTPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D999B52CFD2FE800A060A2 /* PTPointAnnotation.swift */; };
 		42D999B82CFD330600A060A2 /* PTMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D999B72CFD330600A060A2 /* PTMarkerAnnotationView.swift */; };
-		42D999F02CFD3A8B00A060A2 /* PaceTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D999DA2CFD3A6E00A060A2 /* PaceTracker.framework */; };
 		42D999F72CFD521500A060A2 /* PTPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D999F62CFD521300A060A2 /* PTPolyline.swift */; };
-		42D999FA2CFD6BAC00A060A2 /* PaceTracker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 42D999DA2CFD3A6E00A060A2 /* PaceTracker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		42D99A2D2D013EA500A060A2 /* CMOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D99A2C2D013E9500A060A2 /* CMOverlay.swift */; };
 		42DDBD462DECC3CB000DA61B /* FCMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DDBD442DECC3C6000DA61B /* FCMapView.swift */; };
 		42F0BBD42D26745200F834DF /* YOUDIED.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F0BBD22D26745100F834DF /* YOUDIED.swift */; };
@@ -47,9 +48,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		42D999D92CFD3A6E00A060A2 /* PBXContainerItemProxy */ = {
+		424EF12D2DFD0F6C00BA2954 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 42D999D32CFD3A6E00A060A2 /* PaceTracker.xcodeproj */;
+			containerPortal = 424EF1292DFD0F6C00BA2954 /* PaceTracker.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 42D999C52CFD3A4000A060A2;
 			remoteInfo = PaceTracker;
@@ -63,7 +64,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				42D999FA2CFD6BAC00A060A2 /* PaceTracker.framework in Embed Frameworks */,
+				424EF1332DFD0FE900BA2954 /* PaceTracker.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,6 +98,8 @@
 		424EF1002DFA81EA00BA2954 /* CMVehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMVehicle.swift; sourceTree = "<group>"; };
 		424EF1022DFA8F3000BA2954 /* CMPrediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMPrediction.swift; sourceTree = "<group>"; };
 		424EF1042DFAC7FF00BA2954 /* CMDetour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMDetour.swift; sourceTree = "<group>"; };
+		424EF1292DFD0F6C00BA2954 /* PaceTracker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PaceTracker.xcodeproj; path = PaceTracker/PaceTracker.xcodeproj; sourceTree = "<group>"; };
+		424EF1572DFE541A00BA2954 /* PLMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PLMapView.swift; sourceTree = "<group>"; };
 		4273D1E32C8663D4003BBCC6 /* CMRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMRoute.swift; sourceTree = "<group>"; };
 		42CAD3AF2D65A0E80061E73F /* CMError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMError.swift; sourceTree = "<group>"; };
 		42D999A42CFBE7FE00A060A2 /* PTMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTMenuItem.swift; sourceTree = "<group>"; };
@@ -104,7 +107,6 @@
 		42D999B32CFD22F200A060A2 /* PTMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTMapView.swift; sourceTree = "<group>"; };
 		42D999B52CFD2FE800A060A2 /* PTPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTPointAnnotation.swift; sourceTree = "<group>"; };
 		42D999B72CFD330600A060A2 /* PTMarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTMarkerAnnotationView.swift; sourceTree = "<group>"; };
-		42D999D32CFD3A6E00A060A2 /* PaceTracker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PaceTracker.xcodeproj; path = PaceTracker/PaceTracker.xcodeproj; sourceTree = "<group>"; };
 		42D999F62CFD521300A060A2 /* PTPolyline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTPolyline.swift; sourceTree = "<group>"; };
 		42D99A2C2D013E9500A060A2 /* CMOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMOverlay.swift; sourceTree = "<group>"; };
 		42DDBD442DECC3C6000DA61B /* FCMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMapView.swift; sourceTree = "<group>"; };
@@ -117,7 +119,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42D999F02CFD3A8B00A060A2 /* PaceTracker.framework in Frameworks */,
+				424EF1322DFD0FE500BA2954 /* PaceTracker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,8 +163,9 @@
 		422124B22C5026D80062695A = {
 			isa = PBXGroup;
 			children = (
-				42D999D32CFD3A6E00A060A2 /* PaceTracker.xcodeproj */,
+				424EF1292DFD0F6C00BA2954 /* PaceTracker.xcodeproj */,
 				422124BD2C5026D80062695A /* Carmine */,
+				424EF1312DFD0FE500BA2954 /* Frameworks */,
 				422124BC2C5026D80062695A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -205,11 +208,27 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		424EF12A2DFD0F6C00BA2954 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				424EF12E2DFD0F6C00BA2954 /* PaceTracker.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		424EF1312DFD0FE500BA2954 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		42D999B92CFD332100A060A2 /* CTA */ = {
 			isa = PBXGroup;
 			children = (
 				424B28F22C509E79002E3E9B /* CMMapView.swift */,
 				42DDBD442DECC3C6000DA61B /* FCMapView.swift */,
+				424EF1572DFE541A00BA2954 /* PLMapView.swift */,
 				42F953072D0A6F0000295BD5 /* CMPolyline.swift */,
 				420013022C54B0AC007ACC67 /* CMMarkerAnnotationView.swift */,
 				420012EF2C50B9BD007ACC67 /* CMMenuItem.swift */,
@@ -231,14 +250,6 @@
 				42D999B72CFD330600A060A2 /* PTMarkerAnnotationView.swift */,
 			);
 			path = Pace;
-			sourceTree = "<group>";
-		};
-		42D999D42CFD3A6E00A060A2 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				42D999DA2CFD3A6E00A060A2 /* PaceTracker.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -270,7 +281,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
-				LastUpgradeCheck = 1610;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					422124BA2C5026D80062695A = {
 						CreatedOnToolsVersion = 16.0;
@@ -291,8 +302,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 42D999D42CFD3A6E00A060A2 /* Products */;
-					ProjectRef = 42D999D32CFD3A6E00A060A2 /* PaceTracker.xcodeproj */;
+					ProductGroup = 424EF12A2DFD0F6C00BA2954 /* Products */;
+					ProjectRef = 424EF1292DFD0F6C00BA2954 /* PaceTracker.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -303,11 +314,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		42D999DA2CFD3A6E00A060A2 /* PaceTracker.framework */ = {
+		424EF12E2DFD0F6C00BA2954 /* PaceTracker.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = PaceTracker.framework;
-			remoteRef = 42D999D92CFD3A6E00A060A2 /* PBXContainerItemProxy */;
+			remoteRef = 424EF12D2DFD0F6C00BA2954 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -360,6 +371,7 @@
 				4200130C2C54B47E007ACC67 /* CMPointAnnotation.swift in Sources */,
 				420012FF2C5367A7007ACC67 /* UserInfo.swift in Sources */,
 				420012FD2C535F8C007ACC67 /* AboutView.swift in Sources */,
+				424EF1592DFE541F00BA2954 /* PLMapView.swift in Sources */,
 				424EF0FF2DFA7EFA00BA2954 /* FindMyBusPaceMapView.swift in Sources */,
 				424EF0FD2DFA7EE100BA2954 /* FindMyBusCTAMapView.swift in Sources */,
 			);
@@ -427,6 +439,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -484,6 +497,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -499,7 +513,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 726;
+				CURRENT_PROJECT_VERSION = 764;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -516,7 +530,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 3.1.1;
+				MARKETING_VERSION = 3.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whitetailani.Carmine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -537,7 +551,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 726;
+				CURRENT_PROJECT_VERSION = 764;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -555,7 +569,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 3.1.1;
+				MARKETING_VERSION = 3.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whitetailani.Carmine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

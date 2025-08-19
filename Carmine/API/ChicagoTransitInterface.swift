@@ -11,11 +11,48 @@ import CoreLocation
 ///The class used to interface with the CTA's Train Tracker API. A new instance should be created on every request to allow for multiple concurrent requests.
 class ChicagoTransitInterface: NSObject {
     let semaphore = DispatchSemaphore(value: 0)
-    private let busTrackerAPIKey = ""
+    static var sharedInstance = ChicagoTransitInterface()
+    var sharedKey = ""
     
     override init() {
         super.init()
     }
+    
+    func storeAPIKey() {
+        let keys = []
+        for key in keys {
+            if !ChicagoTransitInterface.sharedInstance.hasKeyTimedOut(string: key) {
+                sharedKey = keys[0]
+                return
+            }
+        }
+        sharedKey = keys[0]
+    }
+    
+    func hasKeyTimedOut(string: String) -> Bool {
+        let baseURL = "http://www.ctabustracker.com/bustime/api/v3/gettime"
+        let senaphore = DispatchSemaphore(value: 0)
+        var returnedData: [String: Any] = [:]
+        
+        var components = URLComponents(string: baseURL)
+        components?.queryItems = [
+            URLQueryItem(name: "key", value: string)
+        ]
+        
+        contactDowntown(components: components) { result in
+            returnedData = result
+            senaphore.signal()
+        }
+        senaphore.wait()
+        
+        if let root = returnedData["bustime-response"] as? [String: Any], let error = root["error"] as? [[String: Any]], let errorString = error[0]["msg"] as? String {
+            if errorString == "Transaction limit for current day has been exceeded." {
+                return true
+            }
+        }
+        return false
+    }
+    
     class func isHoliday() -> Bool {
         let calendar = Calendar.current
         let today = Date()
@@ -110,7 +147,7 @@ class ChicagoTransitInterface: NSObject {
         
         var components = URLComponents(string: baseURL)
         components?.queryItems = [
-            URLQueryItem(name: "key", value: busTrackerAPIKey),
+            URLQueryItem(name: "key", value: ChicagoTransitInterface.sharedInstance.sharedKey),
             URLQueryItem(name: "rt", value: route.apiRepresentation()),
             URLQueryItem(name: "dir", value: direction)
         ]
@@ -146,7 +183,7 @@ class ChicagoTransitInterface: NSObject {
         
         var components = URLComponents(string: baseURL)
         components?.queryItems = [
-            URLQueryItem(name: "key", value: busTrackerAPIKey),
+            URLQueryItem(name: "key", value: ChicagoTransitInterface.sharedInstance.sharedKey),
             URLQueryItem(name: "vid", value: id)
         ]
         
@@ -158,6 +195,10 @@ class ChicagoTransitInterface: NSObject {
         
         if let root = returnedData["bustime-response"] as? [String: Any], let vehicles = root["vehicle"] as? [[String: Any]], let latitudeString = vehicles[0]["lat"] as? String, let longitudeString = vehicles[0]["lon"] as? String, let latitude = Double(latitudeString), let longitude = Double(longitudeString) {
             return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        } else if let root = returnedData["bustime-response"] as? [String: Any], let error = root["error"] as? [[String: Any]], let errorString = error[0]["msg"] as? String {
+            if errorString == "Transaction limit for current day has been exceeded." {
+                return CLLocationCoordinate2D(latitude: -8, longitude: -8)
+            }
         }
         return CLLocationCoordinate2D(latitude: -4, longitude: -4)
     }
@@ -175,7 +216,7 @@ class ChicagoTransitInterface: NSObject {
         
         var components = URLComponents(string: baseURL)
         components?.queryItems = [
-            URLQueryItem(name: "key", value: busTrackerAPIKey),
+            URLQueryItem(name: "key", value: ChicagoTransitInterface.sharedInstance.sharedKey),
             URLQueryItem(name: "vid", value: idString)
         ]
         
@@ -205,12 +246,13 @@ class ChicagoTransitInterface: NSObject {
         
         var components = URLComponents(string: baseURL)
         components?.queryItems = [
-            URLQueryItem(name: "key", value: busTrackerAPIKey),
+            URLQueryItem(name: "key", value: ChicagoTransitInterface.sharedInstance.sharedKey),
             URLQueryItem(name: "rt", value: route.apiRepresentation())
         ]
         
         contactDowntown(components: components) { result in
             returnedData = result
+            //print(returnedData)
             self.semaphore.signal()
         }
         semaphore.wait()
@@ -229,7 +271,7 @@ class ChicagoTransitInterface: NSObject {
         
         var components = URLComponents(string: baseURL)
         components?.queryItems = [
-            URLQueryItem(name: "key", value: busTrackerAPIKey),
+            URLQueryItem(name: "key", value: ChicagoTransitInterface.sharedInstance.sharedKey),
             URLQueryItem(name: "rt", value: route.apiRepresentation())
         ]
         
@@ -265,7 +307,11 @@ class ChicagoTransitInterface: NSObject {
         if errorString == yuri {
             return yuri
         }
-        return CMError(string: errorString).menuItemText()
+        let errorStruct = CMError(string: errorString)
+        if errorStruct == .apiRequestLimit {
+            ChicagoTransitInterface.sharedInstance.storeAPIKey()
+        }
+        return errorStruct.menuItemText()
     }
     
     ///Gets a list of every stop prediction for a given vehicle ID
@@ -275,7 +321,7 @@ class ChicagoTransitInterface: NSObject {
         
         var components = URLComponents(string: baseURL)
         components?.queryItems = [
-            URLQueryItem(name: "key", value: busTrackerAPIKey),
+            URLQueryItem(name: "key", value: ChicagoTransitInterface.sharedInstance.sharedKey),
             URLQueryItem(name: "rt", value: route.apiRepresentation()),
             URLQueryItem(name: "vid", value: vehicleId)
         ]
@@ -311,7 +357,7 @@ class ChicagoTransitInterface: NSObject {
         
         var components = URLComponents(string: baseURL)
         components?.queryItems = [
-            URLQueryItem(name: "key", value: busTrackerAPIKey),
+            URLQueryItem(name: "key", value: ChicagoTransitInterface.sharedInstance.sharedKey),
             URLQueryItem(name: "rt", value: route.apiRepresentation())
         ]
         
@@ -350,7 +396,7 @@ class ChicagoTransitInterface: NSObject {
         
         var components = URLComponents(string: baseURL)
         components?.queryItems = [
-            URLQueryItem(name: "key", value: busTrackerAPIKey),
+            URLQueryItem(name: "key", value: ChicagoTransitInterface.sharedInstance.sharedKey),
             URLQueryItem(name: "rt", value: route.apiRepresentation()),
             URLQueryItem(name: "vid", value: vehicleId),
             URLQueryItem(name: "top", value: "1")

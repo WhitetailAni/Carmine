@@ -443,7 +443,229 @@ enum CMRoute: String, CaseIterable {
         return number
     }
     
-    func routeNumber(addNightOwl: Bool = true) -> String {
+    func routeNumber(addNightOwl: Bool = true, useNewNumber: Bool = false) -> String {
+        if useNewNumber {
+            switch self {
+            case ._1:
+                return "133"
+            case ._2:
+                return "126"
+            case ._3:
+                return "37"
+            case ._4:
+                return "36"
+            case ._X4:
+                return "X36"
+            case ._N5:
+                return "N78"
+            case ._6:
+                return "127"
+            case ._7:
+                return "6"
+            case ._8:
+                return "44"
+            case ._8A:
+                return "44S"
+            case ._9:
+                return "48"
+            case ._X9:
+                return "X48"
+            case ._10:
+                return "136"
+            case ._11:
+                return "82A"
+            case ._J14:
+                return "J33"
+            case ._15:
+                return "33"
+            case ._18:
+                return "18"
+            case ._19:
+                return "135"
+            case ._20:
+                return "1"
+            case ._21:
+                return "22"
+            case ._22:
+                return "81"
+            case ._24:
+                return "42"
+            case ._26:
+                return "128"
+            case ._28:
+                return "34"
+            case ._29:
+                return "40"
+            case ._30:
+                return "91"
+            case ._34:
+                return "39"
+            case ._36:
+                return "80"
+            case ._37:
+                return "82B"
+            case ._39:
+                return "38"
+            case ._44:
+                return "46"
+            case ._48:
+                return "49S"
+            case ._49:
+                return "50"
+            case ._49B:
+                return "50N"
+            case ._X49:
+                return "X50"
+            case ._50:
+                return "49"
+            case ._52:
+                return "53"
+            case ._52A:
+                return "53S"
+            case ._53:
+                return "54"
+            case ._53A:
+                return "54S"
+            case ._54:
+                return "57"
+            case ._54A:
+                return "57N"
+            case ._54B:
+                return "57S"
+            case ._56:
+                return "83"
+            case ._57:
+                return "58"
+            case ._60:
+                return "26"
+            case ._62:
+                return "89"
+            case ._62H:
+                return "89H"
+            case ._63:
+                return "63"
+            case ._63W:
+                return "83W"
+            case ._65:
+                return "86"
+            case ._66:
+                return "2"
+            case ._67:
+                return "69"
+            case ._68:
+                return "84"
+            case ._70:
+                return "4"
+            case ._72:
+                return "5"
+            case ._73:
+                return "7"
+            case ._74:
+                return "8"
+            case ._76:
+                return "9"
+            case ._77:
+                return "10"
+            case ._78:
+                return "14"
+            case ._79:
+                return "79"
+            case ._80:
+                return "13"
+            case ._81:
+                return "15"
+            case ._81W:
+                return "15W"
+            case ._82:
+                return "52"
+            case ._84:
+                return "17"
+            case ._85:
+                return "60"
+            case ._85A:
+                return "60N"
+            case ._86:
+                return "62"
+            case ._87:
+                return "87"
+            case ._88:
+                return "85"
+            case ._90:
+                return "64"
+            case ._91:
+                return "61"
+            case ._92:
+                return "16"
+            case ._93:
+                return "52A"
+            case ._94:
+                return "52B"
+            case ._96:
+                return "20"
+            case ._97:
+                return "140"
+            case ._100:
+                return "143"
+            case ._103:
+                return "103W"
+            case ._106:
+                return "103E"
+            case ._108:
+                return "42B"
+            case ._111:
+                return "111A"
+            case ._111A:
+                return "144"
+            case ._112:
+                return "111B"
+            case ._120:
+                return "132A"
+            case ._121:
+                return "132B"
+            case ._124:
+                return "131"
+            case ._125:
+                return "130"
+            case ._126:
+                return "3"
+            case ._130:
+                return "134"
+            case ._134:
+                return "125"
+            case ._135:
+                return "124"
+            case ._136:
+                return "121"
+            case ._143:
+                return "125B"
+            case ._146:
+                return "122"
+            case ._147:
+                return "120"
+            case ._148:
+                return "123"
+            case ._151:
+                return "45"
+            case ._152:
+                return "11"
+            case ._155:
+                return "19"
+            case ._156:
+                return "41"
+            case ._157:
+                return "88"
+            case ._165:
+                return "65"
+            case ._171:
+                return "142"
+            case ._172:
+                return "141"
+            case ._192:
+                return "129"
+            default:
+                return String(String(describing: self).dropFirst())
+            }
+        }
         if addNightOwl && isNightServiceActive() && self != ._N5 {
             let string = ("N" + String(String(describing: self).dropFirst()))
             return string
@@ -454,9 +676,9 @@ enum CMRoute: String, CaseIterable {
     
     func colors() -> (main: NSColor, accent: NSColor) {
         switch self {
-        case ._1, ._48, ._54A, ._55A, ._108, ._165, ._206:
+        case ._1, ._48, ._54A, ._55A, ._108, ._130, ._165, ._206:
             return (NSColor.white, NSColor(r: 87, g: 88, b: 90)) //white background gray text
-        case ._2, ._10, ._26, ._100, ._120, ._121, ._125, ._130, ._135, ._136, ._143, ._148, ._169, ._192:
+        case ._2, ._10, ._26, ._100, ._120, ._121, ._125, ._135, ._136, ._143, ._148, ._169, ._192:
             return (NSColor.white, NSColor(r: 183, g: 17, b: 52)) //white background red text
         case ._X4, ._X9, ._X49:
             return (NSColor.white, NSColor(r: 1, g: 160, b: 120)) //white background green text
@@ -473,12 +695,12 @@ enum CMRoute: String, CaseIterable {
                 return (NSColor(r: 0, g: 153, b: 153), NSColor.white) //white background bluegreen text
             }
             switch self {
-            case ._34, ._60, ._63, ._79, ._4, ._20, ._49, ._66://, ._53, ._55, ._77://, ._9, ._81:
+            case ._34, ._60, ._63, ._79, ._4, ._20, ._49, ._66, ._53, ._55, ._77, ._9, ._81:
                 return (NSColor(r: 65, g: 65, b: 69), NSColor.white) //frequent network white text
             default:
                 return (NSColor(r: 87, g: 88, b: 90), NSColor.white)
             }
-        case ._47, ._54, ._95://, ._82://, ._12, ._72
+        case ._47, ._54, ._95, ._82://, ._12, ._72
             return (NSColor(r: 65, g: 65, b: 69), NSColor.white)
         default:
             return (NSColor(r: 87, g: 88, b: 90), NSColor.white) //gray background white text
@@ -494,13 +716,13 @@ enum CMRoute: String, CaseIterable {
         var imageArray: [NSImage] = []
         
         switch self {
-        case ._N5, ._9, ._22, ._53, ._55, ._62, ._77, ._81, ._87:
+        case ._N5, ._9, ._22, ._62, ._81, ._87:
             imageArray = [nightOwl]
-        case ._34, ._63, ._79, ._4, ._49, ._66/*, ._53, ._55, ._77*//*, ._9, _81*/:
+        case ._34, ._63, ._79, ._4, ._49, ._66, ._53, ._55, ._77/*, ._9, _81*/:
             imageArray = [nightOwl, freqNetwork]
         case ._20, ._60:
             imageArray = [nightOwl, freqNetwork, loopLink]
-        case ._47, ._54, ._95/*, ._82*//*, ._12, ._72*/:
+        case ._47, ._54, ._95, ._82/*, ._12, ._72*/:
             imageArray = [freqNetwork]
         case ._19, ._56, ._124, ._157:
             imageArray = [loopLink]
@@ -530,6 +752,22 @@ enum CMRoute: String, CaseIterable {
             selfString = selfString.dropFirst()
         }
         return URL(string: "https://www.transitchicago.com/bus/\(selfString)")!
+    }
+    
+    static func isNightBus(route: CMRoute, destination: String) -> Bool {
+        switch route {
+        case ._4, ._9:
+            if ["95th Red Line", "North/Clark"].contains(destination) {
+                return true
+            }
+        case ._77:
+            if destination == "Harlem" {
+                return true
+            }
+        default:
+            return false
+        }
+        return false
     }
     
     func isNightServiceActive() -> Bool {

@@ -60,6 +60,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         ctaMenu = NSMenu()
         paceMenu = NSMenu()
         
+        ChicagoTransitInterface.sharedInstance.storeAPIKey()
+        
         refreshInfo()
         
         /*findMyBusMutex.lock()
@@ -68,7 +70,82 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             findMyBusWindows.append(NSWindow(contentRect: defaultRect, styleMask: [.titled, .closable], backing: .buffered, defer: false))
             let index = findMyBusWindows.count - 1
             
-            findMyBusWindows[index].contentView = FCMapView(skippedRoutes: []/*[._90, ._86, ._201, ._206, ._30, ._152, ._78, ._165, ._63W, ._62, ._54A, ._54B, ._65, ._81W, ._93, ._85A, ._68, ._88, ._52A, ._108, ._50, ._44, ._62H, ._95, ._71, ._57, ._7, ._134, ._135, ._136, ._143, ._148, ._146, ._155, ._97, ._3, ._X4, ._112, ._115, ._100, ._60, ._157, ._73, ._76, ._1, ._70, ._92, ._94, ._X9, ._X49, ._24, ._146, ._147, ._26, ._6, ._59, ._67, ._126, ._156, ._36, ._120, ._121, ._111A, ._56, ._48, ._11, ._37, ._130, ._10, ._124, ._18, ._55A, ._55N, ._151, ._96, ._125]*/)
+            findMyBusWindows[index].contentView = FCMapView(displayedRoutes: [._N5, ._4, ._66, ._9, ._34, ._87])
+            findMyBusWindows[index].title = "Carmine - Fiscal Cliff"
+            findMyBusWindows[index].center()
+            findMyBusWindows[index].setIsVisible(true)
+            findMyBusWindows[index].orderFrontRegardless()
+            findMyBusWindows[index].makeKey()
+            NSApp.activate(ignoringOtherApps: true)
+        }
+        findMyBusMutex.unlock()*/
+        
+        /*findMyBusMutex.lock()
+        if let screenSize = NSScreen.main?.frame.size {
+            let defaultRect = NSMakeRect(0, 0, screenSize.width * 0.8, screenSize.height * 0.8)
+            findMyBusWindows.append(NSWindow(contentRect: defaultRect, styleMask: [.titled, .closable], backing: .buffered, defer: false))
+            let index = findMyBusWindows.count - 1
+            
+            let yates = [
+                CLLocationCoordinate2D(41.780627323808645, -87.58649437515751),
+                CLLocationCoordinate2D(41.78061363098579, -87.58515392426449),
+                CLLocationCoordinate2D(41.780175459110275, -87.58425416955548),
+                CLLocationCoordinate2D(41.780175459110275, -87.58425416955548),
+                CLLocationCoordinate2D(41.78047670258974, -87.58304225513936),
+                CLLocationCoordinate2D(41.780367159667655, -87.58195887702033),
+                CLLocationCoordinate2D(41.779956372043195, -87.58067351315032),
+                CLLocationCoordinate2D(41.77983154846977, -87.57960337476307),
+                CLLocationCoordinate2D(41.77928705869411, -87.57975799672514),
+                CLLocationCoordinate2D(41.77889261553147, -87.57967620018484),
+                CLLocationCoordinate2D(41.7767501834355, -87.5789495867869),
+                CLLocationCoordinate2D(41.77632753498701, -87.57865186324453),
+                CLLocationCoordinate2D(41.77597581137821, -87.57818327073892),
+                CLLocationCoordinate2D(41.77537986158241, -87.57524238869665),
+                CLLocationCoordinate2D(41.77531604665218, -87.57326205398138),
+                CLLocationCoordinate2D(41.77556218959717, -87.57153231712833),
+                CLLocationCoordinate2D(41.77542544362761, -87.5701937575739),
+                CLLocationCoordinate2D(41.77482911282647, -87.56890157759099),
+                CLLocationCoordinate2D(41.77424238486577, -87.56811483866508),
+                CLLocationCoordinate2D(41.773582309494444, -87.56683638791048),
+                CLLocationCoordinate2D(41.77275109375289, -87.56662877626793),
+                CLLocationCoordinate2D(41.7374321820736, -87.56602807129072),
+                CLLocationCoordinate2D(41.732994020778804, -87.55988861991248),
+                CLLocationCoordinate2D(41.731830786452356, -87.5613501996843),
+                CLLocationCoordinate2D(41.73144102269018, -87.56092913515022),
+                CLLocationCoordinate2D(41.73128390795336, -87.56100201170395),
+                CLLocationCoordinate2D(41.7206971067237, -87.56068530311646),
+                CLLocationCoordinate2D(41.72005371377523, -87.56045021411086),
+                CLLocationCoordinate2D(41.71970694738756, -87.56010877531456),
+                CLLocationCoordinate2D(41.719318399694146, -87.55989047837923),
+                CLLocationCoordinate2D(41.7190217649275, -87.55984010216338),
+                CLLocationCoordinate2D(41.69289505362708, -87.55952256911964),
+            ]
+            
+            let laramieOld = [
+                CLLocationCoordinate2D(41.87198992980608, -87.75474783434605),
+                CLLocationCoordinate2D(41.87208461765533, -87.74494594221188),
+                CLLocationCoordinate2D(41.87115351437912, -87.74496713549217),
+                CLLocationCoordinate2D(41.871050934375205, -87.7547372377059),
+                CLLocationCoordinate2D(41.91693055472913, -87.7559035997932),
+                CLLocationCoordinate2D(41.91729678850989, -87.7577951701589),
+            ]
+            let laramie = [
+                CLLocationCoordinate2D(41.87198992980608, -87.75474783434605),
+                CLLocationCoordinate2D(41.87208461765533, -87.74494594221188),
+                CLLocationCoordinate2D(41.87115351437912, -87.74496713549217),
+                CLLocationCoordinate2D(41.871050934375205, -87.7547372377059),
+                CLLocationCoordinate2D(41.9605962121417, -87.75739956210985),
+                CLLocationCoordinate2D(41.960653911088535, -87.75450472396727),
+                CLLocationCoordinate2D(41.969702425000555, -87.76229101517022),
+            ]
+            
+            let laramieOldLine = CMPolyline(coordinates: laramieOld, count: laramieOld.count)
+            laramieOldLine.color = NSColor(red: 0.129, green: 0.784, blue: 0.859, alpha: 1.0)
+            
+            let laramieLine = CMPolyline(coordinates: laramie, count: laramie.count)
+            laramieLine.color = NSColor(red: 0.702, green: 0.306, blue: 0.604, alpha: 1.0)
+            
+            findMyBusWindows[index].contentView = PLMapView(old: laramieOldLine, new: laramieLine)
             findMyBusWindows[index].title = "Carmine - Fiscal Cliff"
             findMyBusWindows[index].center()
             findMyBusWindows[index].setIsVisible(true)
@@ -158,6 +235,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @MainActor @objc func refreshCTAInfo() {
+        if ChicagoTransitInterface.sharedInstance.sharedKey == "" {
+            return
+        }
         ctaMenu.removeAllItems()
         totalBuses = 0
         DispatchQueue.global().async {
@@ -391,7 +471,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.paceMenu.removeAllItems()
         
         do {
-            let routes = try PaceAPI().getRoutes(dropPulseNumbers: true)
+            let routes = try PaceAPI().getRoutes()
             
             DispatchQueue.global().async {
                 for i in 0..<routes.count {
@@ -403,7 +483,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     let findMyPaceBusSpecific = findMyBusPaceDict["CMFindMyBusSpecific"] as? [String] ?? []
                     let findMyPaceBusRange = findMyBusPaceDict["CMFindMyBusRange"] as? [[String]] ?? []
                     
-                    if [0, 352].contains(route.number) {
+                    if [100, 101, 352].contains(route.number) {
                         let title = NSMutableAttributedString(string: route.fullName)
                         
                         let height = NSFont.menuFont(ofSize: 0).boundingRectForFont.height - 5
@@ -525,122 +605,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         }
                         vehicleMenuItem.submenu = vehicleSubMenu
                         
-                        /*let stopMenuItem = CMMenuItem(title: "Stops", action: #selector(self.openLink(_:)))
-                         stopMenuItem.linkToOpen = URL(string: "https://tmweb.pacebus.com/TMWebWatch/LiveArrivalTimes")!
-                         subMenu.addItem(stopMenuItem)
-                         
-                         let jnstance = PaceAPI()
-                         
-                         let stopSubMenu = NSMenu()
-                         
-                         DispatchQueue.main.sync {
-                         stopSubMenu.addItem(NSMenuItem.progressWheel())
-                         }
-                         
-                         DispatchQueue.global().async {
-                         let directions = jnstance.getDirectionsForRoute(routeID: route.id)
-                         
-                         DispatchQueue.main.sync {
-                         stopSubMenu.removeItem(at: 0)
-                         
-                         for direction in directions {
-                         let directionItem = NSMenuItem(title: direction.name, action: #selector(self.nop))
-                         stopSubMenu.addItem(directionItem)
-                         
-                         let powerPose = PaceAPI()
-                         let stopListSubMenu = NSMenu()
-                         stopListSubMenu.addItem(NSMenuItem.progressWheel())
-                         
-                         DispatchQueue.global().async {
-                         let stops = powerPose.getStopsForRouteAndDirection(routeID: route.id, directionID: direction.id)
-                         
-                         DispatchQueue.main.sync {
-                         stopListSubMenu.removeItem(at: 0)
-                         }
-                         
-                         for stop in stops {
-                         let stopMenuItem = PTMenuItem(title: "\(stop.name)", action: #selector(self.openPaceMapWindow(_:)))
-                         stopMenuItem.coordinate = stop.location
-                         stopMenuItem.route = route
-                         stopMenuItem.stop = stop
-                         
-                         let stopTypeMenu = NSMenu()
-                         
-                         let arrivalListItem = CMMenuItem(title: "Arrivals", action: #selector(self.openLink(_:)))
-                         arrivalListItem.linkToOpen = URL(string: "https://tmweb.pacebus.com/TMWebWatch/LiveArrivalTimes")!
-                         let arrivalMenu = NSMenu()
-                         
-                         let departureListItem = CMMenuItem(title: "Departures", action: #selector(self.openLink(_:)))
-                         departureListItem.linkToOpen = URL(string: "https://tmweb.pacebus.com/TMWebWatch/LiveDepartureTimes")!
-                         let departureMenu = NSMenu()
-                         
-                         DispatchQueue.main.sync {
-                         arrivalMenu.addItem(NSMenuItem.progressWheel())
-                         departureMenu.addItem(NSMenuItem.progressWheel())
-                         
-                         stopListSubMenu.addItem(stopMenuItem)
-                         
-                         stopTypeMenu.addItem(arrivalListItem)
-                         stopTypeMenu.addItem(departureListItem)
-                         
-                         stopMenuItem.submenu = stopTypeMenu
-                         }
-                         
-                         let arrivals = PaceAPI(stopPredictionType: .arrivals).getPredictionTimesForStop(routeID: route.id, directionID: direction.id, stopID: stop.id, timePointID: stop.timePointID)
-                         let departures = PaceAPI(stopPredictionType: .departures).getPredictionTimesForStop(routeID: route.id, directionID: direction.id, stopID: stop.id, timePointID: stop.timePointID)
-                         
-                         arrivalMenu.removeItem(at: 0)
-                         if !(arrivals.predictionSet[0].predictedTime.stringVersion() == "00:00") {
-                         for arrival in arrivals.predictionSet {
-                         var arrivalItem: NSMenuItem!
-                         if arrival.scheduledTime.stringVersion() == "00:00" {
-                         arrivalItem = NSMenuItem(title: "Arrives \(arrival.predictedTime.stringVersion())", action: #selector(self.nop))
-                         } else {
-                         arrivalItem = NSMenuItem(title: "Arrives \(arrival.predictedTime.stringVersion()), scheduled \(arrival.scheduledTime.stringVersion())", action: #selector(self.nop))
-                         }
-                         DispatchQueue.main.sync {
-                         arrivalMenu.addItem(arrivalItem)
-                         }
-                         }
-                         } else {
-                         DispatchQueue.main.sync {
-                         arrivalMenu.addItem(NSMenuItem(title: "No arrivals available", action: nil))
-                         }
-                         }
-                         
-                         departureMenu.removeItem(at: 0)
-                         if !(departures.predictionSet[0].predictedTime.stringVersion() == "00:00") {
-                         for departure in departures.predictionSet {
-                         var departureItem: NSMenuItem!
-                         if departure.scheduledTime.stringVersion() == "00:00" {
-                         departureItem = NSMenuItem(title: "Departs \(departure.predictedTime.stringVersion())", action: #selector(self.nop))
-                         } else {
-                         departureItem = NSMenuItem(title: "Departs \(departure.predictedTime.stringVersion()), scheduled \(departure.scheduledTime.stringVersion())", action: #selector(self.nop))
-                         }
-                         DispatchQueue.main.sync {
-                         departureMenu.addItem(departureItem)
-                         }
-                         }
-                         } else {
-                         DispatchQueue.main.sync {
-                         departureMenu.addItem(NSMenuItem(title: "No departures available", action: nil))
-                         }
-                         }
-                         
-                         DispatchQueue.main.sync {
-                         arrivalListItem.submenu = arrivalMenu
-                         departureListItem.submenu = departureMenu
-                         }
-                         }
-                         }
-                         
-                         directionItem.submenu = stopListSubMenu
-                         }
-                         
-                         stopMenuItem.submenu = stopSubMenu
-                         }
-                         }*/
-                        
                         DispatchQueue.main.sync {
                             item.submenu = subMenu
                             self.paceMenu.addItem(item)
@@ -757,7 +721,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 
                 let dateFormatter = DateFormatter()
                 dateFormatter.locale = Locale.current
-                
                 dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "HH:mm", options: 0, locale: Locale.current)
                 
                 mapWindows[index].title = "Carmine - \(route.fullName) \(stop.directionName)bound stop \(stop.name)"

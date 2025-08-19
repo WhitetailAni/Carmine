@@ -108,23 +108,28 @@ class FindMyBusCTAMapView: MKMapView {
             coordinates.append(bus.coordinate)
         }
         
-        let latitudes = coordinates.map { $0.latitude }
-        let longitudes = coordinates.map { $0.longitude }
-        
-        let minLat = latitudes.min()!
-        let maxLat = latitudes.max()!
-        let minLon = longitudes.min()!
-        let maxLon = longitudes.max()!
-        
-        let midpointLatitude = (minLat + maxLat) / 2
-        let midpointLongitude = (minLon + maxLon) / 2
-        let midpoint = CLLocationCoordinate2D(latitude: midpointLatitude, longitude: midpointLongitude)
-        
-        let latitudeDelta = abs(maxLat - minLat) * 1.53
-        let longitudeDelta = abs(maxLon - minLon) * 1.53
-        let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
-        
-        self.setRegion(MKCoordinateRegion(center: midpoint, span: span), animated: true)
+        if coordinates.count == 1 {
+            let span = MKCoordinateSpan(latitudeDelta: 0, longitudeDelta: 360 / pow(2, 17) * Double(self.frame.size.width) / 256)
+            self.setRegion(MKCoordinateRegion(center: coordinates[0], span: span), animated: true)
+        } else {
+            let latitudes = coordinates.map { $0.latitude }
+            let longitudes = coordinates.map { $0.longitude }
+            
+            let minLat = latitudes.min()!
+            let maxLat = latitudes.max()!
+            let minLon = longitudes.min()!
+            let maxLon = longitudes.max()!
+            
+            let midpointLatitude = (minLat + maxLat) / 2
+            let midpointLongitude = (minLon + maxLon) / 2
+            let midpoint = CLLocationCoordinate2D(latitude: midpointLatitude, longitude: midpointLongitude)
+            
+            let latitudeDelta = abs(maxLat - minLat) * 1.53
+            let longitudeDelta = abs(maxLon - minLon) * 1.53
+            let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
+            
+            self.setRegion(MKCoordinateRegion(center: midpoint, span: span), animated: true)
+        }
     }
     
     @objc func refreshBusPosition() {
@@ -157,7 +162,7 @@ class FindMyBusCTAMapView: MKMapView {
                     if let route = bus.route, let vehicleId = bus.vehicleId {
                         let annotation = CMPointAnnotation()
                         annotation.coordinate = bus.coordinate
-                        annotation.title = "\(route.routeNumber())\(route == ._N5 ? "" : " bus") \(vehicleId)"
+                        annotation.title = "\(route.routeNumber()) bus \(vehicleId)"
                         annotation.mark = bus
                         self.addAnnotation(annotation)
                     }

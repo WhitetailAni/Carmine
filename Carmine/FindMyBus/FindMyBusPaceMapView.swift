@@ -8,25 +8,30 @@
 import AppKit
 import MapKit
 import SwiftUI
+import PaceTracker
 
 class FindMyBusPaceMapView: MKMapView {
-    var bus: CMPlacemark
-    var stop: CMPlacemark
+    var vehicles: [PTVehicle]
+    var vehicleIds: [String]
+    var buses: [PTPlacemark] = []
     var timeLastUpdated: String
     var timeLabel: NSTextField!
-    var n5: Bool = false
     
-    init(bus: CMPlacemark, timeLastUpdated: String) {
-        self.bus = bus
-        self.stop = CMPlacemark(coordinate: CLLocationCoordinate2D(latitude: 52.31697130005335, longitude: 4.746418131532647))
-        self.timeLastUpdated = timeLastUpdated
-        super.init(frame: .zero)
-    }
-    
-    init(bus: CMPlacemark, stop: CMPlacemark, timeLastUpdated: String) {
-        self.bus = bus
-        self.stop = stop
-        self.timeLastUpdated = timeLastUpdated
+    init(vehicles: [PTVehicle], vehicleIds: [String]) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.current
+        dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "HH:mm", options: 0, locale: Locale.current)
+        
+        self.timeLastUpdated = dateFormatter.string(from: Date())
+        for vehicle in vehicles {
+            let bus = PTPlacemark(coordinate: vehicle.location)
+            bus.route = vehicle.route!
+            bus.vehicleId = vehicle.vehicleId
+            self.buses.append(bus)
+        }
+        
+        self.vehicles = vehicles
+        self.vehicleIds = vehicleIds
         super.init(frame: .zero)
     }
     
@@ -39,7 +44,7 @@ class FindMyBusPaceMapView: MKMapView {
         
         self.pointOfInterestFilter = MKPointOfInterestFilter(including: [.airport, .publicTransport, .park, .hospital, .library, .museum, .nationalPark, .restroom, .postOffice, .beach])
         
-        self.register(CMMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        self.register(PTMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         
         timeLabel = NSTextField(labelWithString: "Updated at \(timeLastUpdated)")
         timeLabel.font = NSFont.systemFont(ofSize: 12)
@@ -69,79 +74,103 @@ class FindMyBusPaceMapView: MKMapView {
             refreshButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
         ])
         
-        if let route = self.bus.route {
-            self.addOverlays(ChicagoTransitInterface().getOverlaysForRoute(route: route))
-            if route == ._95 && n5 {
-                self.addOverlays(ChicagoTransitInterface().getOverlaysForRoute(route: ._N5))
+        for bus in buses {
+            if let route = bus.route {
+                do {
+                    let coordinateArrays = try PaceAPI().getPolyLineForRouteID(routeID: route.id)
+                    for coordinateArray in coordinateArrays {
+                        let polyline = PTPolyline(coordinates: coordinateArray, count: coordinateArray.count)
+                        if route.number < 150 {
+                            polyline.isPulse = true
+                        }
+                        self.addOverlay(polyline)
+                    }
+                } catch { }
             }
         }
         
-        if [52.31697130005335, 0].contains(stop.coordinate.latitude) && [4.746418131532647, 0].contains(stop.coordinate.longitude) {
-            zoomMapToBus()
-        } else {
-            zoomMapToBusAndStop()
+        zoomMapToBuses()
+    }
+    
+    private func zoomMapToBuses() {
+        self.removeAnnotations(self.annotations)
+        
+        for bus in buses {
+            if let route = bus.route, let vehicleId = bus.vehicleId {
+                let annotation = PTPointAnnotation()
+                annotation.coordinate = bus.coordinate
+                if route.number < 150 {
+                    annotation.title = "\(route.name) bus \(vehicleId)"
+                } else {
+                    annotation.title = "\(route.number) bus \(vehicleId)"
+                }
+                annotation.mark = bus
+                self.addAnnotation(annotation)
+            }
         }
-    }
-    
-    private func zoomMapToBus() {
-        self.removeAnnotations(self.annotations)
         
-        let busAnnotation = CMPointAnnotation()
-        busAnnotation.coordinate = bus.coordinate
-        busAnnotation.title = "\(bus.route?.routeNumber() ?? "Unknown")\(bus.route == ._N5 ? "" : " bus") \(bus.vehicleId ?? "0000")"
-        busAnnotation.mark = bus
-        self.addAnnotation(busAnnotation)
+        var coordinates: [CLLocationCoordinate2D] = []
+        for bus in buses {
+            coordinates.append(bus.coordinate)
+        }
         
-        let coordinate = bus.coordinate
-        let span = MKCoordinateSpan(latitudeDelta: 0, longitudeDelta: 360 / pow(2, 17) * Double(self.frame.size.width) / 256)
-        self.setRegion(MKCoordinateRegion(center: coordinate, span: span), animated: true)
-    }
-    
-    private func zoomMapToBusAndStop() {
-        self.removeAnnotations(self.annotations)
-        
-        let busAnnotation = CMPointAnnotation()
-        busAnnotation.coordinate = bus.coordinate
-        busAnnotation.title = "\(bus.route?.routeNumber() ?? "Unknown")\(bus.route == ._N5 ? "" : " bus") \(bus.vehicleId ?? "0000")"
-        busAnnotation.mark = bus
-        self.addAnnotation(busAnnotation)
-        
-        let stopAnnotation = CMPointAnnotation()
-        stopAnnotation.coordinate = stop.coordinate
-        stopAnnotation.title = stop.stopName ?? "Unknown"
-        stopAnnotation.mark = stop
-        
-        self.addAnnotations([busAnnotation, stopAnnotation])
-        
-        let midpointLatitude = (busAnnotation.coordinate.latitude + stopAnnotation.coordinate.latitude) / 2
-        let midpointLongitude = (busAnnotation.coordinate.longitude + stopAnnotation.coordinate.longitude) / 2
-        let midpoint = CLLocationCoordinate2D(latitude: midpointLatitude, longitude: midpointLongitude)
-        let latitudeDelta = abs(busAnnotation.coordinate.latitude - stopAnnotation.coordinate.latitude) * 1.53
-        let longitudeDelta = abs(busAnnotation.coordinate.longitude - stopAnnotation.coordinate.longitude) * 1.53
-        let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
-        self.setRegion(MKCoordinateRegion(center: midpoint, span: span), animated: true)
+        if coordinates.count == 1 {
+            let span = MKCoordinateSpan(latitudeDelta: 0, longitudeDelta: 360 / pow(2, 17) * Double(self.frame.size.width) / 256)
+            self.setRegion(MKCoordinateRegion(center: coordinates[0], span: span), animated: true)
+        } else {
+            let latitudes = coordinates.map { $0.latitude }
+            let longitudes = coordinates.map { $0.longitude }
+            
+            let minLat = latitudes.min()!
+            let maxLat = latitudes.max()!
+            let minLon = longitudes.min()!
+            let maxLon = longitudes.max()!
+            
+            let midpointLatitude = (minLat + maxLat) / 2
+            let midpointLongitude = (minLon + maxLon) / 2
+            let midpoint = CLLocationCoordinate2D(latitude: midpointLatitude, longitude: midpointLongitude)
+            
+            let latitudeDelta = abs(maxLat - minLat) * 1.53
+            let longitudeDelta = abs(maxLon - minLon) * 1.53
+            let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
+            
+            self.setRegion(MKCoordinateRegion(center: midpoint, span: span), animated: true)
+        }
     }
     
     @objc func refreshBusPosition() {
         DispatchQueue.global().async {
-            let instance = ChicagoTransitInterface()
-            if let vehicleId = self.bus.vehicleId {
-                let locationInfo = instance.getLocationForVehicleId(id: vehicleId)
+            var vehicles: [PTVehicle] = []
+            vehicles = PaceAPI().getVehiclesForIDs(vehicleIDs: self.vehicleIds)
+            self.buses = []
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale.current
+            dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "HH:mm", options: 0, locale: Locale.current)
+            
+            self.timeLastUpdated = dateFormatter.string(from: Date())
+            
+            for vehicle in vehicles {
+                let bus = PTPlacemark(coordinate: vehicle.location)
+                bus.route = vehicle.route
+                bus.vehicleId = vehicle.vehicleId
+                self.buses.append(bus)
+            }
+            
+            DispatchQueue.main.sync {
+                self.removeAnnotations(self.annotations)
                 
-                if locationInfo.latitude == -4, locationInfo.longitude == -4 {
-                    return
-                }
-                
-                DispatchQueue.main.sync {
-                    self.bus = self.bus.placemarkWithNewLocation(locationInfo)
-                    self.timeLabel.stringValue = "Updated at \({ let formatter = DateFormatter(); formatter.dateFormat = "HH:mm"; return formatter.string(from: Date()) }())"
-                    
-                    if self.stop.coordinate.latitude == 52.31697130005335 && self.stop.coordinate.longitude == 4.746418131532647 {
-                        self.zoomMapToBus()
-                    } else {
-                        self.zoomMapToBusAndStop()
+                for bus in self.buses {
+                    if let route = bus.route, let vehicleId = bus.vehicleId {
+                        let annotation = PTPointAnnotation()
+                        annotation.coordinate = bus.coordinate
+                        annotation.title = "\(route.number) bus \(vehicleId)"
+                        annotation.mark = bus
+                        self.addAnnotation(annotation)
                     }
                 }
+                
+                self.zoomMapToBuses()
             }
         }
     }
@@ -162,3 +191,4 @@ extension FindMyBusPaceMapView: MKMapViewDelegate {
         return MKOverlayRenderer(overlay: overlay)
     }
 }
+
