@@ -42,7 +42,13 @@ class CMPolyline: MKPolyline {
             CLLocationCoordinate2D(41.88334657784537, -87.62422758969659),
             CLLocationCoordinate2D(41.88354166082952, -87.6242183956387),
             CLLocationCoordinate2D(41.883955782383026, -87.62432412730419),
-            CLLocationCoordinate2D(41.88450337701024, -87.62438848570925)
+            CLLocationCoordinate2D(41.88450337701024, -87.62438848570925),
+            CLLocationCoordinate2D(41.88805207627802, -87.62456828512529),
+            CLLocationCoordinate2D(41.88986412308956, -87.62412995943401),
+            CLLocationCoordinate2D(41.89496360162468, -87.62426663452399),
+            CLLocationCoordinate2D(41.89654452083617, -87.62430346447799),
+            CLLocationCoordinate2D(41.89765022717223, -87.6241315913528),
+            CLLocationCoordinate2D(41.899240217627536, -87.62415614465594)
         ]
         
         return CMPolyline(coordinates: coords, count: coords.count)
