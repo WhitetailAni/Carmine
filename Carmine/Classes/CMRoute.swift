@@ -237,7 +237,7 @@ struct CMRoute: Codable {
             case "78":
                 return "14"
             case "79":
-                return "79"
+                return nightVal + "79"
             case "80":
                 return "13"
             case "81":
