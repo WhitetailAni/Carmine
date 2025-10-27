@@ -81,8 +81,8 @@ class FindMyBusCTAMapView: MKMapView {
         for bus in buses {
             if let route = bus.route {
                 self.addOverlays(ChicagoTransitInterface().getOverlaysForRoute(route: route))
-                if let terminus = bus.terminus, route == ._95, ["Commercial/92nd", "92nd/Commercial"].contains(terminus) {
-                    self.addOverlays(ChicagoTransitInterface().getOverlaysForRoute(route: ._N5))
+                if let terminus = bus.terminus, route.number == "95", ["Commercial/92nd", "92nd/Commercial"].contains(terminus) {
+                    self.addOverlays(ChicagoTransitInterface().getOverlaysForRoute(route: CMRoute.n5))
                 }
             }
         }
@@ -97,7 +97,7 @@ class FindMyBusCTAMapView: MKMapView {
             if let route = bus.route, let vehicleId = bus.vehicleId {
                 let annotation = CMPointAnnotation()
                 annotation.coordinate = bus.coordinate
-                annotation.title = "\(route.routeNumber())\(route == ._N5 ? "" : " bus") \(vehicleId)"
+                annotation.title = "\(route.routeNumber())\(route.number == "N5" ? "" : " bus") \(vehicleId)"
                 annotation.mark = bus
                 self.addAnnotation(annotation)
             }

@@ -99,7 +99,7 @@ class PTMapView: MKMapView {
         
         let annotation = PTPointAnnotation()
         annotation.coordinate = mark.coordinate
-        annotation.title = "\(mark.route?.fullName ?? "Unknown") bus \(mark.vehicleId ?? "0000")"
+        annotation.title = "\(String(mark.route?.number ?? 0)) bus \(mark.vehicleId ?? "0000")"
         annotation.mark = mark
         self.addAnnotation(annotation)
         
@@ -113,7 +113,7 @@ class PTMapView: MKMapView {
         
         let annotation = PTPointAnnotation()
         annotation.coordinate = mark.coordinate
-        annotation.title = "\(mark.route?.fullName ?? "Unknown") stop \(mark.stopName ?? "Unknown")"
+        annotation.title = "\(String(mark.route?.number ?? 0) ) stop \(mark.stopName ?? "Unknown")"
         annotation.mark = mark
         self.addAnnotation(annotation)
         

@@ -28,15 +28,14 @@ class CMMarkerAnnotationView: MKMarkerAnnotationView {
         if annotation is CMPointAnnotation {
             let annotation: CMPointAnnotation = annotation as! CMPointAnnotation
             if let route = annotation.mark?.route {
-                let colors = route.colors()
                 if let vehicleId = annotation.mark?.vehicleId {
-                    markerTintColor = colors.main
                     glyphText = vehicleId
-                    glyphTintColor = colors.accent
+                    markerTintColor = route.bgColor
+                    glyphTintColor = route.textColor
                 } else if annotation.mark?.stopName != nil {
                     glyphImage = .ctaBus
-                    markerTintColor = colors.main
-                    glyphTintColor = colors.accent
+                    markerTintColor = route.bgColor
+                    glyphTintColor = route.textColor
                 }
                 displayPriority = .required
             }

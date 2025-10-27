@@ -69,3 +69,43 @@ extension Array {
         }
     }
 }
+
+@propertyWrapper
+struct NSColorCodable {
+    var wrappedValue: NSColor
+}
+
+extension NSColorCodable: Codable {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let data = try container.decode(Data.self)
+        guard let color = try NSKeyedUnarchiver.unarchivedObject(ofClass: NSColor.self, from: data) else {
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: "Invalid color"
+            )
+        }
+        wrappedValue = color
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        let data = try NSKeyedArchiver.archivedData(withRootObject: wrappedValue, requiringSecureCoding: true)
+        try container.encode(data)
+    }
+} //https://stackoverflow.com/a/50934846
+
+extension Array {
+    func reorder<T: Equatable>(by preferredOrder: [T], using keyPath: KeyPath<Element, T>) -> [Element] {
+        return self.sorted { (a, b) -> Bool in
+            guard let first = preferredOrder.firstIndex(of: a[keyPath: keyPath]) else {
+                return false
+            }
+            guard let second = preferredOrder.firstIndex(of: b[keyPath: keyPath]) else {
+                return true
+            }
+            
+            return first < second
+        }
+    }
+} //https://stackoverflow.com/a/51683055

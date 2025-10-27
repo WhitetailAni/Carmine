@@ -140,6 +140,36 @@ class ChicagoTransitInterface: NSObject {
         return Date() >= memorialDayWeekend && Date() <= laborDay
     }
     
+    func getRoutes() -> [CMRoute] {
+        let baseURL = "http://www.ctabustracker.com/bustime/api/v3/getroutes"
+        var returnedData: [String: Any] = [:]
+        
+        var components = URLComponents(string: baseURL)
+        components?.queryItems = [
+            URLQueryItem(name: "key", value: ChicagoTransitInterface.sharedInstance.sharedKey)
+        ]
+        
+        contactDowntown(components: components) { result in
+            returnedData = result
+            self.semaphore.signal()
+        }
+        semaphore.wait()
+        
+        guard let root = returnedData["bustime-response"] as? [String: Any], let routesRaw = root["routes"] as? [[String: Any]] else {
+            return []
+        }
+        var routes: [CMRoute] = []
+        
+        for route in routesRaw {
+            if let name = route["rtnm"] as? String, let number = route["rt"] as? String {
+                let colors = CMRoute.colors(number: number)
+                routes.append(CMRoute(number: number, name: name, textColor: colors.text, bgColor: colors.background))
+            }
+        }
+        
+        return routes
+    }
+    
     ///Gets information about a given CTA bus stop ID
     func getStopCoordinatesForID(route: CMRoute, direction: String, id: String) -> CLLocationCoordinate2D {
         let baseURL = "http://www.ctabustracker.com/bustime/api/v3/getstops"
@@ -230,7 +260,7 @@ class ChicagoTransitInterface: NSObject {
         
         if let root = returnedData["bustime-response"] as? [String: Any], let vehicles = root["vehicle"] as? [[String: Any]] {
             for vehicle in vehicles {
-                if let vehicleId = vehicle["vid"] as? String, let latitudeString = vehicle["lat"] as? String, let longitudeString = vehicle["lon"] as? String, let latitude = Double(latitudeString), let longitude = Double(longitudeString), let destination = vehicle["des"] as? String, let timestamp = vehicle["tmstmp"] as? String, let routeString = vehicle["rt"] as? String, let route = CMRoute.createCMRouteFromString(string: routeString) {
+                if let vehicleId = vehicle["vid"] as? String, let latitudeString = vehicle["lat"] as? String, let longitudeString = vehicle["lon"] as? String, let latitude = Double(latitudeString), let longitude = Double(longitudeString), let destination = vehicle["des"] as? String, let timestamp = vehicle["tmstmp"] as? String, let routeString = vehicle["rt"] as? String, let route = CMRoute.getCMRouteFromString(string: routeString) {
                     
                     vehicleArray.append(CMVehicle(vehicleId: vehicleId, route: route, location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), destination: destination, timestampLastUpdated: timestamp))
                 }
@@ -283,7 +313,7 @@ class ChicagoTransitInterface: NSObject {
         return returnedData
     }
     
-    class func cleanUpVehicleInfo(info: [String: Any]) -> [CMVehicle] {
+    class func cleanUpVehicleInfo(info: [String: Any], route: CMRoute) -> [CMVehicle] {
         guard let root = info["bustime-response"] as? [String: Any], let vehicles = root["vehicle"] as? [[String: Any]] else {
             return []
         }
@@ -291,7 +321,7 @@ class ChicagoTransitInterface: NSObject {
         var vehicleArray: [CMVehicle] = []
         
         for vehicle in vehicles {
-            if let vehicleId = vehicle["vid"] as? String, let latitudeString = vehicle["lat"] as? String, let longitudeString = vehicle["lon"] as? String, let destination = vehicle["des"] as? String, let latitude = Double(latitudeString), let longitude = Double(longitudeString), let timestamp = vehicle["tmstmp"] as? String, let routeString = vehicle["rt"] as? String, let route = CMRoute.createCMRouteFromString(string: routeString) {
+            if let vehicleId = vehicle["vid"] as? String, let latitudeString = vehicle["lat"] as? String, let longitudeString = vehicle["lon"] as? String, let destination = vehicle["des"] as? String, let latitude = Double(latitudeString), let longitude = Double(longitudeString), let timestamp = vehicle["tmstmp"] as? String, let routeString = vehicle["rt"] as? String {
             vehicleArray.append(CMVehicle(vehicleId: vehicleId, route: route, location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), destination: destination, timestampLastUpdated: timestamp))
             }
         }
@@ -348,10 +378,6 @@ class ChicagoTransitInterface: NSObject {
     }
     
     func getOverlaysForRoute(route: CMRoute) -> [CMPolyline] {
-        guard route != ._19 else {
-            return [CMPolyline.nineteen]
-        }
-        
         let baseURL = "http://www.ctabustracker.com/bustime/api/v3/getpatterns"
         var returnedData: [String: Any] = [:]
         

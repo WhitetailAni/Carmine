@@ -8,6 +8,10 @@
 	<false/>
 	<key>CMRefreshInterval</key>
 	<integer>720</integer>
+	<key>CMBetterNames</key>
+	<true/>
+	<key>CMNewNumbers</key>
+	<false/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

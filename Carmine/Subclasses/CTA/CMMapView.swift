@@ -71,8 +71,8 @@ class CMMapView: MKMapView {
         
         if let route = self.bus.route {
             self.addOverlays(ChicagoTransitInterface().getOverlaysForRoute(route: route))
-            if route == ._95 && n5 {
-                self.addOverlays(ChicagoTransitInterface().getOverlaysForRoute(route: ._N5))
+            if route.number == "95" && n5 {
+                self.addOverlays(ChicagoTransitInterface().getOverlaysForRoute(route: CMRoute.n5))
             }
         }
         
@@ -88,7 +88,7 @@ class CMMapView: MKMapView {
         
         let busAnnotation = CMPointAnnotation()
         busAnnotation.coordinate = bus.coordinate
-        busAnnotation.title = "\(bus.route?.routeNumber() ?? "Unknown")\(bus.route == ._N5 ? "" : " bus") \(bus.vehicleId ?? "0000")"
+        busAnnotation.title = "\(bus.route?.routeNumber() ?? "Unknown")\(bus.route?.number == "N5" ? "" : " bus") \(bus.vehicleId ?? "0000")"
         busAnnotation.mark = bus
         self.addAnnotation(busAnnotation)
         
