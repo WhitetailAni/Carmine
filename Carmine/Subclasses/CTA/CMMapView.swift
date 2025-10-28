@@ -15,6 +15,7 @@ class CMMapView: MKMapView {
     var timeLastUpdated: String
     var timeLabel: NSTextField!
     var n5: Bool = false
+    let newNumbers = Bundle.main.infoDictionary?["CMNewNumbers"] as? Bool ?? false
     
     init(bus: CMPlacemark, timeLastUpdated: String) {
         self.bus = bus
@@ -77,18 +78,18 @@ class CMMapView: MKMapView {
         }
         
         if [52.31697130005335, 0].contains(stop.coordinate.latitude) && [4.746418131532647, 0].contains(stop.coordinate.longitude) {
-            zoomMapToBus()
+            zoomMapToBus(useNewNumbers: newNumbers)
         } else {
-            zoomMapToBusAndStop()
+            zoomMapToBusAndStop(useNewNumbers: newNumbers)
         }
     }
     
-    private func zoomMapToBus() {
+    private func zoomMapToBus(useNewNumbers: Bool) {
         self.removeAnnotations(self.annotations)
         
         let busAnnotation = CMPointAnnotation()
         busAnnotation.coordinate = bus.coordinate
-        busAnnotation.title = "\(bus.route?.routeNumber() ?? "Unknown")\(bus.route?.number == "N5" ? "" : " bus") \(bus.vehicleId ?? "0000")"
+        busAnnotation.title = "\(bus.route?.routeNumber(useNewNumber: useNewNumbers) ?? "Unknown")\(bus.route?.number == "N5" ? "" : " bus") \(bus.vehicleId ?? "0000")"
         busAnnotation.mark = bus
         self.addAnnotation(busAnnotation)
         
@@ -97,12 +98,12 @@ class CMMapView: MKMapView {
         self.setRegion(MKCoordinateRegion(center: coordinate, span: span), animated: true)
     }
     
-    private func zoomMapToBusAndStop() {
+    private func zoomMapToBusAndStop(useNewNumbers: Bool) {
         self.removeAnnotations(self.annotations)
         
         let busAnnotation = CMPointAnnotation()
         busAnnotation.coordinate = bus.coordinate
-        busAnnotation.title = "\(bus.route?.routeNumber() ?? "Unknown") bus \(bus.vehicleId ?? "0000")"
+        busAnnotation.title = "\(bus.route?.routeNumber(useNewNumber: useNewNumbers) ?? "Unknown") bus \(bus.vehicleId ?? "0000")"
         busAnnotation.mark = bus
         self.addAnnotation(busAnnotation)
         
@@ -137,9 +138,9 @@ class CMMapView: MKMapView {
                     self.timeLabel.stringValue = "Updated at \({ let formatter = DateFormatter(); formatter.dateFormat = "HH:mm"; return formatter.string(from: Date()) }())"
                     
                     if self.stop.coordinate.latitude == 52.31697130005335 && self.stop.coordinate.longitude == 4.746418131532647 {
-                        self.zoomMapToBus()
+                        self.zoomMapToBus(useNewNumbers: self.newNumbers)
                     } else {
-                        self.zoomMapToBusAndStop()
+                        self.zoomMapToBusAndStop(useNewNumbers: self.newNumbers)
                     }
                 }
             }

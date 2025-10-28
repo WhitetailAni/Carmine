@@ -18,7 +18,19 @@ struct CMRoute: Codable {
     
     static var deadhead = CMRoute(number: "0", name: "Deadhead", textColor: NSColor.white, bgColor: NSColor.black)
     static var n5 = CMRoute(number: "N5", name: "South Shore Night Bus", textColor: NSColor.white, bgColor: NSColor(r: 0, g: 153, b: 153))
-    static var newNumberOrder = ["20", "66", "126", "70", "72", "7", "73", "74", "76", "77", "152", "12", "80", "78", "81", "81W", "92", "84", "18", "155", "96", "21", "60", "31", "15", "J14", "28", "35", "4", "X4", "3", "34", "39", "29", "156", "24", "43", "8", "8A", "108", "151", "44", "47", "9", "X9", "50", "48", "49", "49B", "X49", "51", "93", "94","52", "52A", "82","53", "53A", "55", "55A", "55N", "54", "54A", "54B", "57", "59", "85", "85A", "91", "63", "63W", "86", "165", "90", "67", "71", "75", "N5", "79", "36", "147", "22", "11", "37", "56", "68", "88", "65", "87", "156", "62", "30", "95", "106", "103", "111", "112", "115", "119", "136", "146", "148", "135", "134", "2", "6", "26", "192", "125", "120", "121", "19", "10", "130", "124", "1", "100", "172", "171", "111A", "201", "206", "97"]
+    static var newNumberOrder = ["20", "66", "126", "70", "72", "7", "73", "74", "76", "77",
+                                 "152", "12", "80", "78", "81", "81W", "92", "84", "18", "155",
+                                 "96", "21", "60", "31", "15", "J14", "28", "35", "4", "X4",
+                                 "3", "34", "39", "29", "156", "24", "43", "8", "8A", "108",
+                                 "151", "44", "47", "9", "X9", "50", "48", "49", "49B", "X49",
+                                 "51", "93", "94", "52", "52A", "82", "55", "55A", "55N", "53",
+                                 "53A", "54", "54A", "54B", "59", "57", "85", "85A", "91", "63",
+                                 "63W", "86", "165", "90", "67", "71", "75", "N5", "79", "36",
+                                 "22", "11", "37", "56", "68", "88", "65", "87", "157", "156",
+                                 "62", "62H", "30", "95", "106", "103", "111", "112", "115", "119",
+                                 "147", "136", "146", "148", "135", "134", "143", "192", "2", "6", "26",
+                                 "125", "120", "121", "19", "10", "130", "124", "1", "100", "172",
+                                 "171", "111A", "201", "206", "97"]
     
     nonisolated(unsafe) static var defaultColor: NSColor = NSColor(r: 107, g: 160, b: 227)
     
@@ -55,6 +67,14 @@ struct CMRoute: Codable {
         }
         if useNewNames {
             switch self.number {
+            case "X4":
+                if useNewNumbers {
+                    return addNumber + " Cottage Grove Limited"
+                }
+            case "X9":
+                if useNewNumbers {
+                    return addNumber + " Ashland Limited"
+                }
             case "15":
                 return addNumber + " Jeffery/51st"
             case "18":
@@ -63,8 +83,14 @@ struct CMRoute: Codable {
                 return addNumber + " 31st-35th"
             case "44":
                 return addNumber + " Wallace-Racine"
+            case "X49":
+                if useNewNumbers {
+                    return addNumber + " Western Limited"
+                }
             case "54A":
                 return addNumber + " North Cicero-Skokie Blvd."
+            case "59":
+                return addNumber + " 59th-61st"
             case "60":
                 return addNumber + " Blue Island-26th" + nightVal
             case "72":
@@ -78,9 +104,9 @@ struct CMRoute: Codable {
             case "115":
                 return addNumber + " Cottage Grove/115th"
             case "146":
-                return "146 Inner Lake Shore/Michigan Express"
+                return addNumber + " Inner Lake Shore/Michigan Express"
             case "147":
-                return "147 Outer DuSable Lake Shore Express"
+                return addNumber + " Outer DuSable Lake Shore Express"
             case "157":
                 return addNumber + " Streeterville/Ogden-Taylor"
             case "171":
@@ -95,9 +121,9 @@ struct CMRoute: Codable {
         }
         switch self.number {
         case "146":
-            return "146 Inner Lake Shore/Michigan Express"
+            return addNumber + " Inner Lake Shore/Michigan Express"
         case "147":
-            return "147 Outer DuSable Lake Shore Express"
+            return addNumber + " Outer DuSable Lake Shore Express"
         default:
             return addNumber + " " + self.name + nightVal
         }
@@ -117,7 +143,7 @@ struct CMRoute: Codable {
             case "1":
                 return "142"
             case "2":
-                return "126"
+                return "X127"
             case "3":
                 return "37"
             case "4":
@@ -127,7 +153,7 @@ struct CMRoute: Codable {
             case "N5":
                 return "N78"
             case "6":
-                return "X127"
+                return "X128"
             case "7":
                 return "6"
             case "8":
@@ -139,7 +165,7 @@ struct CMRoute: Codable {
             case "X9":
                 return "L48"
             case "10":
-                return "135"
+                return "X135"
             case "11":
                 return "82A"
             case "J14":
@@ -159,7 +185,7 @@ struct CMRoute: Codable {
             case "24":
                 return "42"
             case "26":
-                return "X128"
+                return "X129"
             case "28":
                 return "34"
             case "29":
@@ -212,8 +238,6 @@ struct CMRoute: Codable {
                 return "89H"
             case "63":
                 return nightVal + "63"
-            case "63W":
-                return "83W"
             case "65":
                 return "86"
             case "66":
@@ -279,7 +303,7 @@ struct CMRoute: Codable {
             case "106":
                 return "103E"
             case "108":
-                return "42B"
+                return "44B"
             case "111":
                 return "111A"
             case "111A":
@@ -299,19 +323,19 @@ struct CMRoute: Codable {
             case "130":
                 return "140"
             case "134":
-                return "X124"
+                return "X125"
             case "135":
-                return "X123"
+                return "X124"
             case "136":
-                return "X120"
-            case "143":
-                return "X124B"
-            case "146":
                 return "X121"
-            case "147":
-                return "J80"
-            case "148":
+            case "143":
+                return "X125B"
+            case "146":
                 return "X122"
+            case "147":
+                return "X120"
+            case "148":
+                return "X123"
             case "151":
                 return "45"
             case "152":
@@ -331,7 +355,7 @@ struct CMRoute: Codable {
             case "172":
                 return "144"
             case "192":
-                return "X129"
+                return "X126"
             case "201":
                 return "147"
             case "206":
